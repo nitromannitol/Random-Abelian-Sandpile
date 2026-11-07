@@ -1,0 +1,219 @@
+version: "v0.4"
+
+project:
+  name: "Convergence of the random Abelian sandpile"
+  description: >-
+    A Lean 4 formalization of the paper "Convergence of the random Abelian sandpile" by Ahmed
+    Bou-Rabee, in a corrected draft of the arXiv source: the Abelian sandpile started from a random,
+    stationary, ergodic, high-density background on nW converges after rescaling to the solution of an
+    obstacle problem for a deterministic degenerate elliptic operator (Theorem 1.1); the same holds
+    with the open boundary condition (Theorem 9.1); and single-source sandpiles on a random background
+    converge, in a corrected form with a recurrent effective operator (Theorem 9.2). All 28 numbered
+    results are proved in Lean, 19 outright and 9 from six results of the literature that enter as
+    explicit hypotheses. Theorems 1.1 and 9.2 are independently checked by the comparator pairs under
+    RandomSandpileAudit/.
+  authors:
+    - "Ahmed Bou-Rabee"
+  responsible_maintainers:
+    - "Ahmed Bou-Rabee"
+  license: "Apache-2.0"
+
+classification:
+  arxiv: ["math.PR", "math.AP"]
+  msc2020: ["60K35", "35J60", "35B27"]
+
+sources:
+  - title: "Convergence of the random Abelian sandpile"
+    authors:
+      - "Ahmed Bou-Rabee"
+    type: "paper"
+    relationship: "formalizes"
+    location: "paper/"
+    note: >-
+      Annals of Probability 49(6) (2021), 3168-3196, doi:10.1214/21-AOP1528; arXiv:1909.07849. The
+      statements follow the corrected draft paper/random_piles-corrected.tex, whose corrections are
+      marked in the source and listed in paper/CORRECTIONS.md; the unmodified arXiv source is
+      paper/random_piles.tex.
+    license: "author's copyright; included by the author"
+    author_endorsement: "participated"
+  - title: "Measure Theory and Fine Properties of Functions"
+    authors: ["Lawrence C. Evans", "Ronald F. Gariepy"]
+    type: "book"
+    relationship: "assumes"
+    note: "CRC Press, 1992. Section 6.4, Theorem 1 (Alexandrov's theorem), p. 242, enters as a literature input."
+  - title: "Random Walk: A Modern Introduction"
+    authors: ["Gregory F. Lawler", "Vlada Limic"]
+    type: "book"
+    relationship: "assumes"
+    note: "Cambridge University Press, 2010. Theorem 6.3.8(a), specialized to the simple random walk, enters as a literature input."
+  - title: "Convergence of the Abelian sandpile"
+    authors: ["Wesley Pegden", "Charles K. Smart"]
+    type: "paper"
+    relationship: "assumes"
+    note: "Duke Math. J. 162 (2013); arXiv:1105.0111v2. Propositions 2.4 and 2.5 (p. 6) enter as literature inputs."
+  - title: "On the equivalence of two notions of weak solutions, viscosity solutions and distribution solutions"
+    authors: ["Hitoshi Ishii"]
+    type: "paper"
+    relationship: "assumes"
+    note: "Funkcialaj Ekvacioj 38 (1995), 101-120. Theorem 1 (p. 103), with the passage from the two distributional inequalities to a bounded density, enters as a literature input on nonempty open sets."
+  - title: "Growth rates and explosions in sandpiles"
+    authors: ["Anne Fey", "Lionel Levine", "Yuval Peres"]
+    type: "paper"
+    relationship: "assumes"
+    note: "J. Stat. Phys. 138 (2010); arXiv:0901.3805v2. The radius bound of Theorem 1.1 (p. 4) enters as a literature input, stated in Lattice-Probability."
+
+related_formalizations:
+  - id: "https://github.com/nitromannitol/Lattice-Probability"
+    relationship: "builds-on"
+    note: "Lattice sandpiles, toppling and odometers, the Akcoglu-Krengel subadditive ergodic theorem, Green's functions of the random walk, and the literature input of Fey, Levine and Peres; a pinned git dependency."
+
+status:
+  scope: >-
+    All 28 numbered results of the paper, in the corrected draft, including the main theorem
+    (Theorem 1.1, with corrections C3 and C12), Theorem 9.1 (with correction C15) and Theorem 9.2
+    (in the corrected form C13). The results that the paper quotes from the literature (Propositions
+    3.1, 3.2, 3.4, 5.1, 5.2, 5.3 and 8.1, Lemmas 7.1 and 7.6) are proved, the last from Pegden and
+    Smart's Propositions 2.4 and 2.5. README.md lists every numbered result with its Lean declaration.
+  sorry_count: 0
+  sorry_count_scope: "RandomSandpile/ and RandomSandpile.lean"
+  comparator_challenge_sorry_count: 2
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  literature_inputs: 6
+  literature_inputs_note: >-
+    Six results of the literature are stated as propositions, five in RandomSandpile/Inputs/ and one
+    in the directory LatticeProb/External/ of Lattice-Probability, each with its source in its
+    docstring. They enter as explicit hypotheses of the theorems that use them, not as axioms;
+    README.md lists them with the results that use them. RandomSandpile/Inputs/ also states further
+    propositions that no theorem of RandomSandpile/Assembly/Main.lean assumes.
+  main_results:
+    - declaration: "RandomSandpile.mainTheorem_final"
+      file: "RandomSandpile/Assembly/Main.lean"
+      statement: "Theorem 1.1"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "RandomSandpileAudit/MainTheorem/comparator.json"
+      literature_dependencies:
+        - "RandomSandpile.AlexandrovStmt"
+        - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
+        - "RandomSandpile.PegdenSmartProp25Stmt"
+        - "RandomSandpile.PegdenSmartProp24Stmt"
+        - "RandomSandpile.ViscosityWeakLaplaceStmt"
+    - declaration: "RandomSandpile.openBoundaryTheorem_final"
+      file: "RandomSandpile/Assembly/Main.lean"
+      statement: "Theorem 9.1"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies:
+        - "RandomSandpile.AlexandrovStmt"
+        - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
+    - declaration: "RandomSandpile.singleSourceTheoremRecurrent_final"
+      file: "RandomSandpile/Assembly/Main.lean"
+      statement: "Theorem 9.2 (correction C13)"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "RandomSandpileAudit/SingleSource/comparator.json"
+      literature_dependencies:
+        - "LatticeProb.External.FeyLevinePeresRadius"
+        - "RandomSandpile.AlexandrovStmt"
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "claude-opus-5-5"
+        - "claude-sonnet-5-5"
+        - "claude-haiku-5-5"
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        The Lean statements of the numbered results and of the proof steps, most of the proofs, their
+        composition into the numbered results, the comparator pairs and the documentation, under Lean
+        v4.32.0 with the Mathlib and Lattice-Probability revisions of this repository; every change
+        was checked by a Lake build. Claude Opus 5.5 also carried out the early refute-first checks of
+        the statements and of corrections C1-C8, and Claude Haiku 5.5 wrote the comparator pairs.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local Linux machines"
+      prompting_notes: >-
+        Human-directed work. Proof tasks fixed the statements to be proved and forbade changing them.
+    - method: "agent"
+      models:
+        - "gpt-6.1-terra"
+      framework: "Codex CLI (OpenAI)"
+      tool_setup: >-
+        Lean proofs, among them the proof of Theorem 9.2 in the corrected form C13, under the same
+        toolchain and dependency revisions.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local Linux machines"
+      prompting_notes: >-
+        Human-directed work; each task fixed the statements to be proved and forbade changing them.
+    - method: "agent"
+      models:
+        - "gpt-6-astra"
+      framework: "Codex CLI (OpenAI)"
+      tool_setup: >-
+        Mathematics only, no Lean: the analysis of Theorem 9.2, which found the error corrected by C3
+        and the recurrent operator of correction C13, with its proof.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local Linux machine"
+      prompting_notes: "Target-only briefs; the correction was approved by the author."
+    - method: "agent"
+      models:
+        - "gpt-6.1-sol"
+      framework: "Codex CLI (OpenAI)"
+      tool_setup: >-
+        Read-only reviews, separate from the development agents: the audit of the proof of correction
+        C13, and the final refute-first audit of every statement against the corrected draft, of every
+        correction, and of every literature input against its source.
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "local Linux machine"
+      prompting_notes: "Review of the mathematics, the statements and the sources only."
+  spend_usd: "not tracked"
+  notes: >-
+    The Lean development was written by AI agents in November 2026, under the direction of Ahmed
+    Bou-Rabee, who fixed the scope, approved the corrections to the paper and set the policy that
+    results of the literature enter only as explicit hypotheses. Every numbered result was stated in
+    Lean before its proof; each proof step of the paper was then stated as its own Lean proposition
+    and proved from the propositions of the steps it uses. Every proof is checked by the Lean kernel.
+    The library contains no sorry; each of the two comparator challenge files contains exactly one
+    intentional statement-level sorry, which the corresponding Solution.lean proves.
+
+fidelity:
+  divergences: >-
+    The Lean statements follow the corrected draft paper/random_piles-corrected.tex. Its corrections
+    change the statements of Theorems 1.1, 9.1 and 9.2, Propositions 5.1 and 5.3, Lemmas 6.2, 6.3 and
+    7.1, and the description of the divisible sandpile before Proposition 8.1; paper/CORRECTIONS.md
+    lists each correction with the printed text, the corrected text and the reason. In Theorem 1.1
+    the support radius depends on W, d and eta_max (C12, a weakening adopted by the author). Theorem
+    9.2 is stated for the recurrent operator (C13), with the height bound eta <= 2d - 2 or, in its
+    second form, with finite odometers and a vanishing tail. Lemma 5.4 is proved for all integer
+    bounds, with the threshold -max(eta_max, 0) - tr M, which is the printed one in the paper's
+    setting. High density is a hypothesis of Theorems 1.1 and 9.1 and Lemmas 7.4 and 7.5, as in the
+    paper.
+
+review:
+  status: "model review"
+  reviewers:
+    - "Anthropic Claude Opus 5.5 (read-only): early refute-first checks of the draft statements and of corrections C1-C8"
+    - "OpenAI GPT-6.1 Sol (read-only, separate from the development agents): the audit of correction C13, and the final audit of every statement against the corrected draft, of every correction, and of every literature input against its source"
+  notes: >-
+    Every proof is checked by the Lean kernel. Each Lean statement was compared with the corrected
+    draft by a model that had not written it, and each literature input was checked against its
+    source in an independent model review. The inputs remain assumptions. The author fixed the scope,
+    the corrections and the policy for literature inputs, but did not review every Lean statement
+    personally. The statements of Theorems 1.1 and 9.2, and of the literature inputs they use, are
+    also checked against self-contained challenge files by the comparator. This is a model review,
+    not external peer review.
+
+acknowledgements: >-
+  Built on Lean 4, Mathlib, Lake, Lattice-Probability and leanprover/comparator.

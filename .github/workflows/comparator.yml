@@ -1,0 +1,144 @@
+name: Comparator audit
+
+# Runs the official leanprover/comparator on every RandomSandpileAudit/<Pair> (scripts/run_comparators.sh):
+# for each pair it checks that Solution proves a statement whose full dependency closure matches
+# Challenge's, uses only the permitted axioms, and is accepted by BOTH the Lean kernel (replay) and
+# the independent nanoda kernel. It runs on manual dispatch; there is no `pull_request` trigger.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: comparator-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  COMPARATOR_REV: "575674928e239f5bc452aab72d1dd7b0f1326494"  # leanprover/comparator
+  LEAN4EXPORT_REV: "v4.32.0"                                  # MUST match ./lean-toolchain
+  NANODA_REV: "6ae1f0cd962f081f6c423454c5da729d841236a7"      # ammkrn/nanoda_lib
+  LANDRUN_REV: "811cfff51ceaf3d9843708aa6d22e9b84ccac8b4"     # Zouuup/landrun
+
+jobs:
+  comparator:
+    name: Comparator over the audit pairs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Reclaim runner disk space
+        shell: bash
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+                      /usr/local/.ghcup /usr/local/share/powershell \
+                      /usr/share/swift /usr/local/share/boost || true
+          sudo docker image prune --all --force >/dev/null 2>&1 || true
+          df -h /
+
+      # elan retries a failed toolchain download only once; this step retries the pinned release
+      # asset with backoff and checks its SHA-256.
+      - name: Prefetch the pinned Lean toolchain with retries
+        run: python3 scripts/prefetch_toolchain.py
+
+      - name: Set up Lean and fetch the Mathlib cache
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          use-mathlib-cache: true
+
+      # The library artifacts of the CI workflow, if any; the audit modules are always rebuilt in
+      # a fresh copy of the source tree.
+      - name: Restore build artifacts
+        uses: actions/cache/restore@v6.1.0
+        with:
+          path: |
+            .lake/build
+            .lake/packages/lattice-probability/.lake/build
+          key: lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            lake-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - name: Restore verification tools
+        id: tools-cache
+        uses: actions/cache/restore@v6.1.0
+        with:
+          path: ~/tools
+          key: cmp-tools-${{ env.COMPARATOR_REV }}-${{ env.LEAN4EXPORT_REV }}-${{ env.NANODA_REV }}-${{ env.LANDRUN_REV }}
+
+      - name: Build comparator
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/leanprover/comparator ~/tools/comparator
+          git -C ~/tools/comparator checkout "$COMPARATOR_REV"
+          cd ~/tools/comparator && lake build
+
+      - name: Build lean4export (toolchain-matched)
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/leanprover/lean4export ~/tools/lean4export
+          git -C ~/tools/lean4export checkout "$LEAN4EXPORT_REV"
+          test "$(cat ~/tools/lean4export/lean-toolchain)" = "$(cat lean-toolchain)" \
+            || { echo "lean4export toolchain does not match project toolchain"; exit 1; }
+          cd ~/tools/lean4export && lake build
+
+      - name: Set up Go (for landrun)
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        uses: actions/setup-go@v7
+        with:
+          go-version: '1.24'
+
+      - name: Build landrun (static)
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/Zouuup/landrun ~/tools/landrun-src
+          git -C ~/tools/landrun-src checkout "$LANDRUN_REV"
+          mkdir -p ~/tools/bin
+          cd ~/tools/landrun-src && CGO_ENABLED=0 go build -o ~/tools/bin/landrun ./cmd/landrun
+
+      - name: Build nanoda
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        run: |
+          command -v rustup >/dev/null || {
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | sh -s -- -y --profile minimal --default-toolchain none
+            . "$HOME/.cargo/env"
+          }
+          export PATH="$HOME/.cargo/bin:$PATH"
+          rustup toolchain install stable --profile minimal
+          git clone https://github.com/ammkrn/nanoda_lib ~/tools/nanoda_lib
+          git -C ~/tools/nanoda_lib checkout "$NANODA_REV"
+          cd ~/tools/nanoda_lib && PATH="$HOME/.cargo/bin:$PATH" cargo +stable build --release
+
+      - name: Save verification tools
+        if: steps.tools-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6.1.0
+        with:
+          path: ~/tools
+          key: cmp-tools-${{ env.COMPARATOR_REV }}-${{ env.LEAN4EXPORT_REV }}-${{ env.NANODA_REV }}-${{ env.LANDRUN_REV }}
+
+      # The runner validates every comparator.json (exactly the three standard axioms, NanoDa
+      # enabled), proves that the landrun sandbox refuses an out-of-sandbox write, builds the
+      # library, rebuilds every audit module in a fresh copy of the source tree, and runs the
+      # comparator on each pair; any missing pair or failure is fatal.
+      - name: Run the comparator on every pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          export COMPARATOR_BIN="$HOME/tools/comparator/.lake/build/bin/comparator"
+          export COMPARATOR_LANDRUN="$HOME/tools/bin/landrun"
+          export COMPARATOR_LEAN4EXPORT="$HOME/tools/lean4export/.lake/build/bin/lean4export"
+          export COMPARATOR_NANODA="$HOME/tools/nanoda_lib/target/release/nanoda_bin"
+          bash scripts/run_comparators.sh
+
+      - name: Upload comparator logs
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: comparator-logs
+          path: .lake/comparator-logs/
+          if-no-files-found: warn

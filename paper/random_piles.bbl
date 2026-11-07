@@ -1,0 +1,164 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{HLM{\etalchar{+}}08}
+
+\bibitem[AK81]{akcoglu1981ergodic}
+Mustafa~A Akcoglu and Ulrich Krengel, \emph{Ergodic theorems for superadditive
+  processes.}, Journal f{\"u}r die reine und angewandte Mathematik
+  \textbf{1981} (1981), no.~323, 53--67.
+
+\bibitem[AS14a]{armstrong2014quantitative}
+Scott~N Armstrong and Charles~K Smart, \emph{Quantitative stochastic
+  homogenization of elliptic equations in nondivergence form}, Archive for
+  Rational Mechanics and Analysis \textbf{214} (2014), no.~3, 867--911.
+
+\bibitem[AS14b]{armstrong2014regularity}
+\bysame, \emph{Regularity and stochastic homogenization of fully nonlinear
+  equations without uniform ellipticity}, The Annals of Probability \textbf{42}
+  (2014), no.~6, 2558--2594.
+
+\bibitem[AS14c]{armstrong2014stochastic}
+\bysame, \emph{Stochastic homogenization of fully nonlinear uniformly elliptic
+  equations revisited}, Calculus of Variations and Partial Differential
+  Equations \textbf{50} (2014), no.~3-4, 967--980.
+
+\bibitem[BTW87]{bak1987self}
+Per Bak, Chao Tang, and Kurt Wiesenfeld, \emph{Self-organized criticality: An
+  explanation of the 1/f noise}, Physical review letters \textbf{59} (1987),
+  no.~4, 381.
+
+\bibitem[Caf99]{caffarelli1999note}
+Luis~A Caffarelli, \emph{A note on nonlinear homogenization}, Communications on
+  Pure and Applied Mathematics: A Journal Issued by the Courant Institute of
+  Mathematical Sciences \textbf{52} (1999), no.~7, 829--838.
+
+\bibitem[CP18]{corry2018divisors}
+Scott Corry and David Perkinson, \emph{Divisors and sandpiles: An introduction
+  to chip-firing}, vol. 114, American Mathematical Soc., 2018.
+
+\bibitem[CSW05]{caffarelli2005homogenization}
+Luis~A Caffarelli, Panagiotis~E Souganidis, and Lihe Wang, \emph{Homogenization
+  of fully nonlinear, uniformly elliptic and parabolic partial differential
+  equations in stationary ergodic media}, Communications on Pure and Applied
+  Mathematics: A Journal Issued by the Courant Institute of Mathematical
+  Sciences \textbf{58} (2005), no.~3, 319--361.
+
+\bibitem[Dha90]{dhar1990self}
+Deepak Dhar, \emph{Self-organized critical state of sandpile automaton models},
+  Physical Review Letters \textbf{64} (1990), no.~14, 1613.
+
+\bibitem[DMM85]{dal1985nonlinear}
+Gianni Dal~Maso and Luciano Modica, \emph{Nonlinear stochastic homogenization
+  and ergodic theory}, Universit{\`a} di Pisa. Dipartimento di Matematica,
+  1985.
+
+\bibitem[DRSV95]{dhar1995algebraic}
+Deepak Dhar, Philippe Ruelle, Siddhartha Sen, and D-N Verma, \emph{Algebraic
+  aspects of abelian sandpile models}, Journal of physics A: mathematical and
+  general \textbf{28} (1995), no.~4, 805.
+
+\bibitem[FLP10]{fey2010growth}
+Anne Fey, Lionel Levine, and Yuval Peres, \emph{Growth rates and explosions in
+  sandpiles}, Journal of Statistical Physics \textbf{138} (2010), no.~1-3,
+  143--159.
+
+\bibitem[FMR09]{fey2009stabilizability}
+Anne Fey, Ronald Meester, and Frank Redig, \emph{Stabilizability and
+  percolation in the infinite volume sandpile model}, The Annals of Probability
+  \textbf{37} (2009), no.~2, 654--675.
+
+\bibitem[Gut16]{gutierrez2016monge}
+Cristian~E Guti{\'e}rrez, \emph{The monge-amp{\`e}re equation}, vol.~89,
+  Birkh{\"a}user, 2016.
+
+\bibitem[HJL19]{hough2019sandpiles}
+Bob Hough, Dan Jerison, and Lionel Levine, \emph{Sandpiles on the square
+  lattice}, Communications in Mathematical Physics \textbf{367} (2019), no.~1,
+  33--87.
+
+\bibitem[HLM{\etalchar{+}}08]{holroyd2008chip}
+Alexander~E Holroyd, Lionel Levine, Karola M{\'e}sz{\'a}ros, Yuyal Peres, James
+  Propp, and David~B Wilson, \emph{Chip-firing and rotor-routing on directed
+  graphs}, In and Out of Equilibrium 2, Springer, 2008, pp.~331--364.
+
+\bibitem[IS13]{imbert2013introduction}
+Cyril Imbert and Luis Silvestre, \emph{An introduction to fully nonlinear
+  parabolic equations}, An introduction to the K{\"a}hler-Ricci flow, Springer,
+  2013, pp.~7--88.
+
+\bibitem[J{\'a}r18]{jarai2018sandpile}
+Antal~A J{\'a}rai, \emph{Sandpile models}, Probability Surveys \textbf{15}
+  (2018), no.~243--306.
+
+\bibitem[Kli18]{klivans2018mathematics}
+Caroline~J Klivans, \emph{The mathematics of chip-firing}, CRC Press, 2018.
+
+\bibitem[KT05]{kuo2005estimates}
+Hung-Ju Kuo and Neil~S Trudinger, \emph{Estimates for solutions of fully
+  nonlinear discrete schemes}, Trends in partial differential equations of
+  mathematical physics, Springer, 2005, pp.~275--282.
+
+\bibitem[LL10]{lawler2010random}
+Gregory~F Lawler and Vlada Limic, \emph{Random walk: a modern introduction},
+  vol. 123, Cambridge University Press, 2010.
+
+\bibitem[LMPU16]{levine2016divisible}
+Lionel Levine, Mathav Murugan, Yuval Peres, and Baris~Evren Ugurcan, \emph{The
+  divisible sandpile at critical density}, Annales Henri Poincar{\'e}, vol.~17,
+  Springer, 2016, pp.~1677--1711.
+
+\bibitem[LP09]{levine2009strong}
+Lionel Levine and Yuval Peres, \emph{Strong spherical asymptotics for
+  rotor-router aggregation and the divisible sandpile}, Potential Analysis
+  \textbf{30} (2009), no.~1, 1.
+
+\bibitem[LP10a]{levine2010scaling}
+\bysame, \emph{Scaling limits for internal aggregation models with multiple
+  sources}, Journal d'Analyse Math{\'e}matique \textbf{111} (2010), no.~1,
+  151--219.
+
+\bibitem[LP10b]{levine2010sandpile}
+Lionel Levine and James Propp, \emph{What is... a sandpile}, Notices Amer.
+  Math. Soc, 2010.
+
+\bibitem[LPS16]{levine2016apollonian}
+Lionel Levine, Wesley Pegden, and Charles~K Smart, \emph{Apollonian structure
+  in the abelian sandpile}, Geometric and functional analysis \textbf{26}
+  (2016), no.~1, 306--336.
+
+\bibitem[LPS17]{levine2017apollonian}
+\bysame, \emph{The apollonian structure of integer superharmonic matrices},
+  Annals of Mathematics (2017), 1--67.
+
+\bibitem[PS13]{pegden2013convergence}
+Wesley Pegden and Charles~K Smart, \emph{Convergence of the abelian sandpile},
+  Duke Mathematical Journal \textbf{162} (2013), no.~4, 627--642.
+
+\bibitem[PS17]{pegden2017stability}
+\bysame, \emph{Stability of patterns in the abelian sandpile}, arXiv preprint
+  arXiv:1708.09432 (2017).
+
+\bibitem[RCC95]{roberts1995fully}
+Luis~A Roberts, Luis~A Caffarelli, and Xavier Cabr{\'e}, \emph{Fully nonlinear
+  elliptic equations}, vol.~43, American Mathematical Soc., 1995.
+
+\bibitem[Red05]{redig2005mathematical}
+Frank Redig, \emph{Mathematical aspects of the abelian sandpile model}, Les
+  Houches lecture notes (2005), 18.
+
+\bibitem[Ros00]{rossin2000proprietes}
+Dominique Rossin, \emph{Proprietes combinatoires de certaines familles
+  d'automates cellulaires}, Ph.D. thesis, 2000.
+
+\bibitem[TW08]{trudinger2008monge}
+Neil~S Trudinger and Xu-Jia Wang, \emph{The monge-amp{\`e}re equation and its
+  geometric applications}, Handbook of geometric analysis \textbf{1} (2008),
+  467--524.
+
+\end{thebibliography}

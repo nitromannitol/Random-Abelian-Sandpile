@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it as below."
+title: "Convergence of the random Abelian sandpile: Lean formalization"
+type: software
+repository-code: "https://github.com/nitromannitol/Random-Abelian-Sandpile"
+abstract: >-
+  A Lean 4 and Mathlib formalization of the paper "Convergence of the random Abelian sandpile" by
+  Ahmed Bou-Rabee, in a corrected draft of the arXiv source kept in paper/. All 28 numbered results
+  are proved in Lean, with no sorry and only the standard axioms: 19 outright and 9 from six results
+  of the literature that enter as explicit hypotheses. Among them are the main theorem (sandpiles
+  started from a random high-density background in nW converge, after rescaling, to the solution of
+  an obstacle problem for a deterministic degenerate elliptic operator), its analogue with the open
+  boundary condition, and a corrected form of the single-source theorem with a recurrent effective
+  operator. Theorems 1.1 and 9.2 have Mathlib-only comparator challenges.
+authors:
+  - family-names: Bou-Rabee
+    given-names: Ahmed
+keywords:
+  - Lean
+  - mathlib
+  - formal verification
+  - abelian sandpile
+  - stochastic homogenization
+  - viscosity solutions
+license: Apache-2.0
+references:
+  - type: article
+    title: "Convergence of the random Abelian sandpile"
+    authors:
+      - family-names: Bou-Rabee
+        given-names: Ahmed
+    journal: "Annals of Probability"
+    volume: 49
+    issue: "6"
+    start: 3168
+    end: 3196
+    year: 2021
+    doi: "10.1214/21-AOP1528"
+    url: "https://arxiv.org/abs/1909.07849"
+    identifiers:
+      - type: other
+        value: "arXiv:1909.07849"
+    notes: "The paper formalized by this repository."
+  - type: unpublished
+    title: "Convergence of the random Abelian sandpile (corrected draft)"
+    authors:
+      - family-names: Bou-Rabee
+        given-names: Ahmed
+    notes: "The corrected draft of the arXiv source that the statements follow, in paper/random_piles-corrected.tex; its corrections are listed in paper/CORRECTIONS.md."

@@ -1,0 +1,14 @@
+{
+  "challenge_module": "RandomSandpileAudit.MainTheorem.Challenge",
+  "solution_module": "RandomSandpileAudit.MainTheorem.Solution",
+  "theorem_names": [
+    "RandomSandpile.StatementAudit.MainTheorem.mainTheorem"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
