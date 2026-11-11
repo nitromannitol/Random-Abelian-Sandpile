@@ -203,11 +203,12 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 - **No `sorry`.** The library has none. The two comparator challenges under
   [`RandomSandpileAudit/`](RandomSandpileAudit/) each contain one intentional statement-level
   `sorry`, which the corresponding solution proves.
-- **Axioms.** [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the axiom
-  report of each of the 33 theorems in `Main.lean`.
-  [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any axiom other than `propext`,
-  `Classical.choice` and `Quot.sound`, on `sorryAx`, or on a missing report. The literature inputs are
-  hypotheses, not axioms, so they do not appear in the reports.
+- **Standard axioms only.** The axiom report of each of the 33 theorems in `Main.lean` lists exactly
+  `propext`, `Classical.choice` and `Quot.sound`.
+  [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the reports, and
+  [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on
+  a missing report. The literature inputs are hypotheses, not axioms, so they do not appear in the
+  reports.
 - **Independent check of the statements.** Theorems 1.1 and 9.2 are restated using mathlib alone in
   [`RandomSandpileAudit/MainTheorem/`](RandomSandpileAudit/MainTheorem/) and
   [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/). Each `Challenge.lean`
@@ -215,16 +216,21 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   takes as hypotheses; each `Solution.lean` proves the restatement from the library; and
   [leanprover/comparator](https://github.com/leanprover/comparator) checks that the two statements
   agree, that only the permitted axioms are used, and replays the proof through an independent
-  implementation of the Lean kernel.
-- **Statements and inputs checked against their sources.** Each Lean statement was compared with the
-  corrected draft, and each literature input with its source, in an independent model review. The
-  inputs remain assumptions.
+  implementation of the Lean kernel. Theorem 9.1 and the other numbered results have no comparator
+  pair.
 - **Pinned toolchain and dependencies.** Lean `v4.32.0`, Mathlib
   `81a5d257c8e410db227a6665ed08f64fea08e997` and Lattice-Probability
   `99cfc20cb60d38c947523641e991a84350e77309`, as recorded in [`lean-toolchain`](lean-toolchain) and
-  [`lake-manifest.json`](lake-manifest.json).
-- **The paper is part of the repository**, in [`paper/`](paper/): the arXiv source, the corrected
-  draft, both compiled to PDF, and the list of corrections.
+  [`lake-manifest.json`](lake-manifest.json) (see [Building](#building)).
+- **The paper is part of the repository.** [`paper/`](paper/) holds the arXiv source, the corrected
+  draft, both compiled to PDF, and the list of corrections. The statements follow the corrected
+  draft `paper/random_piles-corrected.tex`, with SHA-256
+  `f772dd2109fd010ed0c83eaa405831121b8698bd061facaee2af457dcc4d27ce`; the arXiv source
+  `paper/random_piles.tex` has SHA-256
+  `ab52e936f60ab3496685184a71f622670d355371c3d4f29356f170e42e8b269e`.
+- **Statements and inputs checked against their sources.** Each Lean statement was compared with the
+  corrected draft, and each literature input with its source, in an independent model review. The
+  inputs remain assumptions.
 
 ## Size
 
@@ -245,6 +251,12 @@ lake build RandomSandpileAudit                              # the comparator pai
 ```
 
 Lattice-Probability has no prebuilt cache, so the first build compiles it as well as the library.
+It is a public repository, pinned in [`lake-manifest.json`](lake-manifest.json):
+
+- Lattice-Probability: `https://github.com/nitromannitol/Lattice-Probability` at
+  `99cfc20cb60d38c947523641e991a84350e77309`.
+
+`import RandomSandpile` loads the numbered results and what they use.
 
 To rebuild the PDFs of the paper, run `pdflatex` three times on `random_piles.tex` or
 `random_piles-corrected.tex` in [`paper/`](paper/); the bibliography is included as `.bbl` files, so
@@ -269,8 +281,11 @@ script builds the library and the audit modules, runs the comparator on every pa
 pair is missing or rejected.
 
 There are two continuous-integration workflows: **CI** builds the library, checks the axiom reports
-and builds the comparator pairs, on every push to `main`; **Comparator audit** runs the comparator on
-the two pairs.
+and builds the comparator pairs; **Comparator audit** runs the comparator on the two pairs. CI runs
+on pushes to `main` that change more than documentation, the paper, `formalization.yaml` or
+`CITATION.cff`; the comparator audit runs when it is started manually. Both workflows can be started
+manually from the [Actions page](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions).
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for build conventions.
 
 ## Repository layout
 
@@ -295,6 +310,8 @@ paper/                        the arXiv source and the corrected draft (LaTeX an
                               CORRECTIONS.md, make_corrected.py, README.md
 scripts/                      check_axioms.py, run_comparators.sh, prefetch_toolchain.py (used by CI)
 .github/workflows/            build.yml (CI) and comparator.yml (Comparator audit)
+LICENSE                       the Apache License 2.0
+CONTRIBUTING.md               build conventions and contribution notes
 CITATION.cff                  citation metadata
 formalization.yaml            source, statement, automation and review metadata
 lakefile.lean, lake-manifest.json, lean-toolchain   the build
