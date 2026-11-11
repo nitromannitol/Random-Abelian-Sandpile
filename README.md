@@ -164,7 +164,7 @@ follow the printed argument.
 
 1. **The random background.** A `RandomEnvironment d` is a probability measure on `ℤ^{ℤᵈ}` that is
    invariant and ergodic under the shifts, with integer bounds `η_min ≤ η(x) ≤ η_max` holding almost
-   surely at every site. Theorems 1.1 and 9.1 and Lemmas 7.4 and 7.5 assume high density,
+   surely at every site. Theorems 1.1 and 9.1 and Lemmas 7.4, 7.5 and 7.6 assume high density,
    `E η(0) > 2d − 1`, as the paper does.
 2. **Lemma 5.4** is proved for all integer bounds, with the threshold `l ≤ −max(η_max, 0) − tr M`.
    This is the printed threshold in the paper's setting, where `η_max ≥ 2d`; for a negative upper
@@ -209,15 +209,17 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on
   a missing report. The literature inputs are hypotheses, not axioms, so they do not appear in the
   reports.
-- **Independent check of the statements.** Theorems 1.1 and 9.2 are restated using mathlib alone in
+- **Independent check of the statements.** Theorem 1.1 (`mainTheorem_final`) and the first part of
+  Theorem 9.2 (`singleSourceTheoremRecurrent_final`, backgrounds with `η ≤ 2d − 2`) are restated
+  using mathlib alone in
   [`RandomSandpileAudit/MainTheorem/`](RandomSandpileAudit/MainTheorem/) and
   [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/). Each `Challenge.lean`
   restates every definition that its statement unfolds to and the literature inputs that the theorem
   takes as hypotheses; each `Solution.lean` proves the restatement from the library; and
   [leanprover/comparator](https://github.com/leanprover/comparator) checks that the two statements
   agree, that only the permitted axioms are used, and replays the proof through an independent
-  implementation of the Lean kernel. Theorem 9.1 and the other numbered results have no comparator
-  pair.
+  implementation of the Lean kernel. Theorem 9.1, the other three parts of Theorem 9.2 and the other
+  numbered results have no comparator pair.
 - **Pinned toolchain and dependencies.** Lean `v4.32.0`, Mathlib
   `81a5d257c8e410db227a6665ed08f64fea08e997` and Lattice-Probability
   `99cfc20cb60d38c947523641e991a84350e77309`, as recorded in [`lean-toolchain`](lean-toolchain) and
