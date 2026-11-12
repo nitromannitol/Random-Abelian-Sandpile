@@ -16,8 +16,7 @@ import RandomSandpile.Proofs.Sec6.EffectiveOperatorBasicPos
 * `not_flatAt_zero`: for every environment with `η ≤ d - 1` almost surely, `μ(l, 0) > 0` for `l > 0`
   and `μ*(l, 0) > 0` for `l < d`, so no level makes both vanish: `F̄_η` is not flat at `0`.
 * `zeroEnv d k`: the deterministic background `η ≡ 0`, with the bound field `η_max = k ≥ 0`.
-* `not_flatLowDensity`: the negation of `FlatLowDensityStmt` (`Assembly/Main.lean`)
-  is false; `not_flatEff_zeroEnv`: the flatness hypothesis of `SingleSourceTheoremFlatStmt` fails for
+* `not_flatEff_zeroEnv`: the flatness hypothesis of `SingleSourceTheoremFlatStmt` fails for
   `zeroEnv d (2d - 2)`, a background allowed by Theorem 9.2.
 -/
 
@@ -391,15 +390,6 @@ theorem not_flatEff_zeroEnv (hd : 2 ≤ d) (k : ℤ) (hk : 0 ≤ k) : ¬ FlatEff
   have : (1 : ℤ) ≤ d := by exact_mod_cast (show 1 ≤ d by omega)
   simp only [Pi.zero_apply]
   linarith
-
-/-- **The statement `FlatLowDensityStmt` (`Assembly/Main.lean`) is false**: flatness of `F̄_η` at every symmetric `M` for every background with `η_max ≤ 2d - 2`, fails for the
-zero background (`η_max = 0`) in every dimension `d ≥ 2`. -/
-theorem not_flatLowDensity :
-    ¬ (∀ (d : ℕ), 2 ≤ d → ∀ E : RandomEnvironment d, (E.ηmax : ℤ) ≤ 2 * d - 2 →
-      ∀ M : Matrix (Fin d) (Fin d) ℝ, M.IsSymm →
-        muBar E (effOp E M) M = 0 ∧ muStarBar E (effOp E M) M = 0) := fun h =>
-  not_flatEff_zeroEnv (d := 2) le_rfl 0 le_rfl
-    (h 2 le_rfl (zeroEnv 2 0 le_rfl) (by norm_num [zeroEnv]))
 
 theorem two_mul_sub_two_nonneg (hd : 2 ≤ d) : (0 : ℤ) ≤ 2 * (d : ℤ) - 2 := by omega
 

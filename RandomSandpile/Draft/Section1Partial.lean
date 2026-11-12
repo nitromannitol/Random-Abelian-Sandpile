@@ -6,11 +6,10 @@ import RandomSandpile.Draft.Section1
   change: the radius `R` of the support clause "`s = 0` in `ℝ^d ∖ B_R(W)`" is chosen after the
   environment `E` and may depend on the whole law.
 
-History. This variant was formulated while the printed radius was still in use (`MainTheoremPrintedStmt`,
-"`R > 0` depending on `W` and `E(η(0))`"). Correction [C12] gives `R` depending on `W`, `d` and `η_max`
-(the box of Lemma 7.2, via Lemma 7.1). The corrected `MainTheoremStmt` chooses `R` after `d`, `W` and
-`η_max`, before the law, so it implies this variant (`mainTheoremLawRadius_of_mainTheorem`,
-`Proofs/Sec7/MainTheoremC12.lean`). The variant is kept for the proofs that produce it.
+The printed radius is `R > 0` depending on `W` and `E(η(0))` (`MainTheoremPrintedStmt`). Correction
+[C12] gives `R` depending on `W`, `d` and `η_max` (the box of Lemma 7.2, via Lemma 7.1).
+`MainTheoremStmt` chooses `R` after `d`, `W` and `η_max`, before the law, so it implies this variant
+(`mainTheoremLawRadius_of_mainTheorem`, `Proofs/Sec7/MainTheoremC12.lean`).
 -/
 
 open MeasureTheory Filter Topology

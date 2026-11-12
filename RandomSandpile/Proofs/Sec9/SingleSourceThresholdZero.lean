@@ -6,7 +6,7 @@ import RandomSandpile.Proofs.Sec7.FlatTiltedZero
 
 * `stabThresholdZero_of_flatEff`: `FlatEff E` implies `StabThresholdZero E` (flatness at `M = 0`
   forces `F̄_η(0) ≤ 0`, hence `μ*(l, 0) = 0` for `l > 0`).
-* `singleSourceTheoremFlat_of_v2`: `SingleSourceTheoremFlatV2Stmt` implies the frozen
+* `singleSourceTheoremFlat_of_v2`: `SingleSourceTheoremFlatV2Stmt` implies
   `SingleSourceTheoremFlatStmt`; the V2 hypothesis is weaker.
 * `not_stabThresholdZero_of_le`: `StabThresholdZero` fails for every environment with
   `η ≤ d - 1` almost surely (in particular `η ≡ -1`): there `H_η(0) ≥ d > 0`, the open case.

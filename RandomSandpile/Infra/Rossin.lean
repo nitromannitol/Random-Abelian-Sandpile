@@ -13,8 +13,8 @@ sandpile*, GAFA 26 (2016)), p. 11, after Fact 3.5, states Rossin's observation a
 connected graph, a chip configuration with fewer chips than there are edges in the graph will
 necessarily stabilize*; Lemma 3.4 of [LPS16] transfers stabilizability between an `N`-periodic
 configuration on `ℤ^d` and the torus `ℤ^d / N ℤ^d`. The torus has `d N^d` edges, so the threshold
-is: **the sum of `η` over a period is `< d N^d`** (average density `< d`). The thresholds
-"average `< 2d`" and "average `≤ 2d - 1`" are false (see `RossinStabilizableStmt`).
+is: **the sum of `η` over a period is `< d N^d`** (average density `< d`; see
+`RossinStabilizableStmt`).
 
 The proof here works on `ℤ^d` directly with Lattice-Probability's parallel toppling procedure
 `LatticeProb.Sandpile.podo` (a legal toppling procedure, `podo_isLegal`), which stays `N`-periodic:

@@ -1,13 +1,13 @@
 import RandomSandpile.Draft.Section9Partial
 import RandomSandpile.Defs.Effective
 
-/-! # Section 9: the corrected hypothesis of the partial results
+/-! # Section 9: a weaker hypothesis for the partial results
 
 `SingleSourceTheoremFlatStmt` (`Draft/Section9Partial.lean`) assumes the flatness of `F̄_η`
 at every symmetric matrix (`FlatEff`). That hypothesis is not a property that a low-density
 background can have in general: it fails for every background with `η ≤ d - 1` (in particular for
 `η ≡ -1`, and for the zero background), where `μ(F̄_η(M), M) > 0` or `μ*(F̄_η(M), M) > 0` at
-`M = 0` (`not_flatEff_of_le`), so the printed partial statement says nothing there.
+`M = 0` (`not_flatEff_of_le`).
 
 What the argument needs is the single scalar condition that the *stabilization threshold of the
 zero Hessian vanishes*,
@@ -18,8 +18,8 @@ pointwise, and it fails exactly where the low-density statement is open (`η ≤
 `η ≡ -1`; `H_η(0) > 0` is the open case of Theorem 9.2).
 
 * `SingleSourceTheoremFlatV2Stmt` — the conclusion of Theorem 9.2 (`SingleSourceTheoremStmt`, with
-  [C3]) under `StabThresholdZero E` in place of `FlatEff E`, for every `d ≥ 2`. The old statement
-  follows from it (`singleSourceTheoremFlat_of_v2`).
+  [C3]) under `StabThresholdZero E` in place of `FlatEff E`, for every `d ≥ 2`.
+  `SingleSourceTheoremFlatStmt` follows from it (`singleSourceTheoremFlat_of_v2`).
 * `SingleSourceTheoremH0Stmt` — the same for `d ≥ 3`: the corrected Theorem 9.2 holds for every
   `d ≥ 3` when `H_η(0) = 0`.
 

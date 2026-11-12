@@ -6,9 +6,8 @@ import RandomSandpile.Defs.Domain
 
 * `MainTheoremStmt` — Theorem 1.1 (`thetheorem`), with the correction [C3] and the correction [C12]: the support radius `R` depends on `W`, `d` and
   `η_max`, not on `W` and `E(η(0))`.
-* `MainTheoremPrintedStmt` — the same statement with the printed radius ("`R > 0`
-  depending on `W` and `E(η(0))`"), kept beside the corrected form. The corrected Theorem 1.1
-  does not use it.
+* `MainTheoremPrintedStmt` — the same statement with the radius as printed in the paper ("`R > 0`
+  depending on `W` and `E(η(0))`").
 
 Standing assumptions: `d ≥ 2`; the law of `η` is a `RandomEnvironment d` (uniformly
 bounded, stationary, ergodic); high density `E η(0) > 2d - 1` (`HighDensity`), which the theorem
