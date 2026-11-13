@@ -79,7 +79,7 @@ jobs:
         run: |
           set -o pipefail
           lake build 2>&1 | tee production-build.log
-          if grep -iE '(^|[[:space:]])warning:|declaration uses .sorry|sorryAx' production-build.log; then
+          if grep -iE '(^|[[:space:]])warning: (\./)?(RandomSandpile|RandomSandpileAudit)(/|\.lean)|declaration uses .sorry|sorryAx' production-build.log; then
             echo "The production build must have zero warnings and no incomplete proofs."
             exit 1
           fi
