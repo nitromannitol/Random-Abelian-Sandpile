@@ -39,7 +39,7 @@ theorem abs_det_le {n : ℕ} (hn : finrank ℝ E = n) {T : E →ₗ[ℝ] E} (hT 
     |LinearMap.det T| ≤ L ^ n := by
   rw [abs_det_eq_prod hn hT]
   calc ∏ i, |hT.eigenvalues hn i| ≤ ∏ _i : Fin n, L := by
-        refine Finset.prod_le_prod (fun i _ => abs_nonneg _) fun i _ => ?_
+        refine Finset.prod_le_prod₀ (fun i _ => abs_nonneg _) fun i _ => ?_
         obtain ⟨h1, h2⟩ := eigenvalues_mem hn hT hlo hhi i
         rw [abs_of_nonpos h2]; linarith
     _ = L ^ n := by simp
@@ -60,7 +60,7 @@ theorem inner_le_of_abs_det {n : ℕ} (hn : finrank ℝ E = n) {T : E →ₗ[ℝ
       exact (Finset.mul_prod_erase _ _ (Finset.mem_univ j)).symm
     have hle : ∏ i ∈ Finset.univ.erase j, |lam i| ≤ L ^ (n - 1) := by
       calc ∏ i ∈ Finset.univ.erase j, |lam i| ≤ ∏ _i ∈ Finset.univ.erase j, L := by
-            refine Finset.prod_le_prod (fun i _ => abs_nonneg _) fun i _ => ?_
+            refine Finset.prod_le_prod₀ (fun i _ => abs_nonneg _) fun i _ => ?_
             obtain ⟨h1, h2⟩ := eigenvalues_mem hn hT hlo hhi i
             rw [abs_of_nonpos h2]; linarith
         _ = L ^ (n - 1) := by

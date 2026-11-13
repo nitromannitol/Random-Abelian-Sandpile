@@ -202,7 +202,7 @@ theorem meshCube_lt (m : ℕ) (z : Site d) (i : Fin d) :
 theorem mem_meshCube {m : ℕ} {z : Site d} {y : Rd d} :
     y ∈ meshCube m z ↔ ∀ i, ⌊((m : ℝ) + 1) * y i⌋ = z i := by
   have hm : (0 : ℝ) < (m : ℝ) + 1 := by positivity
-  simp only [meshCube, ratBox, Set.mem_setOf_eq, Int.floor_eq_iff]
+  simp only [meshCube, ratBox, Set.mem_ofPred_eq, Int.floor_eq_iff]
   refine forall_congr' fun i => ?_
   push_cast
   rw [div_le_iff₀ hm, lt_div_iff₀ hm]

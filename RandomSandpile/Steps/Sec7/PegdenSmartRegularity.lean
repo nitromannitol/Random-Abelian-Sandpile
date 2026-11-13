@@ -115,7 +115,7 @@ theorem lap_freeOdometer_le_of_not_mem (hd : 1 ≤ d) (η : Site d → ℤ) {Wn 
 theorem mem_discretize_iff {W : Set (Rd d)} {n : ℕ} (hn : n ≠ 0) (z : Site d) :
     z ∈ discretize W n ↔ (n : ℝ)⁻¹ • toE z ∈ W := by
   have hn' : (n : ℝ) ≠ 0 := Nat.cast_ne_zero.mpr hn
-  simp only [discretize, Set.mem_setOf_eq]
+  simp only [discretize, Set.mem_ofPred_eq]
   exact Set.mem_smul_set_iff_inv_smul_mem₀ hn' W (toE z)
 
 theorem trace_sub_smul_one (X : Matrix (Fin d) (Fin d) ℝ) (ε : ℝ) :

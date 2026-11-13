@@ -218,7 +218,7 @@ theorem exists_dyadicStep_approx {g : Rd d → ℝ} (hgc : Continuous g) (hgs : 
   obtain ⟨j, hj⟩ := (hlim.eventually (Iic_mem_nhds hε)).exists
   have hfin := finite_norm_toE_le (d := d) (((2 ^ j : ℕ) : ℝ) * R)
   refine ⟨j, hfin.toFinset, fun k hk => hzero _ ?_, hj⟩
-  rw [Set.Finite.mem_toFinset, Set.mem_setOf_eq, not_le] at hk
+  rw [Set.Finite.mem_toFinset, Set.mem_ofPred_eq, not_le] at hk
   have h2 : (0 : ℝ) < ((2 ^ j : ℕ) : ℝ) := by positivity
   rw [norm_smul, Real.norm_eq_abs, abs_inv, abs_of_pos h2, inv_mul_eq_div, lt_div_iff₀ h2]
   linarith

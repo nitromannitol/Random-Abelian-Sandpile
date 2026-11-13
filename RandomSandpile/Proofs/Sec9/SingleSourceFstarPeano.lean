@@ -40,14 +40,14 @@ variable {d : ℕ}
 /-- `|B_ρ(b)| = ρ^d |B_1|`. -/
 theorem volume_real_ball_eq (hd : 1 ≤ d) (b : Rd d) {ρ : ℝ} (hρ : 0 ≤ ρ) :
     volume.real (ball b ρ) = ρ ^ d * volume.real (ball (0 : Rd d) 1) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   rw [measureReal_def, Measure.addHaar_ball _ _ hρ, finrank_euclideanSpace_fin, ENNReal.toReal_mul,
     ENNReal.toReal_ofReal (pow_nonneg hρ d), measureReal_def]
 
 theorem tendsto_ncard_discretize_ball (hd : 1 ≤ d) (b : Rd d) {ρ : ℝ} (hρ : 0 < ρ) :
     Tendsto (fun m : ℕ => ((discretize (ball b ρ) m).ncard : ℝ) / (m : ℝ) ^ d) atTop
       (𝓝 (volume.real (ball b ρ))) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have h := MuLipschitzShell.tendsto_ncard_discretize (W := ball b ρ) isBounded_ball
     measurableSet_ball (by rw [frontier_ball b hρ.ne']; exact Measure.addHaar_sphere _ _ _)
   rwa [LimitSlopeMass.covolume_intLattice, div_one] at h

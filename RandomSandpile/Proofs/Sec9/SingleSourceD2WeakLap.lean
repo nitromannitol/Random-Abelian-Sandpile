@@ -541,9 +541,9 @@ theorem weakLaplace_near {η : Site 2 → ℤ} {ηmin : ℤ}
       (fun k x => (abs_neg _).trans_le (abs_clipLap_le hχb hC _ _ x))
       (Eventually.of_forall fun k x => neg_le.2 (abs_le.1 (abs_clipLap_le hχb hC _ _ x)).1)
   -- a bounded measurable representative
-  obtain ⟨s', hs'm, hs'b, hs'e⟩ := exists_bounded_rep hsLp.1 hC hle hge
+  obtain ⟨s', hs'm, hs'b, hs'e⟩ := exists_bounded_rep hsLp.aestronglyMeasurable hC hle hge
   refine ⟨ρ, hρ, fun x hx => ?_, s', C, hs'm, hs'b, fun φ hφ hφc hφs => ?_⟩
-  · simp only [Set.mem_setOf_eq]
+  · simp only [Set.mem_ofPred_eq]
     rintro rfl
     rw [mem_ball, dist_eq_norm, zero_sub, norm_neg] at hx
     linarith

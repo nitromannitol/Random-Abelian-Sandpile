@@ -106,12 +106,12 @@ theorem exists_crossPolytope_weights {d : ℕ} (hd : 1 ≤ d) (c : Site d) {R : 
     · exact hT0 _
     · exact hF0 _
   · rw [Fintype.sum_prod_type]
-    simp only [Fintype.sum_bool, if_true, Bool.false_eq_true, if_false]
+    simp only [Fintype.sum_bool, ite_true, Bool.false_eq_true, ite_false]
     rw [← hsum]
   · ext k
     simp only [PiLp.smul_apply, toE_apply, smul_eq_mul, WithLp.ofLp_sum, Finset.sum_apply]
     rw [Fintype.sum_prod_type]
-    simp only [Fintype.sum_bool, crossVertex_apply, if_true, Bool.false_eq_true, if_false]
+    simp only [Fintype.sum_bool, crossVertex_apply, ite_true, Bool.false_eq_true, ite_false]
     push_cast
     have key : ∀ i : Fin d,
         lamT i * ((c k : ℝ) + (R : ℝ) * (if k = i then 1 else 0)) +
@@ -121,7 +121,7 @@ theorem exists_crossPolytope_weights {d : ℕ} (hd : 1 ≤ d) (c : Site d) {R : 
       intro i
       split_ifs <;> ring
     rw [Finset.sum_congr rfl fun i _ => key i, Finset.sum_add_distrib, ← Finset.sum_mul, hsum,
-      Finset.sum_ite_eq, if_pos (Finset.mem_univ k), hdiff]
+      Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ k), hdiff]
     simp only [hy]
     ring
 

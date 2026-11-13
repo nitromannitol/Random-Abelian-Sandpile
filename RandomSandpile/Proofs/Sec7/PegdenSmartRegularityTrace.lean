@@ -102,7 +102,7 @@ theorem qMZ_smul_left (c : ℝ) (M : Matrix (Fin d) (Fin d) ℝ) (z : Site d) :
 theorem qMZ_one (z : Site d) : qMZ (1 : Matrix (Fin d) (Fin d) ℝ) z = ‖toE z‖ ^ 2 / 2 := by
   rw [qMZ_eq_sum, norm_toE_sq_eq_sum]
   simp only [Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   simp only [sq]; ring
 
 /-- `|q_M(z)| ≤ (d c / 2) |z|²` when all entries of `M` are bounded by `c ≥ 0`. -/
@@ -141,7 +141,7 @@ theorem exists_rat_approx {Y : Matrix (Fin d) (Fin d) ℝ} (hY : Y.IsSymm) {θ :
   set A : Matrix (Fin d) (Fin d) ℝ := fun i j => (K i j : ℝ) / N with hA
   have hent : ∀ i j, |(A - Y) i j| ≤ 1 / N := by
     intro i j
-    simp only [Matrix.sub_apply, hA, hK]
+    change |(⌊(N : ℝ) * Y i j⌋ : ℝ) / N - Y i j| ≤ 1 / N
     have h1 := Int.floor_le ((N : ℝ) * Y i j)
     have h2 := Int.lt_floor_add_one ((N : ℝ) * Y i j)
     have hrw : (⌊(N : ℝ) * Y i j⌋ : ℝ) / N - Y i j =

@@ -174,12 +174,12 @@ theorem step_bound (hd : 2 ≤ d) : ∃ C₁ C₂ : ℝ, 0 < C₁ ∧ 0 < C₂ �
     by_cases h : y ∈ A <;> simp [hF₁, hF₂, h]
   have hF₁M : ∀ y, |F₁ y| ≤ M := fun y => by
     by_cases h : y ∈ A
-    · simp only [hF₁, h, if_true, hFdef]; exact hM y h
-    · simp only [hF₁, h, if_false, abs_zero]; exact hM0
+    · simp only [hF₁, h, ite_true, hFdef]; exact hM y h
+    · simp only [hF₁, h, ite_false, abs_zero]; exact hM0
   have hF₂0 : ∀ y, 0 ≤ F₂ y := fun y => by
     by_cases h : y ∈ A
     · simp [hF₂, h]
-    · simp only [hF₂, h, if_false, hFdef]
+    · simp only [hF₂, h, ite_false, hFdef]
       rw [lap_eq, huA y h, nbrSumZ]
       have : (0 : ℤ) ≤ ∑ j : Fin d, (u (y + unit j) + u (y - unit j)) :=
         Finset.sum_nonneg fun j _ => add_nonneg (hu0 _) (hu0 _)
@@ -326,26 +326,26 @@ theorem chain_bound {f : Site d → ℝ} {K : ℝ} {Good : Site d → Prop}
         |f x - f x'| ≤ K := by
       rcases lt_or_gt_of_ne hi with hlt | hgt
       · refine ⟨x + unit i, hsum _ (fun j hj => by simp [unit_apply', hj]) ?_, ?_, ?_⟩
-        · simp only [Pi.add_apply, unit_apply', if_true]; omega
+        · simp only [Pi.add_apply, unit_apply', ite_true]; omega
         · intro p hp j
           have h := hp j
           by_cases hj : j = i
-          · subst hj; simp only [Pi.add_apply, unit_apply', if_true] at h; omega
-          · simp only [Pi.add_apply, unit_apply', hj, if_false, add_zero] at h; exact h
+          · subst hj; simp only [Pi.add_apply, unit_apply', ite_true] at h; omega
+          · simp only [Pi.add_apply, unit_apply', hj, ite_false, add_zero] at h; exact h
         · have := hstep x i (hgood x fun j => ⟨min_le_left _ _, le_max_left _ _⟩)
           rwa [abs_sub_comm]
       · refine ⟨x - unit i, hsum _ (fun j hj => by simp [unit_apply', hj]) ?_, ?_, ?_⟩
-        · simp only [Pi.sub_apply, unit_apply', if_true]; omega
+        · simp only [Pi.sub_apply, unit_apply', ite_true]; omega
         · intro p hp j
           have h := hp j
           by_cases hj : j = i
-          · subst hj; simp only [Pi.sub_apply, unit_apply', if_true] at h; omega
-          · simp only [Pi.sub_apply, unit_apply', hj, if_false, sub_zero] at h; exact h
+          · subst hj; simp only [Pi.sub_apply, unit_apply', ite_true] at h; omega
+          · simp only [Pi.sub_apply, unit_apply', hj, ite_false, sub_zero] at h; exact h
         · have hbox : ∀ j, min (x j) (y j) ≤ (x - unit i) j ∧ (x - unit i) j ≤ max (x j) (y j) := by
             intro j
             by_cases hj : j = i
-            · subst hj; simp only [Pi.sub_apply, unit_apply', if_true]; omega
-            · simp only [Pi.sub_apply, unit_apply', hj, if_false, sub_zero]
+            · subst hj; simp only [Pi.sub_apply, unit_apply', ite_true]; omega
+            · simp only [Pi.sub_apply, unit_apply', hj, ite_false, sub_zero]
               exact ⟨min_le_left _ _, le_max_left _ _⟩
           have := hstep (x - unit i) i (hgood _ hbox)
           rwa [sub_add_cancel] at this

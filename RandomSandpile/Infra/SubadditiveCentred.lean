@@ -127,7 +127,7 @@ theorem ae_tendsto_sum_centredCube (hd : 1 ≤ d) (E : RandomEnvironment d) (h :
     (hm : Measurable h) (hb : ∃ M : ℝ, 0 ≤ M ∧ ∀ x, |h x| ≤ M) :
     ∀ᵐ η ∂E.P, Tendsto (fun n : ℕ => (∑ x ∈ centredCube n, h (shift x η)) /
       ((2 * n : ℕ) : ℝ) ^ d) atTop (𝓝 (∫ η, h η ∂E.P)) := by
-  haveI := E.isProb
+  have := E.isProb
   have hS : ∀ S : Finset (Fin d), ∀ᵐ η ∂E.P, Tendsto (fun n : ℕ =>
       (∑ y ∈ ibox (fun _ => 0) (fun _ => (n : ℤ)), h (shift (flipSubset S y - flipShift S) η)) /
         (n : ℝ) ^ d) atTop (𝓝 (∫ η, h η ∂E.P)) := by
@@ -385,7 +385,7 @@ theorem card_collarBox_le {t : Site d} {r r0 k : ℕ} (hr0 : 1 ≤ r0) (hr : r0 
     nlinarith
   calc ∏ i, max (((t i + r - (t i - r + (1 - (k : ℤ))) : ℤ)) : ℝ) 0
       ≤ ∏ _i : Fin d, (1 + (k : ℝ) / (2 * r0)) * ((2 * r : ℕ) : ℝ) :=
-        Finset.prod_le_prod (fun i _ => le_max_right _ _) fun i _ =>
+        Finset.prod_le_prod₀ (fun i _ => le_max_right _ _) fun i _ =>
           max_le (by push_cast; nlinarith) (by positivity)
     _ = _ := by rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
 
@@ -622,7 +622,7 @@ theorem integral_comp_shift (E : RandomEnvironment d) (y : Site d) {h : Config d
 
 theorem integrable_of_abs_le (E : RandomEnvironment d) {h : Config d → ℝ} (hm : Measurable h)
     (M : ℝ) (hM : ∀ η, |h η| ≤ M) : Integrable h E.P := by
-  haveI := E.isProb
+  have := E.isProb
   exact Integrable.of_bound hm.aestronglyMeasurable M
     (Eventually.of_forall fun η => by rw [Real.norm_eq_abs]; exact hM η)
 
@@ -637,7 +637,7 @@ theorem covering_integral_le (E : RandomEnvironment d) (hf : IsSubadditiveProces
       (N : ℝ) ^ d * (∫ η, max (f η ↑(latticeCube d k) - γ * (k : ℝ) ^ d) 0 ∂E.P) / (k : ℝ) ^ d +
       C * ((N : ℝ) ^ d - (ibox (d := d) (fun _ => 0) (fun _ => (N : ℤ) + (1 - (k : ℤ)))).card) := by
   classical
-  haveI := E.isProb
+  have := E.isProb
   set c := γ - b - C * ((1 + (k : ℝ) / (2 * r0)) ^ d - 1) with hc
   set B0 := ibox (d := d) (fun _ => (K : ℤ)) (fun _ => (N : ℤ) - K) with hB0
   set box := ibox (d := d) (fun _ => 0) (fun _ => (N : ℤ)) with hbox
@@ -692,7 +692,7 @@ theorem covering_integral_le (E : RandomEnvironment d) (hf : IsSubadditiveProces
         f η ↑(centredCubeAt z n) ≤ b * ((2 * n : ℕ) : ℝ) ^ d := by
       intro z hz
       have hz' := (Finset.mem_filter.1 hz).2
-      simp only [hBad, badEvent, Set.mem_iUnion, Finset.mem_Icc, Set.mem_setOf_eq] at hz'
+      simp only [hBad, badEvent, Set.mem_iUnion, Finset.mem_Icc, Set.mem_ofPred_eq] at hz'
       obtain ⟨n, ⟨h1, h2⟩, h3⟩ := hz'
       exact ⟨n, h1, h2, by rw [f_centredCubeAt_eq hf]; exact h3.le⟩
     have h := covering_le (hf.mem η) hk hr0 hγ hcoef _ hZ hbad
@@ -789,7 +789,7 @@ theorem exists_measureReal_badEvent_le (hd : 1 ≤ d) (E : RandomEnvironment d)
     (hcube : ∀ᵐ η ∂E.P, Tendsto (fun n : ℕ => f η ↑(latticeCube d n) / (n : ℝ) ^ d) atTop (𝓝 a))
     {ε θ : ℝ} (hε : 0 < ε) (hθ : 0 < θ) :
     ∃ r0 : ℕ, 1 ≤ r0 ∧ ∀ K : ℕ, E.P.real (badEvent f r0 K (a - ε)) ≤ θ := by
-  haveI := E.isProb
+  have := E.isProb
   have hC : 0 ≤ C := nonneg_of_mem_subadditiveClass (hf.mem 0)
   have h2d : (0 : ℝ) < 2 ^ d := by positivity
   set η' := θ * ε / (4 * 2 ^ d) with hη'
@@ -865,7 +865,7 @@ theorem ae_eventually_ge_centredCube (hd : 1 ≤ d) (E : RandomEnvironment d)
     (hcube : ∀ᵐ η ∂E.P, Tendsto (fun n : ℕ => f η ↑(latticeCube d n) / (n : ℝ) ^ d) atTop (𝓝 a)) :
     ∀ᵐ η ∂E.P, ∀ ε > 0, ∀ᶠ n : ℕ in atTop,
       a - ε ≤ f η ↑(centredCube (d := d) n) / ((2 * n : ℕ) : ℝ) ^ d := by
-  haveI := E.isProb
+  have := E.isProb
   have hm : ∀ m : ℕ, ∀ᵐ η ∂E.P, ∀ᶠ n : ℕ in atTop,
       a - 1 / ((m : ℝ) + 1) ≤ f η ↑(centredCube (d := d) n) / ((2 * n : ℕ) : ℝ) ^ d := by
     intro m
@@ -882,13 +882,13 @@ theorem ae_eventually_ge_centredCube (hd : 1 ≤ d) (E : RandomEnvironment d)
         f η ↑(centredCube (d := d) n) / ((2 * n : ℕ) : ℝ) ^ d} ⊆
         ⋃ K, badEvent f r0 K (a - 1 / ((m : ℝ) + 1)) := by
       intro η hη
-      simp only [Set.mem_setOf_eq, not_eventually, not_le, frequently_atTop] at hη
+      simp only [Set.mem_ofPred_eq, not_eventually, not_le, frequently_atTop] at hη
       obtain ⟨n, hn, hlt⟩ := hη r0
       have hNpos : (0 : ℝ) < ((2 * n : ℕ) : ℝ) ^ d := by
         have : (1 : ℝ) ≤ ((2 * n : ℕ) : ℝ) := by exact_mod_cast (by omega : 1 ≤ 2 * n)
         positivity
       rw [div_lt_iff₀ hNpos] at hlt
-      simp only [badEvent, Set.mem_iUnion, Finset.mem_Icc, Set.mem_setOf_eq]
+      simp only [badEvent, Set.mem_iUnion, Finset.mem_Icc, Set.mem_ofPred_eq]
       exact ⟨n, n, ⟨hn, le_rfl⟩, hlt⟩
     refine (measure_mono hsub).trans ?_
     have hmono := tendsto_measure_iUnion_atTop (μ := E.P)

@@ -397,7 +397,7 @@ theorem weak_near_of_dist {V : Set (Rd 2)} (hV : IsOpen V) {C : ℝ} (hC : 0 ≤
     hweak'.ae_le hsLp.neg (fun n => (hfm n).neg)
       (fun n x => (abs_neg _).trans_le (hfb n x))
       (Eventually.of_forall fun n x => neg_le.2 (abs_le.1 (hfb n x)).1)
-  obtain ⟨s', hs'm, hs'b, hs'e⟩ := exists_bounded_rep hsLp.1 hC hle' hge'
+  obtain ⟨s', hs'm, hs'b, hs'e⟩ := exists_bounded_rep hsLp.aestronglyMeasurable hC hle' hge'
   refine ⟨r, hr, (ball_subset_ball (by linarith)).trans hball, s', C, hs'm, hs'b,
     fun φ hφ hφc hφs => ?_⟩
   have hφi : Integrable φ volume := hφ.continuous.integrable_of_hasCompactSupport hφc

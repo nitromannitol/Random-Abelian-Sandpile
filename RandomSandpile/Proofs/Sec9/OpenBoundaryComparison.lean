@@ -35,7 +35,7 @@ variable {d : ℕ}
 theorem continuous_supConv {S : Set (Rd d)} (hS : IsCompact S) {f : Rd d → ℝ}
     (hf : ContinuousOn f S) (δ : ℝ) : Continuous (supConv S δ f) := by
   have hK : IsCompact (univ : Set S) := isCompact_iff_isCompact_univ.1 hS
-  have h1 : Continuous (fun y : S => f y) := hf.restrict
+  have h1 : Continuous (fun y : S => f y) := hf.domRestrict
   have hcont : Continuous (fun q : Rd d × S => f q.2 - ‖q.1 - q.2‖ ^ 2 / (2 * δ)) :=
     (h1.comp continuous_snd).sub
       (((continuous_fst.sub (continuous_subtype_val.comp continuous_snd)).norm.pow 2).div_const _)
@@ -197,7 +197,7 @@ theorem shiftComparison_of_alexandrov (hA : AlexandrovStmt) : ShiftComparisonStm
     obtain ⟨y, hyS, hy⟩ := hS.exists_isMaxOn hSne hc
     refine ⟨y, ⟨hyS, ?_⟩, fun z hz => hy hz⟩
     have h0 := hy hx₀
-    simp only [mem_setOf_eq] at h0
+    simp only [mem_ofPred_eq] at h0
     have a1 := hsu_ge x₀ hx₀; have a2 := hsw_ge x₀ hx₀
     have a3 : 0 ≤ ε / 2 * ‖x₀‖ ^ 2 := by positivity
     have a4 := abs_le.1 (hpS p hp x₀ hx₀)
@@ -216,7 +216,7 @@ theorem shiftComparison_of_alexandrov (hA : AlexandrovStmt) : ShiftComparisonStm
     hconv hballS hmax (measure_union_null hA₁ hA₂)
   rw [mem_union, not_or] at hxN
   obtain ⟨hxN₁, hxN₂⟩ := hxN
-  simp only [mem_setOf_eq, not_not] at hxN₁ hxN₂
+  simp only [mem_ofPred_eq, not_not] at hxN₁ hxN₂
   obtain ⟨q₁, Y₁, hY₁, hT₁⟩ := hxN₁
   obtain ⟨q₂, Y₂, hY₂, hT₂⟩ := hxN₂
   -- expansions of `su`, `sw`, `Z` at `xh`

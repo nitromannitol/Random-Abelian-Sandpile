@@ -26,7 +26,7 @@ given countable set (sequential compactness of the countable product `D → [-K,
 theorem exists_subseq_tendsto_countable {α : Type*} (D : Set α) (hD : D.Countable)
     (G : ℕ → α → ℝ) (K : ℝ) (hK : ∀ n x, |G n x| ≤ K) :
     ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∀ q ∈ D, ∃ a, Tendsto (fun j => G (φ j) q) atTop (𝓝 a) := by
-  haveI : Countable D := hD.to_subtype
+  have : Countable D := hD.to_subtype
   have hcomp : IsCompact (Set.univ.pi fun _ : D => Set.Icc (-K) K) :=
     isCompact_univ_pi fun _ => isCompact_Icc
   obtain ⟨a, -, φ, hφ, hlim⟩ := hcomp.tendsto_subseq (x := fun n (q : D) => G n q)

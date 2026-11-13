@@ -33,9 +33,9 @@ theorem pointwise_subseq (F : ℕ → Rd d → ℝ) (q : ℕ → Rd d)
     intro k i _
     by_cases h : k₀ i ≤ k
     · have h1 := abs_le.mp ((hM i k h).trans (le_abs_self (M i)))
-      simp only [G, if_pos h]
+      simp only [G, ite_eq_left h]
       exact h1
-    · simp only [G, if_neg h]
+    · simp only [G, ite_eq_right h]
       exact ⟨by linarith [abs_nonneg (M i)], abs_nonneg (M i)⟩
   obtain ⟨a, -, φ, hφ, hlim⟩ := hK.tendsto_subseq hG
   refine ⟨φ, hφ, fun i => ⟨a i, ?_⟩⟩
@@ -44,7 +44,7 @@ theorem pointwise_subseq (F : ℕ → Rd d → ℝ) (q : ℕ → Rd d)
   refine hi.congr' ?_
   filter_upwards [eventually_ge_atTop (k₀ i)] with k hk
   have : k₀ i ≤ φ k := hk.trans (hφ.id_le k)
-  simp only [G, if_pos this]
+  simp only [G, ite_eq_left this]
 
 /-- Equi-Lipschitz estimate: pointwise convergence on a dense family of points of the unit ball,
 together with an equi-Lipschitz bound on `B̄_{δ'}`, makes the subsequence uniformly Cauchy on
@@ -140,7 +140,7 @@ theorem exists_subseq_tendstoUniformlyOn {d : ℕ} (F : ℕ → Rd d → ℝ)
       ∀ δ : ℝ, δ < 1 → TendstoUniformlyOn (fun k => F (φ k)) V atTop
         (closedBall (0 : Rd d) δ) := by
   classical
-  haveI : Nonempty (ball (0 : Rd d) 1) := ⟨⟨0, by simp⟩⟩
+  have : Nonempty (ball (0 : Rd d) 1) := ⟨⟨0, by simp⟩⟩
   let q : ℕ → ball (0 : Rd d) 1 := TopologicalSpace.denseSeq _
   have hqd : DenseRange q := TopologicalSpace.denseRange_denseSeq _
   have hq1 : ∀ i, ‖(q i : Rd d)‖ < 1 := fun i => mem_ball_zero_iff.1 (q i).2

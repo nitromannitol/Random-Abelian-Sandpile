@@ -27,7 +27,7 @@ theorem recurrent_upper_bending (hd : 2 ≤ d) (E : RandomEnvironment d)
             ((r n y : ℝ) - (qlZ l y + qMZ M y)) ≤
               ((r n x₀ : ℝ) - (qlZ l x₀ + qMZ M x₀)) + inner ℝ p₀ (toE y - toE x₀) -
                 c * muRecurrentBar E l M * ((1 - β) * n) * ‖toE y - toE x₀‖ := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   let K := NearMaxSequence.lapBound d E.ηmin E.ηmax l M
   have hcore : AlmostMaximalBendingStmt :=
     almostMaximalBending_of_limit (rescaledEnvelopeLimit_of_steps envelopeCompactness limitUniformConcavity)
@@ -85,7 +85,7 @@ theorem recurrent_lower_bending (hd : 2 ≤ d) (E : RandomEnvironment d)
             ((r n y : ℝ) - (qlZ l y + qMZ M y)) ≥
               ((r n x₀ : ℝ) - (qlZ l x₀ + qMZ M x₀)) + inner ℝ p₀ (toE y - toE x₀) +
                 c * muStarRecurrentBar E l M * ((1 - β) * n) * ‖toE y - toE x₀‖ := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   let K := NearMaxSequence.lapBound d E.ηmin E.ηmax l M
   have hcore : AlmostMaximalBendingStmt :=
     almostMaximalBending_of_limit (rescaledEnvelopeLimit_of_steps envelopeCompactness limitUniformConcavity)

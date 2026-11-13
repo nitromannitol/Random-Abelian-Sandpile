@@ -97,7 +97,7 @@ theorem two_mul_rampPotential_of_abs_le {m : ℕ} {x : ℤ} (hx : |x| ≤ m) :
       intro hn
       obtain ⟨h1, h2⟩ := ih (by omega)
       have hd := rampPotential_secondDiff m (m - n)
-      rw [if_pos (by rw [abs_le]; omega)] at hd
+      rw [ite_eq_left (by rw [abs_le]; omega)] at hd
       have e1 : (m : ℤ) - ((n + 1 : ℕ) : ℤ) = m - n - 1 := by push_cast; ring
       have e2 : (m : ℤ) - ((n + 1 : ℕ) : ℤ) + 1 = m - n := by push_cast; ring
       rw [e2, e1]

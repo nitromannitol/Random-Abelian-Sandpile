@@ -48,7 +48,7 @@ theorem mem_ballZ0 {r : ℝ} {x : Site d} : x ∈ ballZ0 r ↔ ‖toE x‖ < r :
 
 theorem ballZ0_subset_cubeZ0 (r : ℝ) : (ballZ0 r : Set (Site d)) ⊆ cubeZ0 r := by
   intro x hx
-  simp only [cubeZ0, cubeZ, Set.mem_setOf_eq, Pi.zero_apply, sub_zero]
+  simp only [cubeZ0, cubeZ, Set.mem_ofPred_eq, Pi.zero_apply, sub_zero]
   intro i
   have h1 := PiLp.norm_apply_le (toE x) i
   simp only [toE_apply, Real.norm_eq_abs] at h1

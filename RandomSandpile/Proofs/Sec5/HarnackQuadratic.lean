@@ -130,7 +130,7 @@ theorem expGrowthBddLap : ExpGrowthBddLapStmt := by
         · rw [h, abs_of_nonpos (by omega : z i + 1 ≤ 0), abs_of_neg hneg]
           omega
         · simp
-      · simp only [unit, Pi.add_apply, Pi.single_apply, if_true]
+      · simp only [unit, Pi.add_apply, Pi.single_apply, ite_true]
         rw [abs_of_nonpos (by omega : z i + 1 ≤ 0), abs_of_neg hneg]
         omega
     · refine key (z - unit i) (fun j => ?_) ?_ (Or.inl (sub_add_cancel z (unit i)).symm)
@@ -139,7 +139,7 @@ theorem expGrowthBddLap : ExpGrowthBddLapStmt := by
         · rw [h, abs_of_nonneg (by omega : 0 ≤ z i - 1), abs_of_pos hpos]
           omega
         · simp
-      · simp only [unit, Pi.sub_apply, Pi.single_apply, if_true]
+      · simp only [unit, Pi.sub_apply, Pi.single_apply, ite_true]
         rw [abs_of_nonneg (by omega : 0 ≤ z i - 1), abs_of_pos hpos]
         omega
 

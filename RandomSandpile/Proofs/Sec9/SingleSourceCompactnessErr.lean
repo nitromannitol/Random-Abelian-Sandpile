@@ -76,10 +76,10 @@ theorem fundamentalSolution_smul (hd : 2 ≤ d) {s : ℝ} (hs : 0 < s) {y : Rd d
   have hns : ‖s • y‖ = s * ‖y‖ := by rw [norm_smul, Real.norm_eq_abs, abs_of_pos hs]
   by_cases h2 : d = 2
   · have h0 : d - 2 = 0 := by omega
-    simp only [fundamentalSolution, if_pos h2, hns, h0, pow_zero, one_mul]
+    simp only [fundamentalSolution, ite_eq_left h2, hns, h0, pow_zero, one_mul]
     rw [Real.log_mul hs.ne' hy0]
     ring
-  · simp only [fundamentalSolution, if_neg h2, hns, sub_zero]
+  · simp only [fundamentalSolution, ite_eq_right h2, hns, sub_zero]
     rw [Real.mul_rpow hs.le (norm_nonneg _)]
     have hsd : s ^ (d - 2) * s ^ (2 - (d : ℝ)) = 1 := by
       rw [← Real.rpow_natCast, ← Real.rpow_add hs]

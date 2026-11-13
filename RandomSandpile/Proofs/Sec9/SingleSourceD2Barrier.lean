@@ -65,7 +65,7 @@ theorem radial_trace_hessian_loc {K K1 K2 : ℝ → ℝ} {a : ℝ}
       (Eventually.of_forall fun z => by simp)
   have hDD := hc.smul hf
   have hD2 : fderiv ℝ (fderiv ℝ (fun x => K (‖x‖ ^ 2))) y =
-      K1 (‖y‖ ^ 2) • (2 • innerSL ℝ) +
+      K1 (‖y‖ ^ 2) • (2 • innerSL ℝ (E := Rd 2)) +
         (K2 (‖y‖ ^ 2) • (2 • innerSL ℝ y)).smulRight (2 • innerSL ℝ y) := by
     rw [hD.fderiv_eq]
     exact hDD.fderiv

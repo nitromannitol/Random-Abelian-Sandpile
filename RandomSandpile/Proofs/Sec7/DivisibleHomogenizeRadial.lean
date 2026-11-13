@@ -82,7 +82,7 @@ theorem norm_toE_add_unit_sq (z : Site d) (i : Fin d) :
     · subst h; simp [unit]; ring
     · simp [unit, h]
   rw [norm_toE_sq, norm_toE_sq]
-  simp only [hj, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hj, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 /-- `|z - e_i|² = |z|² - 2 z_i + 1`. -/
@@ -95,7 +95,7 @@ theorem norm_toE_sub_unit_sq (z : Site d) (i : Fin d) :
     · subst h; simp [unit]; ring
     · simp [unit, h]
   rw [norm_toE_sq, norm_toE_sq]
-  simp only [hj, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hj, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 /-- A nonzero integer vector has Euclidean norm at least `1`. -/
@@ -166,13 +166,13 @@ theorem lapR_norm_sub_ge (hd : 2 ≤ d) (x y : Site d) :
     (if y = x then 0 else 2 / (3 * ‖toE (y - x)‖)) ≤ lapR (fun w => ‖toE (w - x)‖) y := by
   by_cases hyx : y = x
   · subst hyx
-    simp only [if_true, lapR, nbrSum, sub_self]
+    simp only [ite_true, lapR, nbrSum, sub_self]
     have h0 : ‖toE (0 : Site d)‖ = 0 := by rw [toE_zero, norm_zero]
     rw [h0]
     have : 0 ≤ ∑ i : Fin d, (‖toE (y + unit i - y)‖ + ‖toE (y - unit i - y)‖) :=
       Finset.sum_nonneg fun i _ => add_nonneg (norm_nonneg _) (norm_nonneg _)
     linarith
-  · rw [if_neg hyx, lapR_norm_sub]
+  · rw [ite_eq_right hyx, lapR_norm_sub]
     have hz : y - x ≠ 0 := sub_ne_zero.2 hyx
     have hr : 1 ≤ ‖toE (y - x)‖ := one_le_norm_toE hz
     have hd' : (2 : ℝ) ≤ d := by exact_mod_cast hd
@@ -209,10 +209,10 @@ theorem greenBallWeightedSum : GreenBallWeightedSumStmt := by
     have h := lapR_norm_sub_ge hd x z
     by_cases hzx : z = x
     · subst hzx
-      simp only [if_true] at h ⊢
+      simp only [ite_true] at h ⊢
       simp only [hg_def]
       linarith
-    · simp only [if_neg hzx] at h ⊢
+    · simp only [ite_eq_right hzx] at h ⊢
       have hr : 1 ≤ ‖toE (z - x)‖ := one_le_norm_toE (sub_ne_zero.2 hzx)
       have : (3 / 2 : ℝ) * (2 / (3 * ‖toE (z - x)‖)) = ‖toE (z - x)‖⁻¹ := by
         field_simp

@@ -127,7 +127,7 @@ theorem false_of_competitor {η : Site d → ℤ} {n : ℕ}
       · exact hVs.1 x
     · by_cases hxA : x ∈ A
       · by_cases hYV : Y x ≤ singleSourceOdometer η n x
-        · have hZx : Z x = Y x := by simp only [hZ, if_pos hxA, min_eq_left hYV]
+        · have hZx : Z x = Y x := by simp only [hZ, ite_eq_left hxA, min_eq_left hYV]
           have hl := lap_le_lap_of_nbr' hZx fun i =>
             ⟨hZY _ (add_unit_mem_dClosure hxA i), hZY _ (sub_unit_mem_dClosure hxA i)⟩
           have hx0 : x ≠ 0 := fun h => h0 (h ▸ hxA)
@@ -135,10 +135,10 @@ theorem false_of_competitor {η : Site d → ℤ} {n : ℕ}
           rw [hδ, mul_zero, add_zero]
           linarith [hY x hxA]
         · have hZx : Z x = singleSourceOdometer η n x := by
-            simp only [hZ, if_pos hxA, min_eq_right (not_le.1 hYV).le]
+            simp only [hZ, ite_eq_left hxA, min_eq_right (not_le.1 hYV).le]
           have hl := lap_le_lap_of_nbr' hZx fun i => ⟨hZV _, hZV _⟩
           linarith [hVs.2 x]
-      · have hZx : Z x = singleSourceOdometer η n x := by simp only [hZ, if_neg hxA]
+      · have hZx : Z x = singleSourceOdometer η n x := by simp only [hZ, ite_eq_right hxA]
         have hl := lap_le_lap_of_nbr' hZx fun i => ⟨hZV _, hZV _⟩
         linarith [hVs.2 x]
   have hle : singleSourceOdometer η n x₀ ≤ Z x₀ := singleSourceOdometer_le hZs x₀

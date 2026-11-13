@@ -82,7 +82,7 @@ theorem singleSourceOdometer_restrict_locLegal (hd : 1 ≤ d) {η : Site d → �
   have hL := FreeMaxPrinciple.isLegal_of_isLeast_univ (by omega) (hS.union hB) hv
     (fun x hx => by
       have hx' : x ∉ {x : Site d | ∀ i, |x i| < (n : ℤ) + 1} := fun h => hx (Or.inl h)
-      simp only [Set.mem_setOf_eq, not_forall, not_lt] at hx'
+      simp only [Set.mem_ofPred_eq, not_forall, not_lt] at hx'
       obtain ⟨i, hi⟩ := hx'
       exact singleSourceOdometer_eq_zero_of_coord hη n hi)
   have hR := locLegalRestrict d _ _ B _ Set.subset_union_right (mem_locLegal_of_isLegal hL)

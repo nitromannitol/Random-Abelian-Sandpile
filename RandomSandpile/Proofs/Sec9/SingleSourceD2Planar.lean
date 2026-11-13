@@ -69,7 +69,7 @@ theorem isOpen_negSet {u Q : Rd 2 → ℝ} (hu : ContinuousOn u {x | x ≠ 0}) (
     (isOpen_Ioi (a := (0 : ℝ)))
   convert h using 1
   ext x
-  simp only [negSet, mem_setOf_eq, mem_inter_iff, mem_preimage, mem_Ioi, Pi.sub_apply, sub_pos]
+  simp only [negSet, mem_ofPred_eq, mem_inter_iff, mem_preimage, mem_Ioi, Pi.sub_apply, sub_pos]
 
 /-- The positive comparison set (with the source adjoined) is open. -/
 theorem isOpen_posSet {u Q : Rd 2 → ℝ} (hu : ContinuousOn u {x | x ≠ 0})
@@ -79,7 +79,7 @@ theorem isOpen_posSet {u Q : Rd 2 → ℝ} (hu : ContinuousOn u {x | x ≠ 0})
       (isOpen_Iio (a := (0 : ℝ)))
     convert h using 1
     ext x
-    simp only [mem_setOf_eq, mem_inter_iff, mem_preimage, mem_Iio, Pi.sub_apply, sub_neg]
+    simp only [mem_ofPred_eq, mem_inter_iff, mem_preimage, mem_Iio, Pi.sub_apply, sub_neg]
   rw [isOpen_iff_mem_nhds]
   intro x hx
   rcases hx with hx | hx

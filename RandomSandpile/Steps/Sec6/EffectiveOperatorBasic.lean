@@ -390,7 +390,7 @@ theorem effOp_add_smul_one_of_isGreatest (hshift : MuShiftStmt) (hd : 1 ≤ d)
   have hmem : ∀ l, l ∈ muEqSet E (M + t • 1) ↔ l + d * t ∈ muEqSet E M := by
     intro l
     obtain ⟨h1, h2⟩ := muBar_shift hshift hd E l t M
-    simp only [muEqSet, Set.mem_setOf_eq, h1, h2]
+    simp only [muEqSet, Set.mem_ofPred_eq, h1, h2]
   have hG : IsGreatest (muEqSet E (M + t • 1)) (effOp E M - d * t) := by
     refine ⟨(hmem _).2 (by rw [sub_add_cancel]; exact hGM.1), fun l hl => ?_⟩
     have := hGM.2 ((hmem l).1 hl)

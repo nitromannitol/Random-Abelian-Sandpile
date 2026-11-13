@@ -47,7 +47,7 @@ theorem pow_mul_fundamentalSolution_le {t : ℝ} (ht : 1 ≤ t) {x : Rd d} (hx :
     rw [norm_smul, Real.norm_of_nonneg (inv_nonneg.2 ht0.le)]
   by_cases h2 : d = 2
   · have htd : t ^ d = t ^ 2 := by rw [h2]
-    simp only [fundamentalSolution, if_pos h2]
+    simp only [fundamentalSolution, ite_eq_left h2]
     rw [htd, hnorm, Real.log_mul (inv_ne_zero ht0.ne') hn.ne', Real.log_inv]
     have hlog : 0 ≤ Real.log t := Real.log_nonneg ht
     have hc : 0 ≤ t ^ 2 * (1 / (2 * Real.pi)) * Real.log t :=
@@ -57,7 +57,7 @@ theorem pow_mul_fundamentalSolution_le {t : ℝ} (ht : 1 ≤ t) {x : Rd d} (hx :
           t ^ 2 * (1 / (2 * Real.pi)) * Real.log t := by ring
     rw [e]
     linarith
-  · simp only [fundamentalSolution, if_neg h2]
+  · simp only [fundamentalSolution, ite_eq_right h2]
     have key : t ^ 2 * (t⁻¹ * ‖x‖) ^ (2 - (d : ℝ)) = t ^ d * ‖x‖ ^ (2 - (d : ℝ)) := by
       rw [Real.mul_rpow (inv_nonneg.2 ht0.le) hn.le, Real.inv_rpow ht0.le,
         ← Real.rpow_neg ht0.le]
@@ -79,7 +79,7 @@ theorem fundamentalSolution_large (hd : 2 ≤ d) (T : ℝ) :
     have hn : 0 < ‖x‖ := norm_pos_iff.2 hx
     have h := Real.log_le_log hn hxρ
     rw [Real.log_exp] at h
-    simp only [fundamentalSolution, if_pos h2]
+    simp only [fundamentalSolution, ite_eq_left h2]
     have hpi : 0 < 2 * Real.pi := by positivity
     have e : -(1 / (2 * Real.pi)) * (-(2 * Real.pi * T)) = T := by
       rw [neg_mul_neg, ← mul_assoc, one_div_mul_cancel hpi.ne', one_mul]
@@ -97,7 +97,7 @@ theorem fundamentalSolution_large (hd : 2 ≤ d) (T : ℝ) :
     have hx1 : ‖x‖ ≤ 1 := hxρ.trans (min_le_left _ _)
     have hx2 : ‖x‖ ≤ (((d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d) * (|T| + 1))⁻¹ :=
       hxρ.trans (min_le_right _ _)
-    simp only [fundamentalSolution, if_neg h2]
+    simp only [fundamentalSolution, ite_eq_right h2]
     have h1 : ‖x‖ ^ (-1 : ℝ) ≤ ‖x‖ ^ (2 - (d : ℝ)) :=
       Real.rpow_le_rpow_of_exponent_ge hn hx1 (by linarith)
     rw [Real.rpow_neg_one] at h1

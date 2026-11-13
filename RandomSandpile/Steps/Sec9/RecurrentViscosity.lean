@@ -29,7 +29,7 @@ theorem effOpRecurrent_eq_of_unique {d : ℕ} (E : RandomEnvironment d)
     effOpRecurrent E M = l := by
   have hs : {t : ℝ | muRecurrentBar E t M = 0 ∧ muStarRecurrentBar E t M = 0} = {l} := by
     ext t
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨hu t, fun ht => ht ▸ hl⟩
   simp [effOpRecurrent, hs]
 

@@ -166,7 +166,7 @@ theorem ssGreen_asymp (hd : 2 ≤ d) : ∃ κ C R : ℝ, 1 ≤ R ∧ ∀ z : Sit
     rw [euclidNorm_eq] at hb'
     have e : ssGreen 2 z - fundamentalSolution 2 (toE z) - -κ / 4
         = -(1 / 4) * (b z - (2 / Real.pi * Real.log ‖toE z‖ + κ)) := by
-      rw [hval, fundamentalSolution, if_pos rfl]
+      rw [hval, fundamentalSolution, ite_eq_left rfl]
       have hπ : Real.pi ≠ 0 := Real.pi_ne_zero
       field_simp
       ring
@@ -190,7 +190,7 @@ theorem ssGreen_asymp (hd : 2 ≤ d) : ∃ κ C R : ℝ, 1 ≤ R ∧ ∀ z : Sit
     have e : ssGreen d z - fundamentalSolution d (toE z) - -(2 * d : ℝ)⁻¹ * srwGreenInf d 0
         = (2 * d : ℝ)⁻¹ *
           (srwGreenInf d z - 2 / ((d - 2) * unitBallVolume d) * ‖toE z‖ ^ (2 - (d : ℝ))) := by
-      rw [ssGreen_eq_of_three_le h, fundamentalSolution, if_neg (by omega)]
+      rw [ssGreen_eq_of_three_le h, fundamentalSolution, ite_eq_right (by omega)]
       field_simp
       ring
     rw [e, abs_mul, abs_of_pos (by positivity), mul_assoc]

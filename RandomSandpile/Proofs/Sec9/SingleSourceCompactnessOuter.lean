@@ -93,7 +93,7 @@ theorem exists_stabilizing_podo_limit {s0 u : Site d → ℤ} (hu : u ∈ stabil
     rw [hlapeq]
     omega
   have hp := podo_succ s0 τ y
-  rw [if_pos hpc] at hp
+  rw [ite_eq_left hpc] at hp
   have h1 := hT y (τ + 1) (by omega)
   omega
 

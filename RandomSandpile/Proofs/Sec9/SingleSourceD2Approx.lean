@@ -213,7 +213,7 @@ theorem isCompact_closedAnnulus (r R : ℝ) : IsCompact {x : Rd 2 | r ≤ ‖x�
 theorem exists_bound_annulus {g : Rd 2 → ℝ} (hg : ContinuousOn g {x | x ≠ 0}) {r : ℝ}
     (hr : 0 < r) (R : ℝ) : ∃ M : ℝ, ∀ x : Rd 2, r ≤ ‖x‖ → ‖x‖ ≤ R → |g x| ≤ M := by
   have hsub : {x : Rd 2 | r ≤ ‖x‖ ∧ ‖x‖ ≤ R} ⊆ {x | x ≠ 0} := fun x hx => by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rintro rfl
     rw [norm_zero] at hx
     linarith [hx.1]
@@ -236,7 +236,7 @@ theorem family_bounds (h2 : ViscLaplaceEquicontStmt) {g : Rd 2 → ℝ}
   obtain ⟨r, R, hr, hSV⟩ := exists_annulus hS hS0
   set V := {x : Rd 2 | r < ‖x‖ ∧ ‖x‖ < R} with hV
   have hV0 : V ⊆ {x | x ≠ 0} := fun x hx => by
-    simp only [hV, Set.mem_setOf_eq] at hx ⊢
+    simp only [hV, Set.mem_ofPred_eq] at hx ⊢
     rintro rfl
     rw [norm_zero] at hx
     linarith [hx.1]

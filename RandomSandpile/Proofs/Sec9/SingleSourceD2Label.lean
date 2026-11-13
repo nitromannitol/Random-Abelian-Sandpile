@@ -55,7 +55,7 @@ theorem sourceLabelOpen : SourceLabelOpenStmt := by
   intro u hu hu0 Q hQ x hx hxP
   rw [isOpen_iff_mem_nhds]
   intro θ₀ hθ₀
-  simp only [mem_setOf_eq] at hθ₀
+  simp only [mem_ofPred_eq] at hθ₀
   have hQθ : ∀ θ, Continuous (Q θ) := fun θ => hQ.comp (Continuous.prodMk_right θ)
   obtain ⟨ρ, hρ, hball⟩ := eventually_source_ball hu0 hQ θ₀
   -- the source ball lies in the source component for nearby parameters
@@ -92,7 +92,7 @@ theorem sourceLabelOpen : SourceLabelOpenStmt := by
       (isOpen_Iio (a := (0 : ℝ)))
     convert h using 1
     ext y
-    simp only [mem_setOf_eq, mem_inter_iff, mem_preimage, mem_Iio, Pi.sub_apply, sub_neg]
+    simp only [mem_ofPred_eq, mem_inter_iff, mem_preimage, mem_Iio, Pi.sub_apply, sub_neg]
   obtain ⟨ε, hε, hεsub⟩ := Metric.isOpen_iff.1 hopen (x θ₀) hx0
   -- the compact set where positivity must persist
   set Γ := range γ

@@ -34,7 +34,7 @@ theorem exists_least_stabilizer_of_pointwise_bdd {η v : Site d → ℤ} {A : Se
   let r : Site d → ℤ := fun x => if x ∈ A then sInf (values x) else v x
   have hrle : ∀ x ∈ A, ∀ w ∈ S, r x ≤ w x := by
     intro x hx w hw
-    simp only [r, if_pos hx]
+    simp only [r, ite_eq_left hx]
     exact csInf_le (hbdd x hx) ⟨w, hw, rfl⟩
   have hrbd : ∀ y ∈ bdry A, r y = v y := by
     intro y hy

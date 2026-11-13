@@ -472,7 +472,7 @@ theorem planarExclusion_of_steps (hC2 : ComponentBoundStmt) (hC3 : AlternatingRa
       {θ : ℝ | a - r • vVec θ ∈ connectedComponentIn (posSet u (loopQ u a p F z₀ c₀ θ)) 0} := by
     ext θ
     rw [hSdef]
-    simp only [mem_compl_iff, mem_setOf_eq]
+    simp only [mem_compl_iff, mem_ofPred_eq]
     exact ⟨fun h => by by_contra h'; exact h ((hlabel θ).2 h'), fun h h' => (hlabel θ).1 h' h⟩
   have hclopen : IsClopen S :=
     ⟨isOpen_compl_iff.1 (hSc ▸ hopenM), by rw [hSdef]; exact hopenP⟩
@@ -480,7 +480,7 @@ theorem planarExclusion_of_steps (hC2 : ComponentBoundStmt) (hC3 : AlternatingRa
     have e1 : a + r • vVec (0 + 2 * Real.pi) = a - r • vVec 0 := by
       rw [vVec_add_two_pi, smul_neg, sub_eq_add_neg]
     rw [hSdef]
-    simp only [mem_setOf_eq]
+    simp only [mem_ofPred_eq]
     rw [show (2 * Real.pi) = 0 + 2 * Real.pi by ring, e1, loopQ_add_two_pi]
     exact ⟨fun h h' => (hlabel 0).1 h' h, fun h => by by_contra h'; exact h ((hlabel 0).2 h')⟩
   rcases isClopen_iff.1 hclopen with h | h

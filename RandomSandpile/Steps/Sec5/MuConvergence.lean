@@ -153,10 +153,10 @@ theorem measurable_of_eqOn_finite {β : Type*} [MeasurableSpace β] {A : Set (Si
     (hA : A.Finite) {F : Config d → β}
     (hF : ∀ η η' : Config d, (∀ x ∈ A, η x = η' x) → F η = F η') : Measurable F := by
   classical
-  haveI : Finite A := hA.to_subtype
+  have : Finite A := hA.to_subtype
   let r : Config d → (A → ℤ) := fun η a => η a
   let e : (A → ℤ) → Config d := fun ξ x => if h : x ∈ A then ξ ⟨x, h⟩ else 0
-  have hr : Measurable r := measurable_pi_lambda _ fun a => measurable_pi_apply (a : Site d)
+  have hr : Measurable r := Measurable.of_eval fun a => measurable_pi_apply (a : Site d)
   have hFe : F = (F ∘ e) ∘ r := by
     funext η
     exact hF _ _ fun x hx => by simp [r, e, hx]
@@ -183,7 +183,7 @@ theorem discretize_unitBall {n : ℕ} (hn : 1 ≤ n) :
     discretize (Metric.ball (0 : Rd d) 1) n = ballZ0 (n : ℝ) := by
   have hn' : (n : ℝ) ≠ 0 := by positivity
   ext x
-  simp only [discretize, Set.mem_setOf_eq, smul_unitBall hn', Real.norm_natCast,
+  simp only [discretize, Set.mem_ofPred_eq, smul_unitBall hn', Real.norm_natCast,
     mem_ball_zero_iff, ballZ0, ballZ, toE_zero', sub_zero]
 
 /-! ### The abstract reduction: a subadditive quantity of the environment -/
@@ -247,7 +247,7 @@ theorem subadditive_limit_of_steps (hSE : SubadditiveErgodicStmt)
       rw [← discretize_unitBall hn]; exact hfin d _ Metric.isBounded_ball n
     have hpos : 0 < (ballZ0 (d := d) (n : ℝ)).ncard :=
       (Set.ncard_pos hBfin).2 ⟨0, by
-        simp only [ballZ0, ballZ, Set.mem_setOf_eq, sub_self, norm_zero]
+        simp only [ballZ0, ballZ, Set.mem_ofPred_eq, sub_self, norm_zero]
         exact_mod_cast hn⟩
     rw [ENNReal.ofReal_div_of_pos (by exact_mod_cast hpos),
       ENNReal.ofReal_toReal (hne η hη.1 _ hBfin), ENNReal.ofReal_natCast]
@@ -266,8 +266,8 @@ theorem le_ηmax_event (E : RandomEnvironment d) :
         η ∈ {η : Config d | ∀ x, η x ≤ E.ηmax} := by
   refine ⟨?_, ae_all_iff.2 fun x => (E.bounded x).mono fun _ h => h.2, fun y η => ⟨fun h x => ?_,
     fun h x => h (y + x)⟩⟩
-  · rw [Set.setOf_forall]
-    exact MeasurableSet.iInter fun x => measurableSet_setOf.2
+  · rw [Set.ofPred_forall]
+    exact MeasurableSet.iInter fun x => measurableSet_setOfPred.2
       ((measurable_of_countable (fun z : ℤ => z ≤ E.ηmax)).comp
         (@measurable_pi_apply (Site d) (fun _ => ℤ) _ x))
   · simpa [add_neg_cancel_left] using h (-y + x)
@@ -280,8 +280,8 @@ theorem ηmin_le_event (E : RandomEnvironment d) :
         η ∈ {η : Config d | ∀ x, E.ηmin ≤ η x} := by
   refine ⟨?_, ae_all_iff.2 fun x => (E.bounded x).mono fun _ h => h.1, fun y η => ⟨fun h x => ?_,
     fun h x => h (y + x)⟩⟩
-  · rw [Set.setOf_forall]
-    exact MeasurableSet.iInter fun x => measurableSet_setOf.2
+  · rw [Set.ofPred_forall]
+    exact MeasurableSet.iInter fun x => measurableSet_setOfPred.2
       ((measurable_of_countable (fun z : ℤ => E.ηmin ≤ z)).comp
         (@measurable_pi_apply (Site d) (fun _ => ℤ) _ x))
   · simpa [add_neg_cancel_left] using h (-y + x)

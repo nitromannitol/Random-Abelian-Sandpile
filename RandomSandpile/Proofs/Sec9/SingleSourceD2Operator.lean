@@ -62,7 +62,7 @@ theorem discretize_unitBall_eq {n : ℕ} (hn : 1 ≤ n) :
   have hnR : (1 : ℝ) ≤ n := by exact_mod_cast hn
   have hnp : (0 : ℝ) < n := by linarith
   ext x
-  simp only [discretize, Set.mem_setOf_eq]
+  simp only [discretize, Set.mem_ofPred_eq]
   rw [smul_ball hnp.ne', smul_zero, Real.norm_eq_abs, abs_of_pos hnp, mul_one, Metric.mem_ball,
     dist_zero_right, mem_ballZ0]
 

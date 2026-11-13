@@ -170,7 +170,7 @@ theorem greenKilled_le_of_weighted' (hd : 1 ≤ d) {A : Set (Site d)} (hA : A.Fi
   by_cases hwx : w = x
   · subst hwx
     have hlap := lapR_greenKilled_right hd hA w hx
-    rw [if_pos rfl, lapR, nbrSum] at hlap
+    rw [ite_eq_left rfl, lapR, nbrSum] at hlap
     have hne : ∀ i : Fin d, w + unit i ≠ w ∧ w - unit i ≠ w := fun i => by
       constructor <;> intro h <;> have h2 := congrFun h i <;> simp [unit] at h2
     have hnb : ∀ i : Fin d, greenKilled A w (w + unit i) + greenKilled A w (w - unit i) ≤
@@ -334,7 +334,7 @@ theorem finsum_gradient_le (hd : 2 ≤ d) {C₁ : ℝ} (hC₁ : 0 < C₁) {A : S
         exact lt_irrefl _ hpos
       have hmpos : 0 < min ‖toE (x - y)‖ t := lt_min hpos ht0
       have hg0 := greenKilled_nonneg A x y
-      rw [if_neg hyx, ← norm_toE_sub_comm]
+      rw [ite_eq_right hyx, ← norm_toE_sub_comm]
       calc _ ≤ ∑ _i : Fin d, C₁ * (greenKilled A x y * ‖toE (x - y)‖⁻¹ +
             t⁻¹ * (greenKilled A x y * 1)) := Finset.sum_le_sum fun i _ => by
             have h := hgrad y ((hT y).1 hyS) hyR' i

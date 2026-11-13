@@ -61,14 +61,14 @@ theorem greenKilled_eq_zero_of_not_mem_left (A : Set (Site d)) {x : Site d} (hx 
 by the symmetry `g_A(x,y) = g_A(y,x)` of the killed Green's function. -/
 theorem greenKilled_eq_harnackGreen (hd : 1 ≤ d) (B : Finset (Site d)) (x y : Site d) :
     greenKilled (B : Set (Site d)) x y = harnackGreen B x y := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨q, hq⟩ := exists_not_mem_finset hd B
   exact Network.killedGreenReal_symm (Graph.Zd.latticeConnected d) B hq x y
 
 /-- `g_A(x,y) = 0` when `y ∉ A`, for finite `A`. -/
 theorem greenKilled_eq_zero_of_not_mem_right (hd : 1 ≤ d) {A : Set (Site d)} (hA : A.Finite)
     (x : Site d) {y : Site d} (hy : y ∉ A) : greenKilled A x y = 0 := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨B, rfl⟩ := hA.exists_finset_coe
   obtain ⟨q, hq⟩ := exists_not_mem_finset hd B
   exact Network.killedGreenReal_eq_zero_of_not_mem (Graph.Zd.latticeConnected d) B hq
@@ -127,7 +127,7 @@ theorem lapR_greenPotential (hd : 1 ≤ d) {A : Set (Site d)} (hA : A.Finite) (f
   rw [hfun, lapR, nbrSum_sum_mul,
     Finset.sum_congr rfl fun y hy => by rw [nbrSum_harnackGreen_eq hd B hxB hy]]
   simp only [sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    if_pos hxB, Finset.mul_sum, mul_assoc]
+    ite_eq_left hxB, Finset.mul_sum, mul_assoc]
   ring
 
 /-- `r_n(x) = ∑_{y ∈ B_n} g_n(x,y) η(y)`, for an integer configuration `η`, the

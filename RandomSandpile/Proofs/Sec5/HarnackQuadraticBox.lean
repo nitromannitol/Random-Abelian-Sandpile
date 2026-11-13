@@ -25,7 +25,7 @@ variable {d : ℕ}
 `LatticeProb/Walk/Harnack/Basics.lean`; same proof). -/
 theorem harnackGreen_nonneg_of_one_le (hd : 1 ≤ d) (B : Finset (Site d)) (x y : Site d) :
     0 ≤ harnackGreen B x y := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨q, hq⟩ := Infinite.exists_notMem_finset B
   unfold harnackGreen
   exact Network.killedGreenReal_nonneg (Graph.Zd.latticeConnected d) B hq y x
@@ -118,7 +118,7 @@ theorem boxHarnackBddLap : BoxHarnackBddLapStmt := by
   -- the remainder `w`, vanishing off `B \ K`
   obtain ⟨w, hw⟩ : ∃ w : Site d → ℝ, w = fun x => if x ∈ B \ K then f x - h x else 0 :=
     ⟨_, rfl⟩
-  have hw_off : ∀ x, x ∉ B \ K → w x = 0 := fun x hx => by rw [hw]; simp only [if_neg hx]
+  have hw_off : ∀ x, x ∉ B \ K → w x = 0 := fun x hx => by rw [hw]; simp only [ite_eq_right hx]
   have hw_B : ∀ x ∈ box d (2 * r), w x = f x - h x := by
     intro x hx
     rw [hw]
@@ -162,7 +162,7 @@ theorem boxHarnackBddLap : BoxHarnackBddLapStmt := by
       · have := latticeSqNorm_le_of_mem_box hv
         rw [← hm] at this
         linarith
-    have hφ_off : ∀ v, v ∉ B \ K → φ v = 0 := fun v hv => by rw [hφ]; simp only [if_neg hv]
+    have hφ_off : ∀ v, v ∉ B \ K → φ v = 0 := fun v hv => by rw [hφ]; simp only [ite_eq_right hv]
     have hφ_x : φ x ≤ m := by
       rw [hφ]
       dsimp only
@@ -172,7 +172,7 @@ theorem boxHarnackBddLap : BoxHarnackBddLapStmt := by
     have hcharge : ∀ v ∈ B \ K, 2 * (d : ℝ) ≤ 2 * (d : ℝ) * φ v - nbrSum φ v := by
       intro v hv
       have hvA := (hmemA v).1 hv
-      have hφv : φ v = m - latticeSqNorm v := by rw [hφ]; simp only [if_pos hv]
+      have hφv : φ v = m - latticeSqNorm v := by rw [hφ]; simp only [ite_eq_left hv]
       have hnb : nbrSum φ v ≤
           ∑ j : Fin d, ((m - latticeSqNorm (v + unit j)) + (m - latticeSqNorm (v - unit j))) := by
         unfold nbrSum

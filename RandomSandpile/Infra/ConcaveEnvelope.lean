@@ -79,7 +79,7 @@ variable {S : Set (Site d)} {w : Site d → ℝ}
 
 theorem bddAbove_range_affine (hS : S.Finite) (p x : Rd d) :
     BddAbove (Set.range fun y : S => w y + inner ℝ p (x - toE (y : Site d))) := by
-  haveI := hS.to_subtype
+  have := hS.to_subtype
   exact (Set.finite_range _).bddAbove
 
 theorem le_affineMajorant (hS : S.Finite) (p x : Rd d) {y : Site d} (hy : y ∈ S) :
@@ -89,7 +89,7 @@ theorem le_affineMajorant (hS : S.Finite) (p x : Rd d) {y : Site d} (hy : y ∈ 
 
 theorem affineMajorant_le (hne : S.Nonempty) {p x : Rd d} {c : ℝ}
     (h : ∀ y ∈ S, w y + inner ℝ p (x - toE y) ≤ c) : affineMajorant S w p x ≤ c := by
-  haveI := hne.to_subtype
+  have := hne.to_subtype
   exact ciSup_le fun y => h y y.2
 
 /-- `affineMajorant S w p` is affine of slope `p`. -/
@@ -738,12 +738,12 @@ theorem exists_weights_of_mem_convexHull {ι : Type*} [Fintype ι] {q : ι → P
       ∑ i, ν i • f i = y := by
   classical
   obtain ⟨κ, _, μ, v, hμ0, hμ1, hv, hy⟩ := mem_convexHull_iff_exists_fintype.1 hy
-  simp only [Set.mem_setOf_eq] at hv
+  simp only [Set.mem_ofPred_eq] at hv
   choose idx hq hidx using hv
   refine ⟨fun i => ∑ k, if idx k = i then μ k else 0, fun i => ?_, fun i hi => ?_, ?_, ?_⟩
   · exact Finset.sum_nonneg fun k _ => by split_ifs <;> simp [hμ0 k]
   · refine Finset.sum_eq_zero fun k _ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro rfl
     exact hi (hq k)
   · rw [Finset.sum_comm]
@@ -773,15 +773,15 @@ theorem exists_affine_of_concaveEnvelopeOver_eq_sum (hS : S.Finite) {ι : Type*}
   set m₀ := Finset.univ.inf' ⟨i₀, Finset.mem_univ _⟩
     (fun i => if 0 < lam i then lam i else 1) with hm₀
   have hm₀pos : 0 < m₀ := by
-    rw [hm₀, Finset.lt_inf'_iff]
-    intro i _
+    rw [hm₀]
+    refine (Finset.lt_inf'_iff _).2 fun i _ => ?_
     split_ifs with h
     · exact h
     · exact one_pos
   have hm₀le : ∀ i, 0 < lam i → m₀ ≤ lam i := by
     intro i hi
     have := Finset.inf'_le (fun i => if 0 < lam i then lam i else 1) (Finset.mem_univ i)
-    rw [if_pos hi] at this
+    rw [ite_eq_left hi] at this
     exact this
   have hlam0 : ∀ i, ¬0 < lam i → lam i = 0 := fun i hi => le_antisymm (not_lt.1 hi) (h0 i)
   -- `ν ↦ ∑ ν_i w(x_i)` vanishes on the affine dependences supported on `{λ > 0}`

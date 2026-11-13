@@ -180,7 +180,7 @@ theorem countable_of_forall_isolated {J : Set (Rd 2)}
     rw [h2] at hxd
     linarith
   choose f g hf using key
-  haveI : Countable D := hDc.to_subtype
+  have : Countable D := hDc.to_subtype
   have hinj : Function.Injective (fun b : J => (f b, g b)) := by
     intro b b' hbb'
     simp only [Prod.mk.injEq] at hbb'

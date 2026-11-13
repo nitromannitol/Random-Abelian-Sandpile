@@ -139,7 +139,7 @@ def unitBallVolume (d : ℕ) : ℝ := (volume (Metric.ball (0 : Rd d) 1)).toReal
 /-- `ω_d = π^{d/2} / Γ(d/2 + 1)` for `d ≥ 1`. -/
 theorem unitBallVolume_eq (hd : 1 ≤ d) :
     unitBallVolume d = Real.sqrt Real.pi ^ d / Real.Gamma ((d : ℝ) / 2 + 1) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hG : 0 < Real.Gamma ((d : ℝ) / 2 + 1) := Real.Gamma_pos_of_pos (by positivity)
   simp only [unitBallVolume, EuclideanSpace.volume_ball, Fintype.card_fin, ENNReal.ofReal_one,
     one_pow, one_mul]
@@ -163,7 +163,7 @@ theorem fundamentalSolution_pos_of_three_le (hd : 3 ≤ d) {x : Rd d} (hx : x �
     0 < fundamentalSolution d x := by
   have hd2 : d ≠ 2 := by omega
   have hdR : (3 : ℝ) ≤ d := by exact_mod_cast hd
-  simp only [fundamentalSolution, hd2, if_false]
+  simp only [fundamentalSolution, hd2, ite_false]
   exact div_pos (Real.rpow_pos_of_pos (norm_pos_iff.2 hx) _)
     (mul_pos (mul_pos (by linarith) (by linarith)) (unitBallVolume_pos (by omega)))
 
@@ -171,7 +171,7 @@ theorem fundamentalSolution_pos_of_three_le (hd : 3 ≤ d) {x : Rd d} (hx : x �
 for `0 < |x| < 1`. -/
 theorem fundamentalSolution_pos_of_two {x : Rd 2} (hx : x ≠ 0) (hx1 : ‖x‖ < 1) :
     0 < fundamentalSolution 2 x := by
-  simp only [fundamentalSolution, if_true]
+  simp only [fundamentalSolution, ite_true]
   have hlog : Real.log ‖x‖ < 0 := Real.log_neg (norm_pos_iff.2 hx) hx1
   have hpi : 0 < 1 / (2 * Real.pi) := by positivity
   nlinarith

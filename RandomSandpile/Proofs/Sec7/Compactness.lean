@@ -59,7 +59,7 @@ theorem neg_le_lap_freeOdometer {d : ℕ} {η : Site d → ℤ} {Wn : Set (Site 
       · subst hy
         have hnbr : nbrSumZ w y = nbrSumZ v y := by
           refine Finset.sum_congr rfl fun i _ => ?_
-          simp only [hw, if_neg (hnb i).1, if_neg (hnb i).2]
+          simp only [hw, ite_eq_right (hnb i).1, ite_eq_right (hnb i).2]
         have : w y = v y - 1 := by simp [hw]
         simp only [lap_eq, hnbr, this] at hlt ⊢
         have hd : (0 : ℤ) ≤ d := Nat.cast_nonneg d
@@ -156,7 +156,7 @@ theorem freeOdometerUpperBound_of_oneDim (hOne : OneDimTopplingStmt) :
     rw [lap_comp_coord (fun t => ((g t : ℕ) : ℤ)) i x, hgΔ (x i)]
     have hd2 : (2 : ℤ) ≤ d := by exact_mod_cast hd
     by_cases hx : x ∈ discretize W n
-    · rw [Set.indicator_of_mem hx, if_pos (hWn x hx i), hRk]
+    · rw [Set.indicator_of_mem hx, ite_eq_left (hWn x hx i), hRk]
       have := hη x
       have := le_max_left ηmax (2 * (d : ℤ))
       have : (2 * r : ℤ) = max ηmax (2 * (d : ℤ)) - 2 * d + k := by linarith

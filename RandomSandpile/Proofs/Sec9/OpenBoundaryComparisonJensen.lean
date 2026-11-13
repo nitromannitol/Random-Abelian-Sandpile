@@ -206,7 +206,7 @@ theorem jensen_exists {Z : Rd d → ℝ} {S A N : Set (Rd d)} {c ρ r : ℝ} (hc
   have hPmax : ∀ x ∈ K, IsMaxSlope Z S x (P x) := by
     intro x hx
     have := (Classical.choose_spec hx.2).2
-    simp only [hP, dif_pos hx]; exact this
+    simp only [hP, dite_eq_left hx]; exact this
   have himg : ball (0 : Rd d) r ⊆ P '' K := by
     intro p hp
     obtain ⟨x, hxA, hxp⟩ := hmax p hp

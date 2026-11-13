@@ -216,7 +216,7 @@ theorem splitTouching_of_alexandrov (hA : AlexandrovStmt) : SplitTouchingStmt :=
     intro x hxA hxN p hxp
     rw [mem_union, not_or] at hxN
     obtain ⟨hxN₁, hxN₂⟩ := hxN
-    simp only [mem_setOf_eq, not_not] at hxN₁ hxN₂
+    simp only [mem_ofPred_eq, not_not] at hxN₁ hxN₂
     obtain ⟨q₁, Y₁, hY₁, hT₁⟩ := hxN₁
     obtain ⟨q₂, Y₂, hY₂, hT₂⟩ := hxN₂
     set X₁ := Y₁ + (2 * c₀) • (1 : Matrix (Fin d) (Fin d) ℝ) with hX₁

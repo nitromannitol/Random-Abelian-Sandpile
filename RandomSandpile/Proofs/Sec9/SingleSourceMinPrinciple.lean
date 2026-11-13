@@ -198,12 +198,12 @@ theorem continuousOn_fundamentalSolution (d : ℕ) :
   refine ContinuousAt.continuousWithinAt ?_
   by_cases h2 : d = 2
   · have e : fundamentalSolution d = fun y : Rd d => -(1 / (2 * Real.pi)) * Real.log ‖y‖ := by
-      funext y; simp only [fundamentalSolution, if_pos h2]
+      funext y; simp only [fundamentalSolution, ite_eq_left h2]
     rw [e]
     exact continuousAt_const.mul ((Real.continuousAt_log hx0).comp continuous_norm.continuousAt)
   · have e : fundamentalSolution d = fun y : Rd d =>
         ‖y‖ ^ (2 - (d : ℝ)) / ((d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d) := by
-      funext y; simp only [fundamentalSolution, if_neg h2]
+      funext y; simp only [fundamentalSolution, ite_eq_right h2]
     rw [e]
     exact ((Real.continuousAt_rpow_const ‖x‖ (2 - (d : ℝ)) (Or.inl hx0)).comp
       continuous_norm.continuousAt).div_const _

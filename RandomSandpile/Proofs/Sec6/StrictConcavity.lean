@@ -69,7 +69,7 @@ theorem card_ball_inter_eq {n : ℕ} (hn : 1 ≤ n) (r : ℝ) :
 theorem tendsto_ncard_div_pow (hd : 1 ≤ d) {r : ℝ} (hr : 0 < r) :
     Tendsto (fun n : ℕ => ((ballZ0 (d := d) (r * n)).ncard : ℝ) / (n : ℝ) ^ d) atTop
       (𝓝 (volume.real (ball (0 : Rd d) r) / ZLattice.covolume (intLattice d))) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have h := ZLattice.covolume.tendsto_card_div_pow' (intLattice d) (s := ball (0 : Rd d) r)
     isBounded_ball measurableSet_ball
     (by rw [frontier_ball 0 hr.ne']; exact Measure.addHaar_sphere _ _ _)
@@ -84,7 +84,7 @@ open BallCount in
 /-- **Lattice-point counting in balls**: `|B_{βn}| / |B_n| → β^d`. -/
 theorem ballCount : BallCountStmt := by
   intro d hd β hβ
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have h1 := tendsto_ncard_div_pow hd hβ
   have h2 := tendsto_ncard_div_pow hd one_pos
   simp only [one_mul] at h2

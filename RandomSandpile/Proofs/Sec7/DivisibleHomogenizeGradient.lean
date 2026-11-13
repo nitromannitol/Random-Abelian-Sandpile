@@ -66,7 +66,7 @@ theorem greenKilled_le_of_weighted (hd : 1 ≤ d) {n : ℕ} {x : Site d}
   by_cases hwx : w = x
   · subst hwx
     have hlap := lapR_greenKilled_right hd hfin w hx
-    rw [if_pos rfl, lapR, nbrSum] at hlap
+    rw [ite_eq_left rfl, lapR, nbrSum] at hlap
     have hne : ∀ i : Fin d, w + unit i ≠ w ∧ w - unit i ≠ w := fun i => by
       constructor <;> intro h <;> have h2 := congrFun h i <;> simp [unit] at h2
     have hnb : ∀ i : Fin d, greenKilled (ballZ0 (n : ℝ)) w (w + unit i) +
@@ -202,7 +202,7 @@ theorem greenBallGradientSum_of_harnack (hH : GreenBallHarnackGradientStmt)
         rw [sub_self, toE_zero, norm_zero] at hpos
         exact lt_irrefl _ hpos
       have hyδ : y ∈ ballZ0 (d := d) ((1 - δ) * n) := (Set.Finite.mem_toFinset _).1 hyS
-      rw [if_neg hyx, ← norm_toE_sub_comm]
+      rw [ite_eq_right hyx, ← norm_toE_sub_comm]
       calc _ ≤ ∑ _i : Fin d, C₁ * (g y * ‖toE (x - y)‖⁻¹) := Finset.sum_le_sum fun i _ => by
             have h := hH' n x y hx hyδ ((le_max_left _ _).trans hyR') i
             rw [← le_div_iff₀ hpos] at h

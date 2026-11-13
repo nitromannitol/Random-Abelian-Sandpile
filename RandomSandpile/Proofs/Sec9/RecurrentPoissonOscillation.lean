@@ -24,7 +24,7 @@ theorem poisson_oscillation_contraction (d : ℕ) (hd : 1 ≤ d) :
   let A := originBox d (2 * R)
   have hbox : ∀ z : Site d, z ∈ A ↔ z ∈ box d (2 * R) := by
     intro z
-    simp only [A, originBox, Fintype.mem_piFinset, Finset.mem_Icc, box, Set.mem_setOf_eq]
+    simp only [A, originBox, Fintype.mem_piFinset, Finset.mem_Icc, box, Set.mem_ofPred_eq]
     exact forall_congr' fun i => (abs_le).symm
   obtain ⟨p, hp0, hplap⟩ := finite_poisson_decomposition (by omega : 0 < d) A f
   have hpM : ∀ z ∈ A, |(∑ a : Dir d, p (z + dirVec a)) - 2 * d * p z| ≤ M := by

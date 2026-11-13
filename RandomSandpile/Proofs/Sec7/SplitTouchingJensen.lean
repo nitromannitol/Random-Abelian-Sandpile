@@ -231,7 +231,7 @@ def toCLM (H : Matrix (Fin d) (Fin d) ℝ) : Rd d →L[ℝ] Rd d :=
 set_option linter.deprecated false in
 theorem toCLM_apply (H : Matrix (Fin d) (Fin d) ℝ) (v : Rd d) :
     toCLM H v = WithLp.toLp 2 (H *ᵥ WithLp.ofLp v) := by
-  simp [toCLM, Matrix.toEuclideanLin_apply]
+  simp [toCLM, Matrix.toLpLin_apply]
 
 theorem toCLM_det (H : Matrix (Fin d) (Fin d) ℝ) : (toCLM H).det = H.det := by
   rw [toCLM, LinearMap.det_toContinuousLinearMap]
@@ -256,7 +256,7 @@ theorem jensen_volume {Z : Rd d → ℝ} (hZc : Continuous Z) {S A Bad : Set (Rd
     set R : Set (Rd d × Rd d) :=
       (A ×ˢ closedBall (0 : Rd d) r) ∩ {q | IsMaxSlope Z S q.1 q.2} with hR
     have hRcl : IsClosed {q : Rd d × Rd d | IsMaxSlope Z S q.1 q.2} := by
-      simp only [IsMaxSlope, setOf_forall]
+      simp only [IsMaxSlope, Set.ofPred_forall]
       refine isClosed_iInter fun y => isClosed_iInter fun _ => isClosed_le ?_ ?_
       · exact continuous_const.sub (continuous_snd.inner continuous_const)
       · exact (hZc.comp continuous_fst).sub (continuous_snd.inner continuous_fst)
@@ -264,7 +264,7 @@ theorem jensen_volume {Z : Rd d → ℝ} (hZc : Continuous Z) {S A Bad : Set (Rd
       (hA.prod (isCompact_closedBall _ _)).inter_right hRcl
     have : K = Prod.fst '' R := by
       ext x
-      simp only [hK, hR, mem_setOf_eq, mem_image, mem_inter_iff, mem_prod, Prod.exists,
+      simp only [hK, hR, mem_ofPred_eq, mem_image, mem_inter_iff, mem_prod, Prod.exists,
         exists_and_right, exists_eq_right]
       constructor
       · rintro ⟨hxA, p, hp, hxp⟩; exact ⟨p, ⟨hxA, hp⟩, hxp⟩
@@ -275,7 +275,7 @@ theorem jensen_volume {Z : Rd d → ℝ} (hZc : Continuous Z) {S A Bad : Set (Rd
   have hPmax : ∀ x ∈ K, IsMaxSlope Z S x (Pm x) := by
     intro x hx
     have := (Classical.choose_spec hx.2).2
-    simp only [hPm, dif_pos hx]; exact this
+    simp only [hPm, dite_eq_left hx]; exact this
   have himg : ball (0 : Rd d) r ⊆ Pm '' K := by
     intro p hp
     obtain ⟨x, hxA, hxp⟩ := hmax p (ball_subset_closedBall hp)
@@ -318,7 +318,7 @@ theorem jensen_volume {Z : Rd d → ℝ} (hZc : Continuous Z) {S A Bad : Set (Rd
   have hHm : ∀ x (hx : x ∈ s), (Hm x).IsSymm ∧
       HasSecondOrderTaylorAt Z x (Classical.choose (hgood' x hx)) (Hm x) ∧ |(Hm x).det| ≤ B := by
     intro x hx
-    simp only [hHm, dif_pos hx]
+    simp only [hHm, dite_eq_left hx]
     exact Classical.choose_spec (Classical.choose_spec (hgood' x hx))
   have hderiv : ∀ x ∈ s, HasFDerivWithinAt Pm (toCLM (Hm x)) s x := by
     intro x hx

@@ -62,10 +62,10 @@ theorem sum_ibox_filter_negCoords {M : Type*} [AddCommMonoid M] (g : Site d → 
     simp only [Pi.sub_apply, flipSubset, flipShift]
     by_cases hk : k ∈ S
     · have : x k < 0 := h2.2 hk
-      simp only [hk, if_true, this]
+      simp only [hk, ite_true, this]
       omega
     · have : ¬ x k < 0 := fun h => hk (h2.1 h)
-      simp only [hk, if_false, this]
+      simp only [hk, ite_false, this]
       omega
   refine Finset.sum_nbij' (fun x i => if x i < 0 then -x i - 1 else x i)
     (fun y => flipSubset S y - flipShift S) ?_ ?_ hli ?_ ?_
@@ -78,10 +78,10 @@ theorem sum_ibox_filter_negCoords {M : Type*} [AddCommMonoid M] (g : Site d → 
     simp only [splitLo, splitHi, min_def, max_def]
     by_cases hi : i ∈ S
     · have : x i < 0 := h2.2 hi
-      simp only [hi, if_true, this]
+      simp only [hi, ite_true, this]
       split_ifs <;> omega
     · have : ¬ x i < 0 := fun h => hi (h2.1 h)
-      simp only [hi, if_false, this]
+      simp only [hi, ite_false, this]
       split_ifs <;> omega
   · intro y hy
     rw [mem_ibox] at hy
@@ -91,17 +91,17 @@ theorem sum_ibox_filter_negCoords {M : Type*} [AddCommMonoid M] (g : Site d → 
       simp only [splitLo, splitHi, min_def, max_def] at h1
       simp only [Pi.sub_apply, flipSubset, flipShift]
       by_cases hi : i ∈ S
-      · simp only [hi, if_true] at h1 ⊢
+      · simp only [hi, ite_true] at h1 ⊢
         split_ifs at h1 <;> omega
-      · simp only [hi, if_false] at h1 ⊢
+      · simp only [hi, ite_false] at h1 ⊢
         split_ifs at h1 <;> omega
     · have h1 := hy i
       simp only [splitLo, splitHi, min_def, max_def] at h1
       simp only [Pi.sub_apply, flipSubset, flipShift]
       by_cases hi : i ∈ S
-      · simp only [hi, if_true, iff_true] at h1 ⊢
+      · simp only [hi, ite_true, iff_true] at h1 ⊢
         split_ifs at h1 <;> omega
-      · simp only [hi, if_false, iff_false] at h1 ⊢
+      · simp only [hi, ite_false, iff_false] at h1 ⊢
         split_ifs at h1 <;> omega
   · intro y hy
     rw [mem_ibox] at hy
@@ -110,9 +110,9 @@ theorem sum_ibox_filter_negCoords {M : Type*} [AddCommMonoid M] (g : Site d → 
     simp only [splitLo, splitHi, min_def, max_def] at h1
     simp only [Pi.sub_apply, flipSubset, flipShift]
     by_cases hi : i ∈ S
-    · simp only [hi, if_true] at h1 ⊢
+    · simp only [hi, ite_true] at h1 ⊢
       split_ifs at h1 ⊢ <;> omega
-    · simp only [hi, if_false] at h1 ⊢
+    · simp only [hi, ite_false] at h1 ⊢
       split_ifs at h1 ⊢ <;> omega
   · intro x hx
     rw [hli x hx]
@@ -162,10 +162,10 @@ theorem sum_prod_split (p q : Fin d → ℝ) :
   rw [← Finset.compl_eq_univ_sdiff, ← Finset.prod_mul_prod_compl S]
   congr 1
   · refine Finset.prod_congr rfl fun i hi => ?_
-    simp only [splitA, splitB, hi, if_true, hu]
+    simp only [splitA, splitB, hi, ite_true, hu]
   · refine Finset.prod_congr rfl fun i hi => ?_
     rw [Finset.mem_compl] at hi
-    simp only [splitA, splitB, hi, if_false, hv]
+    simp only [splitA, splitB, hi, ite_false, hv]
 
 theorem ceil_mul_max_zero (N : ℕ) (x : ℝ) :
     ⌈(N : ℝ) * max x 0⌉ = max ⌈(N : ℝ) * x⌉ 0 := by
@@ -205,10 +205,10 @@ theorem ibox_split_subset (S : Finset (Fin d)) (p q : Fin d → ℝ) (N : ℕ) :
     have fq := Int.floor_le_ceil ((N : ℝ) * q i)
     have cq := Int.ceil_le_floor_add_one ((N : ℝ) * q i)
     by_cases hi : i ∈ S
-    · simp only [splitA, splitB, splitLo, splitHi, hi, if_true, ceil_mul_max_neg_zero]
+    · simp only [splitA, splitB, splitLo, splitHi, hi, ite_true, ceil_mul_max_neg_zero]
       simp only [min_def, max_def]
       split_ifs <;> omega
-    · simp only [splitA, splitB, splitLo, splitHi, hi, if_false, ceil_mul_max_zero]
+    · simp only [splitA, splitB, splitLo, splitHi, hi, ite_false, ceil_mul_max_zero]
       omega
   constructor
   · exact ibox_mono (fun i => by have := (key i).1.2; omega) (fun i => by have := (key i).2.1; omega)
@@ -569,7 +569,7 @@ theorem ae_tendsto_sum_cell_all (hd : 1 ≤ d) (E : RandomEnvironment d)
       Tendsto (fun N : ℕ => (∑ x ∈ rectBox (fun i => (p i : ℝ)) (fun i => (q i : ℝ)) N,
         f η ↑(cell k x)) / (N : ℝ) ^ d) atTop
         (𝓝 ((∏ i, ((q i : ℝ) - p i)) * ∫ η, f η ↑(latticeCube d k) ∂E.P)) := by
-  haveI := E.isProb
+  have := E.isProb
   by_cases hpq : ∀ i, p i ≤ q i
   · have hbk : ∀ η, 0 ≤ f η ↑(latticeCube d k) ∧
         f η ↑(latticeCube d k) ≤ C * ((latticeCube d k).card : ℝ) :=

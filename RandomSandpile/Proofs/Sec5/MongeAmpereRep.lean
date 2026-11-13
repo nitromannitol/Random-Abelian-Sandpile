@@ -64,7 +64,7 @@ theorem concaveEnvelopeAttained : ConcaveEnvelopeAttainedStmt := by
       (isClosed_discrete {xs : Fin (d + 1) → Site d | ∀ i, xs i ∈ S}).preimage continuous_snd
     have e2 : IsClosed
         {q : (Fin (d + 1) → ℝ) × (Fin (d + 1) → Site d) | ∀ i, 0 ≤ q.1 i ∧ q.1 i ≤ 1} := by
-      simp only [Set.setOf_forall, Set.setOf_and]
+      simp only [Set.ofPred_forall, Set.ofPred_and]
       exact isClosed_iInter fun i =>
         (isClosed_le continuous_const ((continuous_apply i).comp continuous_fst)).inter
           (isClosed_le ((continuous_apply i).comp continuous_fst) continuous_const)

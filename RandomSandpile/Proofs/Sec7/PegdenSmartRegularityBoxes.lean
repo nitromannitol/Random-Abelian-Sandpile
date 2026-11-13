@@ -210,7 +210,7 @@ theorem uniform_box_sum (f : Site d → ℝ) (M : ℝ) (hf : ∀ z, |f z| ≤ M)
           (3 * K * N) ^ (d - 1) := by
         calc ∏ j ∈ Finset.univ.erase i, ((Finset.Ico (l j) (u j)).card : ℝ)
             ≤ ∏ _j ∈ Finset.univ.erase i, 3 * K * (N : ℝ) :=
-              Finset.prod_le_prod (fun j _ => by positivity) fun j _ => hside j
+              Finset.prod_le_prod₀ (fun j _ => by positivity) fun j _ => hside j
           _ = (3 * K * N) ^ (d - 1) := by
               rw [Finset.prod_const, Finset.card_erase_of_mem (Finset.mem_univ i),
                 Finset.card_univ, Fintype.card_fin]

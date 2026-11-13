@@ -21,7 +21,7 @@ countable set (sequential compactness of `∏_{q ∈ D} [-B q, B q]`). -/
 theorem exists_subseq_tendsto_countable_of_bound {α : Type*} (D : Set α) (hD : D.Countable)
     (G : ℕ → α → ℝ) (B : α → ℝ) (hB : ∀ n x, |G n x| ≤ B x) :
     ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∀ q ∈ D, ∃ a, Tendsto (fun j => G (φ j) q) atTop (𝓝 a) := by
-  haveI : Countable D := hD.to_subtype
+  have : Countable D := hD.to_subtype
   have hcomp : IsCompact (Set.univ.pi fun q : D => Set.Icc (-B q) (B q)) :=
     isCompact_univ_pi fun _ => isCompact_Icc
   obtain ⟨a, -, φ, hφ, hlim⟩ := hcomp.tendsto_subseq (x := fun n (q : D) => G n q)

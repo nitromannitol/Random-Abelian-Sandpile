@@ -37,7 +37,7 @@ theorem sqSum_add_unit (x : Site d) (i : Fin d) : sqSum (x + unit i) = sqSum x +
     · simp [unit, h]
   simp only [this, Finset.sum_add_distrib]
   rw [Finset.sum_eq_single (f := fun j => (2 * x j + 1) * (if j = i then (1 : ℤ) else 0)) i
-    (fun j _ hj => by rw [if_neg hj, mul_zero]) (by simp)]
+    (fun j _ hj => by rw [ite_eq_right hj, mul_zero]) (by simp)]
   simp [mul_one]
   ring
 
@@ -50,7 +50,7 @@ theorem sqSum_sub_unit (x : Site d) (i : Fin d) : sqSum (x - unit i) = sqSum x -
     · simp [unit, h]
   simp only [this, Finset.sum_add_distrib]
   rw [Finset.sum_eq_single (f := fun j => (-2 * x j + 1) * (if j = i then (1 : ℤ) else 0)) i
-    (fun j _ hj => by rw [if_neg hj, mul_zero]) (by simp)]
+    (fun j _ hj => by rw [ite_eq_right hj, mul_zero]) (by simp)]
   simp [mul_one]
   ring
 
@@ -70,7 +70,7 @@ theorem subGradSet_congr {B : Set (Site d)} {w₁ w₂ : Site d → ℝ} {c : �
   unfold subGradSet
   refine Set.iUnion₂_congr fun x hx => ?_
   ext p
-  simp only [subGrad, Set.mem_setOf_eq]
+  simp only [subGrad, Set.mem_ofPred_eq]
   have hx' := h x (mem_dClosure_of_mem hx)
   constructor
   · intro hp y hy

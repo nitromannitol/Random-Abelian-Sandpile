@@ -66,7 +66,7 @@ theorem trace_sub_hasTraceShift (c : ℝ) :
 theorem superJet2_of_open {O O' : Set (Rd 2)} (hO : IsOpen O) (hO' : IsOpen O') {u : Rd 2 → ℝ}
     {x : Rd 2} (hx : x ∈ O) (hx' : x ∈ O') {pX : Rd 2 × Matrix (Fin 2) (Fin 2) ℝ}
     (h : pX ∈ superJet2 O u x) : pX ∈ superJet2 O' u x := by
-  simp only [superJet2, Set.mem_setOf_eq] at h ⊢
+  simp only [superJet2, Set.mem_ofPred_eq] at h ⊢
   rw [nhdsWithin_eq_nhds.2 (hO.mem_nhds hx)] at h
   rw [nhdsWithin_eq_nhds.2 (hO'.mem_nhds hx')]
   exact h

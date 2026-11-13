@@ -41,7 +41,7 @@ theorem touch_above_of_isLocalMax {v φ : Rd 2 → ℝ} {x : Rd 2} (hφ : ContDi
 theorem mem_subJet2_of_isLocalMin (O : Set (Rd 2)) {u φ : Rd 2 → ℝ} {x : Rd 2}
     (hφ : ContDiffAt ℝ 2 φ x) (hmin : IsLocalMin (fun y => u y - φ y) x) :
     ((InnerProductSpace.toDual ℝ (Rd 2)).symm (fderiv ℝ φ x), hessian φ x) ∈ subJet2 O u x := by
-  simp only [subJet2, Set.mem_setOf_eq]
+  simp only [subJet2, Set.mem_ofPred_eq]
   refine ⟨hessian_isSymm_of_contDiffAt hφ, fun ε hε => ?_⟩
   have h := touch_below_of_isLocalMin hφ hmin (κ := 2 * ε) (by linarith)
   filter_upwards [h.filter_mono nhdsWithin_le_nhds] with y hy
@@ -52,7 +52,7 @@ theorem mem_subJet2_of_isLocalMin (O : Set (Rd 2)) {u φ : Rd 2 → ℝ} {x : Rd
 theorem mem_superJet2_of_isLocalMax (O : Set (Rd 2)) {u φ : Rd 2 → ℝ} {x : Rd 2}
     (hφ : ContDiffAt ℝ 2 φ x) (hmax : IsLocalMax (fun y => u y - φ y) x) :
     ((InnerProductSpace.toDual ℝ (Rd 2)).symm (fderiv ℝ φ x), hessian φ x) ∈ superJet2 O u x := by
-  simp only [superJet2, Set.mem_setOf_eq]
+  simp only [superJet2, Set.mem_ofPred_eq]
   refine ⟨hessian_isSymm_of_contDiffAt hφ, fun ε hε => ?_⟩
   have h := touch_above_of_isLocalMax hφ hmax (κ := 2 * ε) (by linarith)
   filter_upwards [h.filter_mono nhdsWithin_le_nhds] with y hy
@@ -72,7 +72,7 @@ theorem mem_subJet2_add_quad {O : Set (Rd 2)} {u v : Rd 2 → ℝ} {a c : ℝ}
     (hv : ∀ y, v y = u y + (a + c * ‖y‖ ^ 2)) {x p : Rd 2} {X : Matrix (Fin 2) (Fin 2) ℝ}
     (h : (p, X) ∈ subJet2 O u x) :
     (p + (2 * c) • x, X + (2 * c) • (1 : Matrix (Fin 2) (Fin 2) ℝ)) ∈ subJet2 O v x := by
-  simp only [subJet2, Set.mem_setOf_eq] at h ⊢
+  simp only [subJet2, Set.mem_ofPred_eq] at h ⊢
   refine ⟨h.1.add (Matrix.isSymm_one.smul _), fun ε hε => ?_⟩
   filter_upwards [h.2 ε hε] with y hy
   rw [hv, hv, inner_add_left, real_inner_smul_left, qM_add_smul_one]
@@ -86,7 +86,7 @@ theorem mem_superJet2_add_quad {O : Set (Rd 2)} {u v : Rd 2 → ℝ} {a c : ℝ}
     (hv : ∀ y, v y = u y + (a + c * ‖y‖ ^ 2)) {x p : Rd 2} {X : Matrix (Fin 2) (Fin 2) ℝ}
     (h : (p, X) ∈ superJet2 O u x) :
     (p + (2 * c) • x, X + (2 * c) • (1 : Matrix (Fin 2) (Fin 2) ℝ)) ∈ superJet2 O v x := by
-  simp only [superJet2, Set.mem_setOf_eq] at h ⊢
+  simp only [superJet2, Set.mem_ofPred_eq] at h ⊢
   refine ⟨h.1.add (Matrix.isSymm_one.smul _), fun ε hε => ?_⟩
   filter_upwards [h.2 ε hε] with y hy
   rw [hv, hv, inner_add_left, real_inner_smul_left, qM_add_smul_one]
@@ -112,7 +112,7 @@ theorem nonneg_of_mem_subJet2 {O : Set (Rd 2)} (hO : IsOpen O)
     {G : Matrix (Fin 2) (Fin 2) ℝ → ℝ} (hG : HasTraceShift G) {u : Rd 2 → ℝ}
     (hu : ViscFromBelowGE G O u) {x : Rd 2} (hx : x ∈ O) {p : Rd 2}
     {X : Matrix (Fin 2) (Fin 2) ℝ} (h : (p, X) ∈ subJet2 O u x) : 0 ≤ G X := by
-  simp only [subJet2, Set.mem_setOf_eq] at h
+  simp only [subJet2, Set.mem_ofPred_eq] at h
   have key : ∀ η : ℝ, 0 < η → 0 ≤ G X + 2 * η := by
     intro η hη
     have hY : (X + (-η) • (1 : Matrix (Fin 2) (Fin 2) ℝ)).IsSymm :=
@@ -137,7 +137,7 @@ theorem nonpos_of_mem_superJet2 {O : Set (Rd 2)} (hO : IsOpen O)
     {G : Matrix (Fin 2) (Fin 2) ℝ → ℝ} (hG : HasTraceShift G) {u : Rd 2 → ℝ}
     (hu : ViscFromAboveLE G O u) {x : Rd 2} (hx : x ∈ O) {p : Rd 2}
     {X : Matrix (Fin 2) (Fin 2) ℝ} (h : (p, X) ∈ superJet2 O u x) : G X ≤ 0 := by
-  simp only [superJet2, Set.mem_setOf_eq] at h
+  simp only [superJet2, Set.mem_ofPred_eq] at h
   have key : ∀ η : ℝ, 0 < η → G X - 2 * η ≤ 0 := by
     intro η hη
     have hY : (X + η • (1 : Matrix (Fin 2) (Fin 2) ℝ)).IsSymm :=

@@ -22,7 +22,7 @@ namespace DivisibleHomogenize
 /-- The killed Green's function of a finite set is symmetric. -/
 theorem greenKilled_symm (hd : 1 ≤ d) {A : Set (Site d)} (hA : A.Finite) (x y : Site d) :
     greenKilled A x y = greenKilled A y x := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨B, rfl⟩ := hA.exists_finset_coe
   obtain ⟨q, hq⟩ := exists_not_mem_finset hd B
   exact Network.killedGreenReal_symm (Graph.Zd.latticeConnected d) B hq x y

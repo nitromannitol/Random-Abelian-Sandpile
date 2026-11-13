@@ -41,7 +41,7 @@ theorem le_of_competitor {σ v w : Site d → ℤ} (hv : IsLeast (stabilizing σ
   have hle : ∀ z, vt z ≤ v z := fun z => by
     simp only [hvt]; split_ifs <;> simp
   have hin : ∀ z, ‖toE (z - c₀)‖ < 2 * R → vt z ≤ w z := fun z hz => by
-    simp only [hvt, if_pos hz]; exact min_le_right _ _
+    simp only [hvt, ite_eq_left hz]; exact min_le_right _ _
   have hS : vt ∈ stabilizing σ Set.univ := by
     refine mem_stabilizing_univ.2 ⟨fun z => ?_, fun z => ?_⟩
     · simp only [hvt]
@@ -53,16 +53,16 @@ theorem le_of_competitor {σ v w : Site d → ℤ} (hv : IsLeast (stabilizing σ
         linarith [hvlap z]
       · have hzin : ‖toE (z - c₀)‖ < 2 * R := by
           by_contra h
-          exact hz (by simp only [hvt, if_neg h])
+          exact hz (by simp only [hvt, ite_eq_right h])
         have hwz : vt z = w z := by
-          simp only [hvt, if_pos hzin] at hz ⊢
+          simp only [hvt, ite_eq_left hzin] at hz ⊢
           rcases min_choice (v z) (w z) with h | h
           · exact absurd h hz
           · exact h
         have hzR : ‖toE (z - c₀)‖ < R := by
           by_contra h
           push Not at h
-          exact hz (by simp only [hvt, if_pos hzin]; exact min_eq_left (hgap z h hzin))
+          exact hz (by simp only [hvt, ite_eq_left hzin]; exact min_eq_left (hgap z h hzin))
         have hnb : ∀ i, vt (z + unit i) ≤ w (z + unit i) ∧ vt (z - unit i) ≤ w (z - unit i) :=
           fun i => ⟨hin _ (by linarith [norm_toE_add_unit_sub z c₀ i]),
             hin _ (by linarith [norm_toE_sub_unit_sub z c₀ i])⟩

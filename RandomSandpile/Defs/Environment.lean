@@ -40,7 +40,7 @@ theorem shift_add (y z : Site d) (η : Config d) : shift (y + z) η = shift y (s
   funext w; simp only [shift]; congr 1; abel
 
 theorem measurable_shift (y : Site d) : Measurable (shift y : Config d → Config d) :=
-  measurable_pi_lambda _ fun z => measurable_pi_apply (y + z)
+  Measurable.of_eval fun z => measurable_pi_apply (y + z)
 
 /-- A *random environment*: a probability measure `P` on configurations which is
 

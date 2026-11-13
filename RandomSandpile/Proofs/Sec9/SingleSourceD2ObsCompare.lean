@@ -253,7 +253,7 @@ theorem obsComparison (hTS : CILTheoremOfSumsStmt) {Ω : Set (Rd 2)} (hΩ : IsOp
   -- the theorem of sums at the maximum
   have hloc : IsLocalMaxOn (fun z : Rd 2 × Rd 2 => wStrict w δ C0 z.1 - v z.2 -
       ((φ k : ℝ) + 1) / 2 * ‖z.1 - z.2‖ ^ 2) (Ω ×ˢ Ω) ((zs (φ k)).1, (zs (φ k)).2) :=
-    ((hzmax (φ k)).on_subset (Set.prod_mono subset_closure subset_closure)).localize
+    ((hzmax (φ k)).of_subset (Set.prod_mono subset_closure subset_closure)).isLocalMaxOn
   obtain ⟨X, Y, hXs, hYs, hX, hY, _, hup⟩ := hTS 2 Ω hΩ (wStrict w δ C0) v
     (huu.mono subset_closure) (hvl.mono subset_closure) ((φ k : ℝ) + 1) (by positivity) _ _
     hk1 hk2 hloc

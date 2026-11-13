@@ -236,7 +236,7 @@ theorem podo_eq_of_no_topple (η : Site d → ℤ) (x : Site d) {a b : ℕ} (hab
   induction hab with
   | refl => rfl
   | @step m hab ih =>
-    rw [podo_succ, if_neg (h m hab (Nat.lt_succ_self m)), add_zero]
+    rw [podo_succ, ite_eq_right (h m hab (Nat.lt_succ_self m)), add_zero]
     exact ih fun r h1 h2 => h r h1 (Nat.lt_succ_of_lt h2)
 
 theorem exists_topple_of_one_le {η : Site d → ℤ} {t : ℕ} {x : Site d}
@@ -261,7 +261,7 @@ theorem lastTop_spec {η : Site d → ℤ} {t : ℕ} {x : Site d} (h : 1 ≤ pod
   have hlt : lastTop η t x < t := by omega
   refine ⟨hlt, hspec, ?_⟩
   rw [podo_eq_of_no_topple η x (a := lastTop η t x + 1) (b := t) hlt ?_, podo_succ,
-    if_pos hspec]
+    ite_eq_left hspec]
   intro r h1 h2
   exact Nat.findGreatest_is_greatest (P := fun r => 2 * (d : ℤ) ≤ pconf η r x)
     (show lastTop η t x < r by omega) (by omega)
@@ -551,7 +551,7 @@ theorem rossinStabilizable : RossinStabilizableStmt := by
     refine ⟨(isLegalToppling_podo η).nonneg T, fun x => ?_⟩
     by_contra hx
     have h := congrFun hT x
-    rw [podo_succ, pconf, if_pos (by omega)] at h
+    rw [podo_succ, pconf, ite_eq_left (by omega)] at h
     omega
   · intro u hu x
     rw [mem_stabilizing_univ] at hu

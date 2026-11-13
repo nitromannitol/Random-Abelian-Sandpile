@@ -29,7 +29,7 @@ theorem recurrentOperatorIdentification_of_densitySteps
   have hlS : muStarBar E l M = 0 := by rw [← hsEq l]; exact hl.2
   have hset : muEqSet E M = {l} := by
     ext t
-    simp only [muEqSet, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [muEqSet, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · intro ht
       have h0 : muBar E t M = 0 ∧ muStarBar E t M = 0 := by

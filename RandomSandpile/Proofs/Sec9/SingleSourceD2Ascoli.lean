@@ -25,7 +25,7 @@ converging at every point of that set. -/
 theorem exists_subseq_tendsto_countable' {α : Type*} (D : Set α) (hD : D.Countable)
     (G : ℕ → α → ℝ) (K : α → ℝ) (hK : ∀ n, ∀ x ∈ D, |G n x| ≤ K x) :
     ∃ φ : ℕ → ℕ, StrictMono φ ∧ ∀ q ∈ D, ∃ a, Tendsto (fun j => G (φ j) q) atTop (𝓝 a) := by
-  haveI : Countable D := hD.to_subtype
+  have : Countable D := hD.to_subtype
   have hcomp : IsCompact (Set.univ.pi fun q : D => Set.Icc (-K q) (K q)) :=
     isCompact_univ_pi fun _ => isCompact_Icc
   obtain ⟨a, -, φ, hφ, hlim⟩ := hcomp.tendsto_subseq (x := fun n (q : D) => G n q)
@@ -45,7 +45,7 @@ theorem uniformCauchy_on_compact {u : ℕ → Rd 2 → ℝ} {φ : ℕ → ℕ} {
   set S' := {x : Rd 2 | r / 2 ≤ ‖x‖ ∧ ‖x‖ ≤ R + 1} with hS'
   have hS'c : IsCompact S' := isCompact_closedAnnulus _ _
   have hS'0 : S' ⊆ {x | x ≠ 0} := fun x hx => by
-    simp only [hS', Set.mem_setOf_eq] at hx ⊢
+    simp only [hS', Set.mem_ofPred_eq] at hx ⊢
     rintro rfl
     rw [norm_zero] at hx
     linarith [hx.1]

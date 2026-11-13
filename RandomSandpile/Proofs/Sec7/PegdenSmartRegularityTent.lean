@@ -208,19 +208,19 @@ theorem sum_abs_lapR_tentW_le {L : ℕ} (hL : 1 ≤ L) :
       if j = i then (|tentD L t| : ℝ) else (tent L t : ℝ) with hf
     have h1 : ∀ z : Site d, tentP L i z * (|tentD L (z i)| : ℝ) = ∏ j, f j (z j) := fun z => by
       rw [← Finset.mul_prod_erase Finset.univ (fun j => f j (z j)) (Finset.mem_univ i)]
-      simp only [hf, if_pos rfl, tentP]
+      simp only [hf, ite_eq_left rfl, tentP]
       rw [mul_comm]
       congr 1
       refine Finset.prod_congr rfl fun j hj => ?_
-      rw [if_neg (Finset.ne_of_mem_erase hj)]
+      rw [ite_eq_right (Finset.ne_of_mem_erase hj)]
     simp only [h1, bigBox]
     rw [← Finset.prod_univ_sum (t := fun _ : Fin d => Finset.Icc (-(L : ℤ)) L) (f := f)]
     rw [← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ i)]
     have h2 : ∀ j ∈ Finset.univ.erase i, ∑ t ∈ Finset.Icc (-(L : ℤ)) L, f j t = (L : ℝ) ^ 2 :=
-      fun j hj => by simp only [hf, if_neg (Finset.ne_of_mem_erase hj)]; exact sum_Icc_tent L
+      fun j hj => by simp only [hf, ite_eq_right (Finset.ne_of_mem_erase hj)]; exact sum_Icc_tent L
     rw [Finset.prod_congr rfl h2, Finset.prod_const, Finset.card_erase_of_mem (Finset.mem_univ i),
       Finset.card_univ, Fintype.card_fin]
-    simp only [hf, if_pos rfl]
+    simp only [hf, ite_eq_left rfl]
     exact mul_le_mul_of_nonneg_right (sum_Icc_abs_tentD_le hL) (by positivity)
   refine (Finset.sum_le_sum fun i _ => hi i).trans (le_of_eq ?_)
   rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]; ring

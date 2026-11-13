@@ -106,7 +106,7 @@ theorem card_slab_le (U : Fin d → Finset ℤ) (T : Finset ℤ) (i : Fin d) (C 
   rw [Finset.prod_update_of_mem (Finset.mem_univ i)]
   refine Nat.mul_le_mul_left _ ?_
   calc ∏ j ∈ Finset.univ \ {i}, (U j).card ≤ ∏ j ∈ Finset.univ \ {i}, C :=
-        Finset.prod_le_prod' fun j _ => hU j
+        Finset.prod_le_prod fun j _ => hU j
     _ = C ^ (d - 1) := by
         rw [Finset.prod_const]
         congr 1
@@ -268,10 +268,10 @@ theorem mem_rectBox_refl_iff (j : ℕ) (k : Site d) (S : Finset (Fin d)) (N : �
   rw [mem_rectBox, Fintype.mem_piFinset]
   refine forall_congr' fun i => ?_
   by_cases hi : i ∈ S
-  · simp only [reflLo, reflHi, floorLo, floorHi, flipSubset, hi, if_true, Finset.mem_Ico,
+  · simp only [reflLo, reflHi, floorLo, floorHi, flipSubset, hi, ite_true, Finset.mem_Ico,
       mul_neg, Int.ceil_neg]
     omega
-  · simp only [reflLo, reflHi, floorLo, floorHi, flipSubset, hi, if_false]
+  · simp only [reflLo, reflHi, floorLo, floorHi, flipSubset, hi, ite_false]
 
 theorem sum_rectBox_refl (j : ℕ) (k : Site d) (S : Finset (Fin d)) (N : ℕ) (F : Site d → ℝ) :
     ∑ x ∈ rectBox (reflLo j k S) (reflHi j k S) N, F (flipSubset S x) =
@@ -290,11 +290,11 @@ theorem reflLo_nonneg (j : ℕ) (k : Site d) (i : Fin d) :
   · have hk : (k i : ℝ) + 1 ≤ 0 := by
       have : k i + 1 ≤ 0 := by omega
       exact_mod_cast this
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, hi, if_true]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, hi, ite_true]
     have : ((k i : ℝ) + 1) / 2 ^ j ≤ 0 := div_nonpos_of_nonpos_of_nonneg hk (by positivity)
     linarith
   · have hk : (0 : ℝ) ≤ k i := by exact_mod_cast not_lt.1 hi
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, hi, if_false]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, hi, ite_false]
     positivity
 
 theorem reflLo_le_reflHi (j : ℕ) (k : Site d) (S : Finset (Fin d)) (i : Fin d) :
@@ -304,9 +304,9 @@ theorem reflLo_le_reflHi (j : ℕ) (k : Site d) (S : Finset (Fin d)) (i : Fin d)
   have h1 : (k i : ℝ) / 2 ^ j ≤ ((k i : ℝ) + 1) / 2 ^ j :=
     div_le_div_of_nonneg_right (by linarith) h2.le
   by_cases hi : i ∈ S
-  · simp only [hi, if_true]
+  · simp only [hi, ite_true]
     linarith
-  · simp only [hi, if_false]
+  · simp only [hi, ite_false]
     exact h1
 
 /-- The dyadic cube and the floor box differ only in end layers, so bounded sums over them differ

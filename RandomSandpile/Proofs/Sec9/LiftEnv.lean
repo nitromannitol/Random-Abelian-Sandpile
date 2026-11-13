@@ -31,7 +31,8 @@ theorem shift_addConst (K : ℤ) (y : Site d) (η : Config d) :
 /-- The environment of `η + K`. -/
 def liftEnv (E : RandomEnvironment d) (K : ℤ) : RandomEnvironment d where
   P := E.P.map (addConstEquiv d K)
-  isProb := Measure.isProbabilityMeasure_map (addConstEquiv d K).measurable.aemeasurable
+  isProb :=
+    (Measure.isProbabilityMeasure_map_iff (addConstEquiv d K).measurable.aemeasurable).2 E.isProb
   ηmin := E.ηmin + K
   ηmax := E.ηmax + K
   bounded := fun x => by

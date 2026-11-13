@@ -203,7 +203,7 @@ theorem effOpStar_add_smul_one (hd : 1 ≤ d) (E : RandomEnvironment d)
   have hset : {l : ℝ | 0 < muStarBar E l (M + t • 1)} =
       (fun l => l - d * t) '' {l : ℝ | 0 < muStarBar E l M} := by
     ext l
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     rw [(muBar_shift muShift hd E l t M).2]
     constructor
     · intro h; exact ⟨l + d * t, h, by ring⟩
@@ -290,7 +290,7 @@ theorem ssLimitMinimalStar_of_steps (hS : SSLimitSubStarStmt) (hO : SSOriginStar
   -- the closure of `U` avoids the origin and lies in `{m ≤ v - w}`
   have hcl : closure U ⊆ {x | m ≤ v x - w x} :=
     (closure_mono Set.inter_subset_left).trans
-      (closure_minimal (fun x hx => by simp only [Set.mem_setOf_eq] at hx ⊢; exact hx.le)
+      (closure_minimal (fun x hx => by simp only [Set.mem_ofPred_eq] at hx ⊢; exact hx.le)
         (isClosed_le continuous_const (hvc.sub hwc)))
   have hcl0 : ∀ x ∈ closure U, x ≠ 0 := fun x hx h => by
     have h' : m ≤ v 0 - w 0 := by have := hcl hx; rw [h] at this; exact this

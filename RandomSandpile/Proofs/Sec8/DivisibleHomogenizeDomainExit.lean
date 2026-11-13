@@ -108,10 +108,10 @@ theorem weightedSum_le (hd : 2 ≤ d) {A : Set (Site d)} (hA : A.Finite) {ρ : �
     have h := lapR_norm_sub_ge hd x z
     by_cases hzx : z = x
     · subst hzx
-      simp only [if_true] at h ⊢
+      simp only [ite_true] at h ⊢
       simp only [hg_def]
       linarith
-    · simp only [if_neg hzx] at h ⊢
+    · simp only [ite_eq_right hzx] at h ⊢
       have hr : 1 ≤ ‖toE (z - x)‖ := one_le_norm_toE (sub_ne_zero.2 hzx)
       have : (3 / 2 : ℝ) * (2 / (3 * ‖toE (z - x)‖)) = ‖toE (z - x)‖⁻¹ := by
         field_simp

@@ -79,7 +79,7 @@ theorem ssGradient_core (d : ℕ) (hd : 2 ≤ d) : ∃ C : ℝ, 0 < C ∧
     have e2 : ∑ y ∈ S, (srwGreen d m (y - (x + unit i)) - srwGreen d m (y - x)) *
           (a * (if y = 0 then 1 else 0))
         = a * (srwGreen d m (x + unit i) - srwGreen d m x) := by
-      rw [Finset.sum_eq_single_of_mem 0 h0S (fun y _ hy => by simp [hy]), if_pos rfl,
+      rw [Finset.sum_eq_single_of_mem 0 h0S (fun y _ hy => by simp [hy]), ite_eq_left rfl,
         zero_sub, zero_sub, SSGreen.srwGreen_neg, SSGreen.srwGreen_neg]
       ring
     rw [e1, Finset.sum_sub_distrib, e2]

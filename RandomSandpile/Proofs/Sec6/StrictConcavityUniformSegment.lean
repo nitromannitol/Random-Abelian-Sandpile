@@ -60,7 +60,7 @@ theorem inner_sub_le_of_ae {g : Rd d → Rd d} {δ c : ℝ} {K : ℝ≥0}
       have : (fun x : Rd d => (x, t)) ⁻¹' {z : Rd d × ℝ | X + z.1 + z.2 • v ∈ N} =
           (fun x => x + (X + t • v)) ⁻¹' N := by
         ext x
-        simp only [mem_preimage, mem_setOf_eq]
+        simp only [mem_preimage, mem_ofPred_eq]
         rw [show X + x + t • v = x + (X + t • v) by abel]
       rw [this, measure_preimage_add_right]
       exact hN0
@@ -69,7 +69,7 @@ theorem inner_sub_le_of_ae {g : Rd d → Rd d} {δ c : ℝ} {K : ℝ≥0}
     intro ε hε
     have hne : volume.restrict (ball (0 : Rd d) ε) ≠ 0 := by
       rw [Ne, Measure.restrict_eq_zero]; exact (measure_ball_pos volume 0 hε).ne'
-    haveI : (ae (volume.restrict (ball (0 : Rd d) ε))).NeBot := ae_neBot.2 hne
+    have : (ae (volume.restrict (ball (0 : Rd d) ε))).NeBot := ae_neBot.2 hne
     have h1 : ∀ᵐ h ∂(volume.restrict (ball (0 : Rd d) ε)), ∀ᵐ t : ℝ, X + h + t • v ∉ N :=
       ae_restrict_of_ae hprod
     have h2 : ∀ᵐ h ∂(volume.restrict (ball (0 : Rd d) ε)), h ∈ ball (0 : Rd d) ε :=
@@ -144,7 +144,7 @@ theorem inner_sub_le_of_ae {g : Rd d → Rd d} {δ c : ℝ} {K : ℝ≥0}
     obtain ⟨h, hh, hgh⟩ := hex (min ε ρ) (lt_min hε hρ0)
     exact ⟨h, ⟨hh.trans_le (min_le_right _ _), hgh⟩, by
       rw [dist_zero_left]; exact hh.trans_le (min_le_left _ _)⟩
-  haveI := mem_closure_iff_nhdsWithin_neBot.1 hcl
+  have := mem_closure_iff_nhdsWithin_neBot.1 hcl
   have hlim : Tendsto F (𝓝[S] 0) (𝓝 (F 0)) := hFc.tendsto.mono_left nhdsWithin_le_nhds
   have hle : F 0 ≤ -c * ‖v‖ ^ 2 :=
     le_of_tendsto hlim (eventually_nhdsWithin_of_forall fun h hh => hF h hh.1 hh.2)

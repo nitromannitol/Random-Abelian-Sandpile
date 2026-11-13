@@ -83,7 +83,7 @@ theorem freeOdometer_finite_support (hd : 2 ≤ d) {W : Set (Rd d)} (hW : Bornol
   refine ⟨{x : Site d | ∀ i, |x i| < N}, ?_, fun η hη x hx => (hUB η hη n).2.2 x ?_⟩
   · refine (Set.finite_Icc (fun _ : Fin d => -N) (fun _ => N)).subset fun x hx => ?_
     exact ⟨fun i => (abs_lt.1 (hx i)).1.le, fun i => (abs_lt.1 (hx i)).2.le⟩
-  · simp only [Set.mem_setOf_eq, not_forall, not_lt] at hx
+  · simp only [Set.mem_ofPred_eq, not_forall, not_lt] at hx
     exact hx
 
 /-- The restriction to `B ⊆ W_n` of the free odometer of `η 𝟙_{W_n}` is locally legal for `η`

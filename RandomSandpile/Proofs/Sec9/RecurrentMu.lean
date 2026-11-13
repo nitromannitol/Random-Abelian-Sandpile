@@ -65,7 +65,7 @@ theorem recurrentMuLe : RecurrentMuLeStmt := by
     apply Set.iUnion₂_congr
     intro x hx
     ext p
-    simp only [supGrad, Set.mem_setOf_eq]
+    simp only [supGrad, Set.mem_ofPred_eq]
     constructor <;> intro h y hy
     · have hh := h y hy
       dsimp [g] at hh

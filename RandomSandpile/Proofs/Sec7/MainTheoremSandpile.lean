@@ -27,7 +27,7 @@ variable {d : ℕ}
 /-! ### Measurability -/
 
 theorem measurable_latticeRound : Measurable (latticeRound (d := d)) := by
-  refine measurable_pi_lambda _ fun i => ?_
+  refine Measurable.of_eval fun i => ?_
   exact Int.measurable_floor.comp (PiLp.continuous_apply 2 _ i).measurable
 
 theorem measurable_rescaleSandpile (s : Site d → ℤ) (n : ℕ) :
@@ -56,7 +56,7 @@ theorem WeakStarTendsto.tendsto_setIntegral {f : ℕ → Rd d → ℝ} {s : Rd d
 
 theorem memLp_top_integrableOn {s : Rd d → ℝ} (hs : MemLp s ⊤ volume) {A : Set (Rd d)}
     (hfin : volume A < ⊤) : IntegrableOn s A volume := by
-  haveI : Fact (volume A < ⊤) := ⟨hfin⟩
+  have : Fact (volume A < ⊤) := ⟨hfin⟩
   exact (hs.restrict A).integrable le_top
 
 theorem integrableOn_of_abs_le {f : Rd d → ℝ} (hf : Measurable f) {C : ℝ} (hC : ∀ x, |f x| ≤ C)

@@ -54,12 +54,12 @@ theorem exists_complex_coord {v w : Rd 2} (hli : LinearIndependent ℝ ![v, w]) 
   · rw [← hv]
     show (((b.coord 0 (b 0) : ℝ)) : ℂ) + ((b.coord 1 (b 0) : ℝ) : ℂ) * Complex.I = 1
     rw [Module.Basis.coord_apply, Module.Basis.coord_apply, Module.Basis.repr_self,
-      Finsupp.single_eq_same, Finsupp.single_apply, if_neg (by decide)]
+      Finsupp.single_eq_same, Finsupp.single_apply, ite_eq_right (by decide)]
     simp
   · rw [← hw]
     show (((b.coord 0 (b 1) : ℝ)) : ℂ) + ((b.coord 1 (b 1) : ℝ) : ℂ) * Complex.I = Complex.I
     rw [Module.Basis.coord_apply, Module.Basis.coord_apply, Module.Basis.repr_self,
-      Finsupp.single_eq_same, Finsupp.single_apply, if_neg (by decide)]
+      Finsupp.single_eq_same, Finsupp.single_apply, ite_eq_right (by decide)]
     simp
 
 /-- The straight path `t ↦ (2t - 1) r` from `-r` to `r`. -/

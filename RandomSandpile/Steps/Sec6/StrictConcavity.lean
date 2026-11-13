@@ -347,7 +347,7 @@ theorem lapR_neg (f : Site d → ℝ) (x : Site d) : lapR (fun y => -f y) x = -l
 /-- `p ∈ ∂⁺(-w, x, A)` iff `-p ∈ ∂⁻(w, x, A)`. -/
 theorem mem_supGrad_neg_iff {w : Site d → ℝ} {x : Site d} {A : Set (Site d)} {p : Rd d} :
     p ∈ supGrad (fun y => -w y) x A ↔ -p ∈ subGrad w x A := by
-  simp only [supGrad, subGrad, Set.mem_setOf_eq, inner_neg_left]
+  simp only [supGrad, subGrad, Set.mem_ofPred_eq, inner_neg_left]
   constructor <;> intro h y hy <;> linarith [h y hy]
 
 /-- Negation preserves Lebesgue measure on `ℝ^d`. -/

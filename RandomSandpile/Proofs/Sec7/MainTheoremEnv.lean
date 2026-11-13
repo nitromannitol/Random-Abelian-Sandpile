@@ -55,7 +55,7 @@ theorem volume_lipschitzGraph_ball_eq_zero {e : Rd d} (he : ‖e‖ = 1) {γ : R
   have hdisj : Pairwise (Function.onFun Disjoint T) := by
     intro k l hkl
     refine Set.disjoint_left.2 fun y hyk hyl => hkl ?_
-    simp only [hT, Set.mem_preimage, hG, Set.mem_setOf_eq] at hyk hyl
+    simp only [hT, Set.mem_preimage, hG, Set.mem_ofPred_eq] at hyk hyl
     -- the two points of `G` differ by `(s l - s k) e`
     have hproj : (y + -(s l • e) - x₀) - inner ℝ (y + -(s l • e) - x₀) e • e =
         (y + -(s k • e) - x₀) - inner ℝ (y + -(s k • e) - x₀) e • e := by
@@ -81,7 +81,7 @@ theorem volume_lipschitzGraph_ball_eq_zero {e : Rd d} (he : ‖e‖ = 1) {γ : R
     exact_mod_cast (by linarith : (k : ℝ) = l)
   have hsub : (⋃ k, T k) ⊆ Metric.ball x₀ (r + 1) := by
     refine Set.iUnion_subset fun k y hy => ?_
-    simp only [hT, Set.mem_preimage, hG, Set.mem_setOf_eq, Metric.mem_ball] at hy ⊢
+    simp only [hT, Set.mem_preimage, hG, Set.mem_ofPred_eq, Metric.mem_ball] at hy ⊢
     have hsk : |s k| ≤ 1 := by
       rw [hs, abs_of_pos (by positivity)]
       rw [div_le_one (by positivity)]
@@ -121,7 +121,7 @@ theorem volume_frontier_of_isLipschitzDomain {W : Set (Rd d)} (hW : IsLipschitzD
         inner ℝ (w - x₀) e} ∩ Metric.ball x₀ r) :=
       (isOpen_lt continuous_const hcont).inter Metric.isOpen_ball
     obtain ⟨w, hw, hwW⟩ := mem_closure_iff.1 (frontier_subset_closure hyF) _ hopen
-      ⟨by simp only [Set.mem_setOf_eq]; linarith, hyB⟩
+      ⟨by simp only [Set.mem_ofPred_eq]; linarith, hyB⟩
     have := (hloc w hw.2).1 hwW
     have hw1 : 0 < γ ((w - x₀) - inner ℝ (w - x₀) e • e) - inner ℝ (w - x₀) e := hw.1
     linarith
@@ -145,7 +145,7 @@ theorem volume_latticeRound_eq {n : ℕ} (hn : n ≠ 0) (y : Site d) :
   have hset : {x : Rd d | latticeRound ((n : ℝ) • x) = y} =
       WithLp.ofLp ⁻¹' Set.pi Set.univ fun i => Set.Ico ((y i : ℝ) / n) (((y i : ℝ) + 1) / n) := by
     ext x
-    simp only [Set.mem_setOf_eq, latticeRound_eq_iff hn, Set.mem_preimage, Set.mem_pi,
+    simp only [Set.mem_ofPred_eq, latticeRound_eq_iff hn, Set.mem_preimage, Set.mem_pi,
       Set.mem_univ, true_implies]
   rw [hset, (PiLp.volume_preserving_ofLp (Fin d)).measure_preimage
     (MeasurableSet.univ_pi fun _ => measurableSet_Ico).nullMeasurableSet, volume_pi_pi]
@@ -246,7 +246,7 @@ def dyadicCell (j : ℕ) (k : Site d) : Set (Rd d) :=
 
 theorem mem_dyadicCell {j : ℕ} {k : Site d} {x : Rd d} :
     x ∈ dyadicCell j k ↔ ∀ i, (k i : ℝ) / 2 ^ j ≤ x i ∧ x i < ((k i : ℝ) + 1) / 2 ^ j := by
-  rw [dyadicCell, Set.mem_setOf_eq, latticeRound_eq_iff (by positivity)]
+  rw [dyadicCell, Set.mem_ofPred_eq, latticeRound_eq_iff (by positivity)]
   push_cast
   rfl
 
@@ -324,7 +324,7 @@ theorem tendsto_integral_abs_dyadic (j : ℕ) (k : Site d) :
         {x : Rd d | x i = ((k i : ℝ) + 1) / 2 ^ j})) = 0 :=
       measure_iUnion_null fun i => measure_union_null (volume_coord_eq i _) (volume_coord_eq i _)
     refine (measure_eq_zero_iff_ae_notMem.1 hnull).mono fun x hx => ?_
-    simp only [Set.mem_iUnion, Set.mem_union, Set.mem_setOf_eq, not_exists, not_or] at hx
+    simp only [Set.mem_iUnion, Set.mem_union, Set.mem_ofPred_eq, not_exists, not_or] at hx
     have hev : ∀ᶠ n : ℕ in atTop, ∀ i, (⌈(n : ℝ) * ((k i : ℝ) / 2 ^ j)⌉ ≤ ⌊(n : ℝ) * x i⌋ ∧
         ⌊(n : ℝ) * x i⌋ < ⌈(n : ℝ) * (((k i : ℝ) + 1) / 2 ^ j)⌉ ↔
           ((k i : ℝ) / 2 ^ j ≤ x i ∧ x i < ((k i : ℝ) + 1) / 2 ^ j)) :=

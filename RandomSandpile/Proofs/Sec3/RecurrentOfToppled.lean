@@ -227,7 +227,7 @@ theorem superharmonicBarrier : SuperharmonicBarrierStmt := by
     · exact mul_nonneg hC0 (hsq y (by
         have := hK' y h; linarith [le_abs_self K]))
     · exact le_rfl
-  · simp only [u, if_neg hy]
+  · simp only [u, ite_eq_right hy]
   · -- `Δ u (x) ≤ ∑_i (g(x+e_i) + g(x-e_i) - 2 g(x)) = -2C`
     have hux : u x = C * (R - x i₀ ^ 2) := by simp [u, hx]
     have hplus : ∀ i : Fin d, u (x + unit i) ≤ C * (R - (x + unit i) i₀ ^ 2) := fun i => by

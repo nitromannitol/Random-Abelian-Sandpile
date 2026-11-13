@@ -259,7 +259,7 @@ theorem harnack_near {d : ℕ} (hd : 2 ≤ d) (lam : ℝ) :
     · exact hg0 _ h
     · exact le_rfl
   have hfz : ∀ z, z + x₀ ∈ dClosure B → f z = g (z + x₀) := fun z h => by
-    simp only [hf]; exact if_pos h
+    simp only [hf]; exact ite_eq_left h
   have hf00 : f 0 = 0 := by
     rw [hfz 0 (by rw [zero_add]; exact subset_dClosure _ hx₀B), zero_add, hgx₀]
   have hlapf : ∀ z ∈ ballZ0 (d := d) (r / 2), |lapR f z| ≤ lam := by

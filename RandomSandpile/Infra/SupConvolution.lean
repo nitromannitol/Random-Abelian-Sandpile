@@ -46,7 +46,7 @@ theorem supConv_spec {S : Set (Rd d)} (hS : IsCompact S) (hne : S.Nonempty) (ε 
   have hle : ∀ y ∈ S, u y - ‖x - y‖ ^ 2 / (2 * ε) ≤ supConv S ε u x := fun y hy =>
     le_ciSup hbdd (⟨y, hy⟩ : S)
   refine ⟨hle, y₀, hy₀, le_antisymm ?_ (hle y₀ hy₀)⟩
-  haveI : Nonempty S := ⟨⟨y₀, hy₀⟩⟩
+  have : Nonempty S := ⟨⟨y₀, hy₀⟩⟩
   exact ciSup_le fun y => hmax y.2
 
 /-- `u ≤ u^ε` on `S`. -/

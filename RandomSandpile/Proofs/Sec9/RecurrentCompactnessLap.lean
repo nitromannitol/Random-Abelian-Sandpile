@@ -37,8 +37,8 @@ theorem recurrent_abs_lap_add_le {ηmin ηmax : ℤ} {η : Site d → ℤ}
   push_cast at hreal
   have hcast : (n : ℝ) * (if y = 0 then 1 else 0) = (n : ℝ) * ((dirac 0 y : ℤ) : ℝ) := by
     by_cases hy : y = 0
-    · rw [if_pos hy, hy, SSComp.ssDirac_self]; simp
-    · rw [if_neg hy, SSComp.ssDirac_of_ne hy]; simp
+    · rw [ite_eq_left hy, hy, SSComp.ssDirac_self]; simp
+    · rw [ite_eq_right hy, SSComp.ssDirac_of_ne hy]; simp
   rw [hcast]
   exact hreal
 

@@ -79,7 +79,7 @@ theorem exists_locLegal_stabilizing (hd : 0 < d) {A : Set (Site d)} (hA : A.Fini
     have := hvS2 x hx
     simp only at this
     linarith
-  · simp only [Pi.add_apply, hwb, if_pos hx, hv0 x hx, add_zero]
+  · simp only [Pi.add_apply, hwb, ite_eq_left hx, hv0 x hx, add_zero]
 
 /-- Replacement of a perturbed subsolution by one coming from `𝓛 ∩ 𝒮`. -/
 theorem exists_replacement_sub (hd : 2 ≤ d) {A : Set (Site d)} (hA : A.Finite) {η : Site d → ℤ}
@@ -328,7 +328,7 @@ theorem volume_real_ball_sdiff_closedBall (c : Rd d) {ρ : ℝ} (hρ0 : 0 ≤ ρ
 
 theorem volume_frontier_ball_sdiff_closedBall (hd : 1 ≤ d) (c : Rd d) (ρ : ℝ) :
     volume (frontier (ball (0 : Rd d) 1 \ closedBall c ρ)) = 0 := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have hopen : IsOpen (ball (0 : Rd d) 1 \ closedBall c ρ) := isOpen_ball.sdiff isClosed_closedBall
   have hcl : closure (ball (0 : Rd d) 1 \ closedBall c ρ) ⊆ closedBall 0 1 \ ball c ρ :=
     closure_minimal (Set.sdiff_subset_sdiff ball_subset_closedBall ball_subset_closedBall)
@@ -353,7 +353,7 @@ open NearMaxSequence MuLipschitzShell MuLipschitz in
 theorem nearMaxSequence_of_muConvergence (hconv : MuConvergenceStmt) : NearMaxSequenceStmt := by
   intro d hd ηmin ηmax l M
   have hd1 : 1 ≤ d := by omega
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   refine ⟨lapBound d ηmin ηmax l M, lapBound_nonneg d ηmin ηmax l M, fun E hmin hmax => ?_⟩
   have hηae : ∀ᵐ η ∂E.P, ∀ x, ηmin ≤ η x ∧ η x ≤ ηmax := by
     rw [← hmin, ← hmax]; exact ae_all_iff.2 E.bounded

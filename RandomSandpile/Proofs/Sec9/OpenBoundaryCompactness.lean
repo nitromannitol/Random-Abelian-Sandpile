@@ -68,13 +68,13 @@ theorem neg_le_lap_openOdometer {η : Site d → ℤ} {A : Set (Site d)}
       · omega
       · exact hT.1 y
     · have hyx : y ≠ x := fun h => hy (h ▸ hxd)
-      simp only [hw, if_neg hyx]
+      simp only [hw, ite_eq_right hyx]
       exact hT.2 y hy
     · by_cases hyx : y = x
       · subst hyx
         have hnbr : nbrSumZ w y = nbrSumZ v y := by
           refine Finset.sum_congr rfl fun i _ => ?_
-          simp only [hw, if_neg (hnb i).1, if_neg (hnb i).2]
+          simp only [hw, ite_eq_right (hnb i).1, ite_eq_right (hnb i).2]
         have : w y = v y - 1 := by simp [hw]
         simp only [lap_eq, hnbr, this] at hlt ⊢
         have hd : (0 : ℤ) ≤ d := Nat.cast_nonneg d
@@ -86,7 +86,7 @@ theorem neg_le_lap_openOdometer {η : Site d → ℤ} {A : Set (Site d)}
         rw [hwy]
         linarith
     · have hyx : y ≠ x := fun h => hxb (h ▸ hy)
-      simp only [hw, if_neg hyx]
+      simp only [hw, ite_eq_right hyx]
       exact hbd y hy
   have := hleast.2 hwst x
   simp [hw] at this

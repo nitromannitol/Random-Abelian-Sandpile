@@ -20,7 +20,7 @@ namespace SingleSourceD2
 
 theorem fundamentalSolution_two_eq' (x : Rd 2) :
     fundamentalSolution 2 x = -(1 / (2 * Real.pi)) * Real.log ‖x‖ := by
-  rw [fundamentalSolution, if_pos rfl]
+  rw [fundamentalSolution, ite_eq_left rfl]
 
 /-- `V = m G + c/4 (|x|² - R²) + m/(4π) log R²` off the origin. -/
 theorem Vsm_eq {c m : ℝ} (hc : 0 < c) (hm : 0 < m) {x : Rd 2} (hx : x ≠ 0) :

@@ -97,7 +97,7 @@ theorem subGradNegVolume : SubGradNegVolumeStmt := by
   have hset : subGradSet w A = -(supGradSet (fun z => -w z) A) := by
     ext p
     simp only [subGradSet, supGradSet, subGrad, supGrad, Set.mem_neg, Set.mem_iUnion,
-      Set.mem_setOf_eq, exists_prop, inner_neg_left]
+      Set.mem_ofPred_eq, exists_prop, inner_neg_left]
     refine exists_congr fun y => and_congr_right fun _ => forall₂_congr fun z _ => ?_
     constructor <;> intro h <;> linarith
   rw [hset, Measure.measure_neg]

@@ -240,7 +240,7 @@ theorem stabilizingOpen_nonempty (hd : 0 < d) (η : Site d → ℤ) {A : Set (Si
     · exact mul_nonneg hC0 (hsq y (by
         have := hK' y h; linarith [le_abs_self K]))
     · exact le_rfl
-  · simp only [u, openBarrier, if_neg (fun h => hy (subset_dClosure A h))]
+  · simp only [u, openBarrier, ite_eq_right (fun h => hy (subset_dClosure A h))]
   · -- `Δ u (x) ≤ ∑_i (g(x+e_i) + g(x-e_i) - 2 g(x)) = -2C`
     have hux : u x = C * (R - x i₀ ^ 2) := by simp [u, openBarrier, hx]
     have hplus : ∀ i : Fin d, u (x + unit i) ≤ C * (R - (x + unit i) i₀ ^ 2) := fun i => by

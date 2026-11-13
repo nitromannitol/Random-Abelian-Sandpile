@@ -180,7 +180,7 @@ theorem kap_antitone {c : ℝ} (hc : 0 < c) {s t : ℝ} (ht : 0 < t) (hts : t �
 theorem mem_subJet2_of_le {O : Set (Rd 2)} {f h : Rd 2 → ℝ} {x : Rd 2} (hle : ∀ y, f y ≤ h y)
     (heq : f x = h x) {pX : Rd 2 × Matrix (Fin 2) (Fin 2) ℝ} (hj : pX ∈ subJet2 O f x) :
     pX ∈ subJet2 O h x := by
-  simp only [subJet2, Set.mem_setOf_eq] at hj ⊢
+  simp only [subJet2, Set.mem_ofPred_eq] at hj ⊢
   refine ⟨hj.1, fun ε hε => ?_⟩
   filter_upwards [hj.2 ε hε] with y hy
   rw [← heq]
@@ -191,7 +191,7 @@ envelopes zero there (the boundary condition of CIL Theorem 4.1). -/
 theorem envelopes_of_continuousWithinAt {Ω : Set (Rd 2)} {f : Rd 2 → ℝ} {x : Rd 2}
     (hx : x ∈ closure Ω) (hf : ContinuousWithinAt f (closure Ω) x) (h0 : f x = 0) :
     LowerEnvelopeZeroAt Ω f x ∧ UpperEnvelopeZeroAt Ω f x := by
-  haveI hne : (𝓝[closure Ω] x).NeBot := mem_closure_iff_nhdsWithin_neBot.1 (subset_closure hx)
+  have hne : (𝓝[closure Ω] x).NeBot := mem_closure_iff_nhdsWithin_neBot.1 (subset_closure hx)
   have hT : Tendsto f (𝓝[closure Ω] x) (𝓝 0) := by
     rw [← h0]
     exact hf.tendsto

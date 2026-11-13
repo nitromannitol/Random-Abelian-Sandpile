@@ -139,7 +139,7 @@ def liftChange (c : unitInterval → ℂ) (q : ℂ) : ℂ :=
 theorem liftChange_eq {c : unitInterval → ℂ} {q : ℂ} (hc : Continuous c) (hq : ∀ t, c t ≠ q)
     {L : unitInterval → ℂ} (hL : Continuous L) (hLe : ∀ t, Complex.exp (L t) = c t - q) :
     liftChange c q = L 1 - L 0 := by
-  rw [liftChange, dif_pos ⟨hc, hq⟩]
+  rw [liftChange, dite_eq_left ⟨hc, hq⟩]
   have hs := Classical.choose_spec (exists_log_path (fun t => c t - q) (hc.sub continuous_const)
     (fun t => sub_ne_zero.2 (hq t)))
   exact log_change_unique hs.1 hL fun t => (hs.2 t).trans (hLe t).symm

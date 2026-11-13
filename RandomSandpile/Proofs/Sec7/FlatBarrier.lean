@@ -83,7 +83,7 @@ theorem ballZ0_connected {r : ℝ} (hr : 0 < r) :
     ((lattice d).induce (ballZ0 (d := d) r)).Connected := by
   have h0 : (0 : Site d) ∈ ballZ0 r :=
     MuLipschitz.mem_ballZ0.2 (by simp only [MuLipschitz.toE_zero, norm_zero]; exact hr)
-  haveI : Nonempty (ballZ0 (d := d) r) := ⟨⟨0, h0⟩⟩
+  have : Nonempty (ballZ0 (d := d) r) := ⟨⟨0, h0⟩⟩
   exact ⟨fun a b => (reachable_zero h0 _ a.1 a.2 rfl).symm.trans (reachable_zero h0 _ b.1 b.2 rfl)⟩
 
 /-! ### Laplacians -/
@@ -243,7 +243,7 @@ theorem harnack_contact (hd : 2 ≤ d) (lam : ℝ) :
     simp only [hf]; split_ifs with h
     · exact hg0 _ h
     · exact le_rfl
-  have hfz : ∀ z, z + x₀ ∈ dClosure B → f z = g (z + x₀) := fun z h => by simp only [hf]; exact if_pos h
+  have hfz : ∀ z, z + x₀ ∈ dClosure B → f z = g (z + x₀) := fun z h => by simp only [hf]; exact ite_eq_left h
   have hf00 : f 0 = 0 := by rw [hfz 0 (by rw [zero_add]; exact subset_dClosure _ hx₀B), zero_add, hgx₀]
   have hlapf : ∀ z ∈ ballZ0 (1 * ((n : ℝ) / 2)), |lapR f z| ≤ lam := by
     intro z hz

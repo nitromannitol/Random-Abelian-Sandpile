@@ -14,7 +14,7 @@ theorem lattice_box_extrema {d R : ℕ} (c : Site d) (f : Site d → ℝ) :
   let A := originBox d R
   have hbox : ∀ z : Site d, z ∈ A ↔ z ∈ box d R := by
     intro z
-    simp only [A, originBox, Fintype.mem_piFinset, Finset.mem_Icc, box, Set.mem_setOf_eq]
+    simp only [A, originBox, Fintype.mem_piFinset, Finset.mem_Icc, box, Set.mem_ofPred_eq]
     exact forall_congr' fun i => (abs_le).symm
   have hA : A.Nonempty := ⟨0, (hbox 0).2 (by simp [box])⟩
   obtain ⟨x, hx, hmin⟩ := Finset.exists_min_image A (fun z => f (c + z)) hA

@@ -120,14 +120,14 @@ theorem greenBallBoundaryLayer : GreenBallBoundaryLayerStmt := by
           have h := lapR_le_of_le_of_eq (w := w) (v := q) (fun y => min_le_left _ _) (z := z)
             (min_eq_left hqc)
           rw [hq_def, lapR_quadBall hd] at h
-          simpa only [hz, if_true] using h
+          simpa only [hz, ite_true] using h
         · have hqc : c ≤ q z := by
             have : ‖toE z‖ ^ 2 ≤ ρ ^ 2 := pow_le_pow_left₀ (norm_nonneg _) (not_le.1 hz).le 2
             exact div_le_div_of_nonneg_right (by linarith) (by positivity)
           have h := lapR_le_of_le_of_eq (w := w) (v := fun _ => c) (fun y => min_le_right _ _)
             (z := z) (min_eq_right hqc)
           rw [lapR_const'] at h
-          simpa only [hz, if_false, neg_zero] using h
+          simpa only [hz, ite_false, neg_zero] using h
       · exact le_min (quadBall_nonneg_of_mem_bdry hy) hc0
     exact key.trans (min_le_right _ _)
   · rw [greenPotential_eq_zero_of_not_mem _ _ hxB]

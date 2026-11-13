@@ -63,7 +63,7 @@ theorem exists_tendsto_integral_mul_of_testFn {f : ℕ → Rd d → ℝ}
   have hgφ : ∫ x, |g x - φ x| ≤ δ := by
     have h1 : ∫ x, ‖(g - φ) x‖ = (eLpNorm (g - φ) 1 volume).toReal := by
       rw [integral_norm_eq_lintegral_enorm (hg.sub hφi).aestronglyMeasurable,
-        eLpNorm_one_eq_lintegral_enorm]
+        eLpNorm_one_eq_lintegral_enorm (hg.sub hφi).aestronglyMeasurable]
     have h2 : (eLpNorm (g - φ) 1 volume).toReal ≤ δ :=
       ENNReal.toReal_le_of_le_ofReal hδpos.le hφn
     simpa [Real.norm_eq_abs] using h1.trans_le h2
@@ -104,7 +104,7 @@ theorem weakStarRepresentation : WeakStarRepresentationStmt := by
   set U : Set (Rd d) := Metric.ball 0 ρ with hU
   have hUm : MeasurableSet U := measurableSet_ball
   have hUfin : volume U < ⊤ := measure_ball_lt_top
-  haveI : Fact (volume U < ⊤) := ⟨hUfin⟩
+  have : Fact (volume U < ⊤) := ⟨hUfin⟩
   have hint : ∀ n {g : Rd d → ℝ}, Integrable g volume →
       Integrable (fun x => f n x * g x) volume :=
     fun n _ hg => integrable_mul_of_abs_le (hmeas n) (hC n) hg
@@ -182,7 +182,7 @@ theorem weakStarRepresentation : WeakStarRepresentationStmt := by
       by_cases hx : x ∈ U <;> simp [hx, Real.norm_eq_abs]
     have h2 : ∫ x, ‖F x‖ ∂(volume.restrict U) = (eLpNorm F 1 (volume.restrict U)).toReal := by
       rw [integral_norm_eq_lintegral_enorm (Lp.aestronglyMeasurable F),
-        eLpNorm_one_eq_lintegral_enorm]
+        eLpNorm_one_eq_lintegral_enorm (Lp.aestronglyMeasurable F)]
     have h3 := eLpNorm_le_eLpNorm_mul_rpow_measure_univ (μ := volume.restrict U)
       (p := 1) (q := 2) one_le_two (Lp.aestronglyMeasurable F)
     have hfin : (volume.restrict U) Set.univ ^

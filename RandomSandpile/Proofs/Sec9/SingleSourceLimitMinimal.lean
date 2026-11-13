@@ -127,12 +127,12 @@ theorem fundamentalSolution_le_of_norm_le (hd : 2 ≤ d) {x y : Rd d} (hy : y �
     (hxy : ‖y‖ ≤ ‖x‖) : fundamentalSolution d x ≤ fundamentalSolution d y := by
   have hy0 : 0 < ‖y‖ := norm_pos_iff.2 hy
   by_cases h2 : d = 2
-  · simp only [fundamentalSolution, if_pos h2]
+  · simp only [fundamentalSolution, ite_eq_left h2]
     have hlog : Real.log ‖y‖ ≤ Real.log ‖x‖ := Real.log_le_log hy0 hxy
     have hc : 0 < 1 / (2 * Real.pi) := by positivity
     have := mul_le_mul_of_nonneg_left hlog hc.le
     linarith
-  · simp only [fundamentalSolution, if_neg h2]
+  · simp only [fundamentalSolution, ite_eq_right h2]
     have hd3 : (3 : ℝ) ≤ d := by exact_mod_cast (show 3 ≤ d by omega)
     have hc : 0 < (d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d :=
       mul_pos (mul_pos (by linarith) (by linarith)) (unitBallVolume_pos (by omega))
@@ -144,7 +144,7 @@ theorem exists_le_fundamentalSolution (hd : 2 ≤ d) (B : ℝ) :
     ∃ ρ > 0, ∀ x : Rd d, x ≠ 0 → ‖x‖ < ρ → B ≤ fundamentalSolution d x := by
   by_cases h2 : d = 2
   · refine ⟨Real.exp (-(2 * Real.pi) * B), Real.exp_pos _, fun x hx hxρ => ?_⟩
-    simp only [fundamentalSolution, if_pos h2]
+    simp only [fundamentalSolution, ite_eq_left h2]
     have hlt : Real.log ‖x‖ < -(2 * Real.pi) * B := by
       have := Real.log_lt_log (norm_pos_iff.2 hx) hxρ
       rwa [Real.log_exp] at this
@@ -164,7 +164,7 @@ theorem exists_le_fundamentalSolution (hd : 2 ≤ d) (B : ℝ) :
     have hne : (2 - (d : ℝ)) ≠ 0 := (by linarith : 2 - (d : ℝ) < 0).ne
     refine ⟨(max B 1 * ((d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d)) ^ (1 / (2 - (d : ℝ))),
       Real.rpow_pos_of_pos hBc _, fun x hx hxρ => ?_⟩
-    simp only [fundamentalSolution, if_neg h2]
+    simp only [fundamentalSolution, ite_eq_right h2]
     have hpow : ((max B 1 * ((d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d)) ^
         (1 / (2 - (d : ℝ)))) ^ (2 - (d : ℝ)) =
         max B 1 * ((d : ℝ) * ((d : ℝ) - 2) * unitBallVolume d) := by

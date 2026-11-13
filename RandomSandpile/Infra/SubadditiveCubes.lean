@@ -61,7 +61,7 @@ theorem ae_eq_integral_of_ae_invariant (μ : Measure Ω) [IsProbabilityMeasure �
   have hAinv : ∀ z, σ z ⁻¹' A = A := by
     intro z
     ext ω
-    simp only [A, Set.mem_preimage, Set.mem_setOf_eq]
+    simp only [A, Set.mem_preimage, Set.mem_ofPred_eq]
     constructor
     · intro h y
       have := h (y - z)
@@ -72,7 +72,7 @@ theorem ae_eq_integral_of_ae_invariant (μ : Measure Ω) [IsProbabilityMeasure �
   have hall : ∀ᵐ ω ∂μ, ∀ y, G (σ y ω) = G ω := ae_all_iff.2 hinv
   have hAe : ∀ᵐ ω ∂μ, (ω ∈ A ↔ G ω ≤ c) := by
     filter_upwards [hall] with ω hω
-    simp only [A, Set.mem_setOf_eq, hω]
+    simp only [A, Set.mem_ofPred_eq, hω]
     exact ⟨fun h => h 0, fun h _ => h⟩
   have hci : Integrable (fun _ : Ω => c) μ := integrable_const c
   rcases herg A hAm hAinv with h0 | h1
@@ -175,7 +175,7 @@ theorem anchoredBoxErgodic {d : ℕ} (hd : 1 ≤ d) : AnchoredBoxErgodic d := by
         zero_mem' := hG0
         add_mem' := by
           intro z w hz hw
-          simp only [Set.mem_setOf_eq] at hz hw ⊢
+          simp only [Set.mem_ofPred_eq] at hz hw ⊢
           funext ω
           have h1 := congrFun hz (σ w ω)
           have h2 := congrFun hw ω
@@ -183,7 +183,7 @@ theorem anchoredBoxErgodic {d : ℕ} (hd : 1 ≤ d) : AnchoredBoxErgodic d := by
           rw [hσadd, h1, h2]
         neg_mem' := by
           intro z hz
-          simp only [Set.mem_setOf_eq] at hz ⊢
+          simp only [Set.mem_ofPred_eq] at hz ⊢
           funext ω
           have h1 := congrFun hz (σ (-z) ω)
           have h2 := congrFun hG0 ω
@@ -1001,9 +1001,9 @@ theorem discretize_ratBox (p q : Fin d → ℚ) {N : ℕ} (hN : 1 ≤ N) :
     discretize (ratBox p q) N = ↑(rectBox (fun i => (p i : ℝ)) (fun i => (q i : ℝ)) N) := by
   have hNpos : (0 : ℝ) < N := by exact_mod_cast hN
   ext x
-  rw [discretize, Set.mem_setOf_eq, Set.mem_smul_set_iff_inv_smul_mem₀ hNpos.ne',
+  rw [discretize, Set.mem_ofPred_eq, Set.mem_smul_set_iff_inv_smul_mem₀ hNpos.ne',
     Finset.mem_coe, rectBox_eq_ibox, mem_ibox]
-  simp only [ratBox, Set.mem_setOf_eq, PiLp.smul_apply, smul_eq_mul, toE_apply]
+  simp only [ratBox, Set.mem_ofPred_eq, PiLp.smul_apply, smul_eq_mul, toE_apply]
   refine forall_congr' fun i => ?_
   rw [inv_mul_eq_div, le_div_iff₀ hNpos, div_lt_iff₀ hNpos, Int.ceil_le, Int.lt_ceil]
   constructor <;> rintro ⟨h1, h2⟩ <;> exact ⟨by linarith, by linarith⟩

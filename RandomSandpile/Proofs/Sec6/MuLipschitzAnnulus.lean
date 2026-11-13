@@ -136,8 +136,8 @@ theorem annulus_isLipschitzDomain {d : ℕ} (hd : 2 ≤ d) {ρ : ℝ} (hρ0 : 0 
       exact le_antisymm hx1 (not_lt.1 h)
   rcases hcase with hn | hn
   · -- outer boundary point: reuse the unit ball
-    haveI : Nontrivial (Rd d) := by
-      haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+    have : Nontrivial (Rd d) := by
+      have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
       infer_instance
     have hfr : x₀ ∈ frontier (ball (0 : Rd d) 1) := by
       rw [frontier_ball (0 : Rd d) one_ne_zero, mem_sphere_zero_iff_norm]

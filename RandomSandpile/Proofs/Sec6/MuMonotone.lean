@@ -93,7 +93,7 @@ theorem volume_inner_eq_null {u : Rd d} (hu : u ≠ 0) (c : ℝ) :
   refine measure_mono_null (t := (AffineSubspace.mk' p0 K : Set (Rd d))) ?_
     (Measure.addHaar_affineSubspace _ _ ?_)
   · intro p hp
-    simp only [Set.mem_setOf_eq] at hp hp0
+    simp only [Set.mem_ofPred_eq] at hp hp0
     simp only [SetLike.mem_coe, AffineSubspace.mem_mk', vsub_eq_sub, K, LinearMap.mem_ker,
       innerₛₗ_apply_apply, inner_sub_right]
     rw [real_inner_comm p u, real_inner_comm p0 u, hp, hp0, sub_self]

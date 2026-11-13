@@ -118,7 +118,7 @@ theorem card_dyadicCube_ge {n j : ℕ} (hn : 2 * 2 ^ j ≤ (n : ℝ)) (k : Site 
   rw [dyadicCube, rectBox, Fintype.card_piFinset, Nat.cast_prod]
   calc ((n : ℝ) / (2 * 2 ^ j)) ^ d = ∏ _i : Fin d, ((n : ℝ) / (2 * 2 ^ j)) := by
         rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
-    _ ≤ _ := Finset.prod_le_prod (fun _ _ => by positivity) fun i _ => side_ge hn (k i : ℝ)
+    _ ≤ _ := Finset.prod_le_prod₀ (fun _ _ => by positivity) fun i _ => side_ge hn (k i : ℝ)
 
 /-- Two points of a dyadic cube differ by less than `βn` in each coordinate. -/
 theorem abs_sub_le_of_mem_dyadicCube {j n : ℕ} {k y y' : Site d} (hy : y ∈ dyadicCube j k n)

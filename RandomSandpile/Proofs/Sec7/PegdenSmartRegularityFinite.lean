@@ -74,7 +74,7 @@ theorem stabilizing_nonempty_of_finset (hd : 1 ≤ d) (σ : Site d → ℤ) (S :
       have h0 : ∑ x ∈ (periodBox d N).filter (fun x => ¬ ∀ i, x i < 2 * K), φ' x = 0 :=
         Finset.sum_eq_zero fun x hx => by
           rw [Finset.mem_filter] at hx
-          simp only [hφ', Rossin.red_of_mem hx.1, if_neg hx.2]
+          simp only [hφ', Rossin.red_of_mem hx.1, ite_eq_right hx.2]
       rw [h0, add_zero]
       refine (Finset.sum_le_sum fun x hx => ?_).trans
         (Finset.sum_le_sum_of_subset_of_nonneg ?_ fun _ _ _ => hM0)
@@ -106,7 +106,7 @@ theorem stabilizing_nonempty_of_finset (hd : 1 ≤ d) (σ : Site d → ℤ) (S :
         simp only [Rossin.red, Pi.add_apply, hKv]
         rw [Int.emod_eq_of_lt (by omega) (by omega)]
         omega
-      simp only [hφ, hφ', if_pos hred]
+      simp only [hφ, hφ', ite_eq_left hred]
       exact hσM x hx
     · have := hS x hx
       simp only [hφ, hφ']; split_ifs <;> omega

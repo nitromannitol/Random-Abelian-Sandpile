@@ -83,7 +83,7 @@ theorem tendsto_ncard_discretize_div_ball (hd : 1 ≤ d) {W : Set (Rd d)}
     (hb : Bornology.IsBounded W) (hm : MeasurableSet W) (hf : volume (frontier W) = 0) :
     Tendsto (fun n : ℕ => ((discretize W n).ncard : ℝ) / (ballZ0 (d := d) (n : ℝ)).ncard) atTop
       (𝓝 (volume.real W / volume.real (ball (0 : Rd d) 1))) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have h1 := tendsto_ncard_discretize hb hm hf
   have h2 := tendsto_ncard_div_pow hd one_pos
   simp only [one_mul] at h2
@@ -119,7 +119,7 @@ theorem volume_real_annulus {ρ : ℝ} (hρ0 : 0 ≤ ρ) (hρ1 : ρ < 1) :
 
 theorem volume_frontier_annulus (hd : 1 ≤ d) (ρ : ℝ) :
     volume (frontier (annulus d ρ)) = 0 := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have hopen : IsOpen (annulus d ρ) := isOpen_ball.sdiff isClosed_closedBall
   have hcl : closure (annulus d ρ) ⊆ closedBall 0 1 \ ball 0 ρ :=
     closure_minimal (Set.sdiff_subset_sdiff ball_subset_closedBall ball_subset_closedBall)

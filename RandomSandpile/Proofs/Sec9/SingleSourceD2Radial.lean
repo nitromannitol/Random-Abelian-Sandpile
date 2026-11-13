@@ -39,7 +39,7 @@ theorem radial_trace_hessian {K K1 K2 : ℝ → ℝ} (hK : ∀ s, HasDerivAt K (
       (Eventually.of_forall fun z => by simp)
   have hDD := hc.smul hf
   have hD2 : fderiv ℝ (fderiv ℝ (fun x => K (‖x‖ ^ 2))) y =
-      K1 (‖y‖ ^ 2) • (2 • innerSL ℝ) +
+      K1 (‖y‖ ^ 2) • (2 • innerSL ℝ (E := Rd 2)) +
         (K2 (‖y‖ ^ 2) • (2 • innerSL ℝ y)).smulRight (2 • innerSL ℝ y) := by
     rw [hD]
     exact hDD.fderiv

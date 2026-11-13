@@ -183,10 +183,10 @@ theorem triSum_secondDiff (x : Site d) (i : Fin d) :
     intro j
     by_cases hj : j = i
     · subst hj
-      simp only [Pi.add_apply, Pi.sub_apply, unit, Pi.single_eq_same, if_true]
+      simp only [Pi.add_apply, Pi.sub_apply, unit, Pi.single_eq_same, ite_true]
       exact tri_secondDiff _
     · simp only [Pi.add_apply, Pi.sub_apply, unit, Pi.single_eq_of_ne hj, add_zero, sub_zero,
-        if_neg hj]
+        ite_eq_right hj]
       ring
   calc -2 * triSum x + triSum (x + unit i) + triSum (x - unit i)
       = ∑ j : Fin d, (-2 * tri (x j) + tri ((x + unit i) j) + tri ((x - unit i) j)) := by
@@ -371,8 +371,8 @@ def zeroEnv (d : ℕ) (k : ℤ) (hk : 0 ≤ k) : RandomEnvironment d where
       rw [Set.mem_preimage, h0]
     simp only [Set.indicator]
     by_cases h : (0 : Config d) ∈ S
-    · rw [if_pos (hpre.2 h), if_pos h]
-    · rw [if_neg (fun h' => h (hpre.1 h')), if_neg h]
+    · rw [ite_eq_left (hpre.2 h), ite_eq_left h]
+    · rw [ite_eq_right (fun h' => h (hpre.1 h')), ite_eq_right h]
   ergodic := fun S hS _ => by
     rw [Measure.dirac_apply' _ hS]
     by_cases h : (0 : Config d) ∈ S
