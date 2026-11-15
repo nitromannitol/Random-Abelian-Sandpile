@@ -9,9 +9,8 @@ project:
     obstacle problem for a deterministic degenerate elliptic operator (Theorem 1.1); the same holds
     with the open boundary condition (Theorem 9.1); and single-source sandpiles on a random background
     converge, in a corrected form with a recurrent effective operator (Theorem 9.2). All 28 numbered
-    results are proved in Lean, 21 outright and 7 from the explicit literature hypothesis
-    Lawler-Limic Theorem 6.3.8(a). Comparator pairs under RandomSandpileAudit/ check the older
-    five- and two-input restatements of Theorems 1.1 and 9.2, respectively.
+    results are proved in Lean without literature-input hypotheses. Comparator pairs under
+    RandomSandpileAudit/ check the older five- and two-input restatements of Theorems 1.1 and 9.2, respectively.
   authors:
     - "Ahmed Bou-Rabee"
   responsible_maintainers:
@@ -44,8 +43,8 @@ sources:
   - title: "Random Walk: A Modern Introduction"
     authors: ["Gregory F. Lawler", "Vlada Limic"]
     type: "book"
-    relationship: "assumes"
-    note: "Cambridge University Press, 2010. Theorem 6.3.8(a), specialized to the simple random walk, enters as a literature input."
+    relationship: "cites"
+    note: "Cambridge University Press, 2010. The formalized harmonic difference estimate is proved for the simple random walk and used as a theorem."
   - title: "Convergence of the Abelian sandpile"
     authors: ["Wesley Pegden", "Charles K. Smart"]
     type: "paper"
@@ -82,16 +81,15 @@ status:
     - "propext"
     - "Classical.choice"
     - "Quot.sound"
-  literature_inputs: 1
+  literature_inputs: 0
   literature_inputs_note: >-
     Six results of the literature are stated as propositions, five in RandomSandpile/Inputs/ and one
     in the directory LatticeProb/External/ of Lattice-Probability, each with its source in its
-    docstring. Five formalized inputs are proved and used as theorems: Alexandrov's theorem,
+    docstring. All six formalized inputs are proved and used as theorems: Alexandrov's theorem,
     Pegden-Smart Proposition 2.4 and Proposition 2.5 (from 2.4), the viscosity input of Ishii and the
-    Fey-Levine-Peres radius bound. The formalized Proposition 2.4 omits the source's almost-everywhere
-    Laplacian trace identification. The remaining input, RandomSandpile.LawlerLimicHarmonicDifferenceStmt,
-    enters as an explicit hypothesis, not as an axiom. README.md lists all six with the results that
-    use them. RandomSandpile/Inputs/ also states further propositions that no theorem of
+    Fey-Levine-Peres radius bound, and the Lawler-Limic harmonic difference estimate. The formalized
+    Proposition 2.4 omits the source's almost-everywhere Laplacian trace identification. README.md
+    lists all six with the results that use them. RandomSandpile/Inputs/ also states further propositions that no theorem of
     RandomSandpile/Assembly/Main.lean assumes.
   main_results:
     - declaration: "RandomSandpile.mainTheorem_final"
@@ -100,15 +98,13 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "RandomSandpileAudit/MainTheorem/comparator.json"
-      literature_dependencies:
-        - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
+      literature_dependencies: []
     - declaration: "RandomSandpile.openBoundaryTheorem_final"
       file: "RandomSandpile/Assembly/Main.lean"
       statement: "Theorem 9.1"
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
-      literature_dependencies:
-        - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
+      literature_dependencies: []
     - declaration: "RandomSandpile.singleSourceTheoremRecurrent_final"
       file: "RandomSandpile/Assembly/Main.lean"
       statement: "Theorem 9.2 (correction C13)"
@@ -206,10 +202,10 @@ review:
   notes: >-
     Every proof is checked by the Lean kernel. Each Lean statement was compared with the corrected
     draft by a model that had not written it, and each literature input was checked against its
-    source in an independent model review. Lawler-Limic remains an assumption. The author fixed the scope,
+    source in an independent model review. The author fixed the scope,
     the corrections and the policy for literature inputs, but did not review every Lean statement
     personally. The comparator checks self-contained five- and two-input restatements of Theorems
-    1.1 and 9.2, respectively, rather than the current one- and zero-input final signatures. This is
+    1.1 and 9.2, respectively, rather than the current zero-input final signatures. This is
     a model review, not external peer review.
 
 acknowledgements: >-

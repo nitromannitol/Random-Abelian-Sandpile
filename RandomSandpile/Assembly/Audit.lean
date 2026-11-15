@@ -6,20 +6,17 @@ The table has one row for each theorem of `RandomSandpile/Assembly/Main.lean`, w
 (a `Draft` definition), the theorem and how it is proved. Together the rows give the 28 numbered results of
 the paper: Theorem 1.1 and Lemma 6.2 have two forms each, and Theorem 9.2 has four parts. Below, one
 `example` per theorem checks its statement, and `#print axioms` reports its axioms. The three
-examples for Theorem 1.1 and Lemma 7.6 retain a redundant Pegden–Smart hypothesis for compatibility;
+examples retain redundant Lawler–Limic and Pegden–Smart hypotheses for compatibility;
 their `_final` theorems have the hypotheses shown in the table. Each report lists only `propext`,
 `Classical.choice` and `Quot.sound`.
 
-Counts (28 numbered results, 33 theorems): 21 results proved outright and 7 proved from the
-literature input `LawlerLimicHarmonicDifferenceStmt`. Alexandrov's theorem, the formalized
-Pegden–Smart Prop. 2.4 and Prop. 2.5, the weak form of viscosity solutions and the
-Fey–Levine–Peres radius bound are proved and enter the proofs as theorems. The formalized Prop. 2.4
-omits the source's almost-everywhere Laplacian trace identification.
+Counts (28 numbered results, 33 theorems): all are proved without literature-input hypotheses.
+The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace identification.
 
 | Result | Statement | Theorem | Proof |
 |---|---|---|---|
-| Theorem 1.1, weaker form | `MainTheoremLawRadiusStmt` | `mainTheoremLawRadius_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Theorem 1.1, corrections C3 and C12 | `MainTheoremStmt` | `mainTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
+| Theorem 1.1, weaker form | `MainTheoremLawRadiusStmt` | `mainTheoremLawRadius_final` | Proved. |
+| Theorem 1.1, corrections C3 and C12 | `MainTheoremStmt` | `mainTheorem_final` | Proved. |
 | Proposition 3.1 | `LeastActionStmt` | `leastAction_final` | Proved. |
 | Proposition 3.2 | `AbelianDecompositionStmt` | `abelianDecomposition_final` | Proved. |
 | Proposition 3.3 | `BurningStmt` | `burning_final` | Proved. |
@@ -39,14 +36,14 @@ omits the source's almost-everywhere Laplacian trace identification.
 | Lemma 6.4 | `EffectiveOperatorBasicStmt` | `effectiveOperatorBasic_final` | Proved. |
 | Lemma 7.1 | `OneDimTopplingStmt` | `oneDimToppling_final` | Proved. |
 | Lemma 7.2 | `CompactnessStmt` | `compactness_final` | Proved. |
-| Lemma 7.3 | `DivisibleHomogenizeStmt` | `divisibleHomogenize_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Lemma 7.4 | `OdometerLowerBoundStmt` | `odometerLowerBound_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Lemma 7.5 | `FlatStmt` | `flat_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
+| Lemma 7.3 | `DivisibleHomogenizeStmt` | `divisibleHomogenize_final` | Proved. |
+| Lemma 7.4 | `OdometerLowerBoundStmt` | `odometerLowerBound_final` | Proved. |
+| Lemma 7.5 | `FlatStmt` | `flat_final` | Proved. |
 | Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | Proved. |
 | Proposition 8.1 | `DivisibleLeastActionStmt` | `divisibleLeastAction_final` | Proved. |
-| Lemma 8.1 | `DivisibleHomogenizeDomainStmt` | `divisibleHomogenizeDomain_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Theorem 8.2 | `DivisibleTheoremStmt` | `divisibleTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
+| Lemma 8.1 | `DivisibleHomogenizeDomainStmt` | `divisibleHomogenizeDomain_final` | Proved. |
+| Theorem 8.2 | `DivisibleTheoremStmt` | `divisibleTheorem_final` | Proved. |
+| Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | Proved. |
 | Theorem 9.2, height-bound form (correction C13) | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | Proved. |
 | Theorem 9.2, vanishing-tail extension (correction C13) | `SingleSourceTheoremRecurrentVTStmt` | `singleSourceTheoremRecurrentVT_final` | Proved. |
 | Theorem 9.2, identification of the operators on recurrent backgrounds (correction C13) | `RecurrentOperatorIdentificationStmt` | `recurrentOperatorIdentification_final` | Proved. |
@@ -59,14 +56,14 @@ example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremLawRadiusStmt :=
-  (fun (_ : PegdenSmartProp24Stmt) => mainTheoremLawRadius_final hLawlerLimicHarmonicDifference) hPS24
+  (fun (_ : PegdenSmartProp24Stmt) => (fun (_ : LawlerLimicHarmonicDifferenceStmt) => mainTheoremLawRadius_final) hLawlerLimicHarmonicDifference) hPS24
 #print axioms mainTheoremLawRadius_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremStmt :=
-  (fun (_ : PegdenSmartProp24Stmt) => mainTheorem_final hLawlerLimicHarmonicDifference) hPS24
+  (fun (_ : PegdenSmartProp24Stmt) => (fun (_ : LawlerLimicHarmonicDifferenceStmt) => mainTheorem_final) hLawlerLimicHarmonicDifference) hPS24
 #print axioms mainTheorem_final
 
 example :
@@ -167,19 +164,19 @@ example :
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     DivisibleHomogenizeStmt :=
-  divisibleHomogenize_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => divisibleHomogenize_final) hLawlerLimicHarmonicDifference
 #print axioms divisibleHomogenize_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     OdometerLowerBoundStmt :=
-  odometerLowerBound_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => odometerLowerBound_final) hLawlerLimicHarmonicDifference
 #print axioms odometerLowerBound_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     FlatStmt :=
-  flat_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => flat_final) hLawlerLimicHarmonicDifference
 #print axioms flat_final
 
 example (hPS24 : PegdenSmartProp24Stmt) :
@@ -195,19 +192,19 @@ example :
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     DivisibleHomogenizeDomainStmt :=
-  divisibleHomogenizeDomain_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => divisibleHomogenizeDomain_final) hLawlerLimicHarmonicDifference
 #print axioms divisibleHomogenizeDomain_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     DivisibleTheoremStmt :=
-  divisibleTheorem_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => divisibleTheorem_final) hLawlerLimicHarmonicDifference
 #print axioms divisibleTheorem_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     OpenBoundaryTheoremStmt :=
-  openBoundaryTheorem_final hLawlerLimicHarmonicDifference
+  (fun (_ : LawlerLimicHarmonicDifferenceStmt) => openBoundaryTheorem_final) hLawlerLimicHarmonicDifference
 #print axioms openBoundaryTheorem_final
 
 example : SingleSourceTheoremRecurrentStmt := singleSourceTheoremRecurrent_final

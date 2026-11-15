@@ -1,3 +1,4 @@
+import RandomSandpile.Inputs.LawlerLimicHarmonicDifference
 import RandomSandpile.Inputs.PegdenSmartProp25
 import RandomSandpile.Proofs.Alexandrov
 import RandomSandpile.Proofs.FinalSteps
@@ -15,20 +16,14 @@ import LatticeProb.External.FeyLevinePeresRadiusProved
 Bou-Rabee, *Convergence of the random Abelian sandpile*, Ann. Probab. 49 (2021), arXiv:1909.07849.
 This file states the main results of the paper as theorems `<name>_final`, following the corrected
 `paper/random_piles-corrected.tex`. The statements are the `Draft` definitions. A theorem has no
-hypotheses when its result is proved outright. Otherwise its hypotheses are the literature inputs
-(`RandomSandpile/Inputs`) that are not proved here, and its docstring names each one with its source.
-
-Five literature inputs are proved and enter the proofs as theorems: Alexandrov's theorem
-(`alexandrovStmt_proved`), the weak form of viscosity solutions of `−K ≤ Δu ≤ K`
-(`viscosityWeakLaplace`), Pegden–Smart Prop. 2.5, which follows from Prop. 2.4
-(`pegdenSmartProp25Stmt_of_prop24`), the formalized Peano expansion from Pegden–Smart Prop. 2.4
-(`pegden_smart_prop24_stmt`), and the Fey–Levine–Peres radius bound
-(`LatticeProb.External.feyLevinePeresRadius_holds`). The remaining hypothesis is
-`LawlerLimicHarmonicDifferenceStmt`. The formalized Prop. 2.4 statement omits the source's
+hypotheses for the literature inputs used in their proofs. The six formalized inputs are proved:
+Alexandrov's theorem, the weak form of viscosity solutions, Pegden–Smart Propositions 2.4 and 2.5,
+the Fey–Levine–Peres radius bound, and the Lawler–Limic harmonic difference estimate
+(`lawlerLimicHarmonicDifference`). The formalized Prop. 2.4 statement omits the source's
 almost-everywhere Laplacian trace identification.
 
-Counts (28 numbered results, 33 theorems): 21 results proved outright and 7 proved from admitted
-literature inputs only. Theorem 1.1 and Lemma 6.2 have two theorems each, and Theorem 9.2 has four.
+Counts (28 numbered results, 33 theorems): all are proved without literature-input hypotheses.
+Theorem 1.1 and Lemma 6.2 have two theorems each, and Theorem 9.2 has four.
 The table of statements is in `RandomSandpile/Assembly/Audit.lean`, and the axiom report of every
 theorem is in `RandomSandpileAudit/Axioms.lean`.
 -/
@@ -36,35 +31,33 @@ theorem is in `RandomSandpileAudit/Axioms.lean`.
 namespace RandomSandpile
 
 /-- **Theorem 1.1, weaker form** (`MainTheoremLawRadiusStmt`), implied by `MainTheoremStmt`
-(correction C12: `R = R(W, d, η_max)`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
-The other inputs of the proof are proved, including the formalized Peano expansion
+(correction C12: `R = R(W, d, η_max)`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
+The other inputs of the proof are also proved, including the formalized Peano expansion
 (`pegden_smart_prop24_stmt`): Alexandrov's theorem
 (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press
 1992, Section 6.4, Theorem 1), Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from
 Prop. 2.4) and the weak form of viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the
 equivalence of two notions of weak solutions, viscosity solutions and distribution solutions*,
 Funkcial. Ekvac. 38 (1995) 101–120). -/
-theorem mainTheoremLawRadius_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+theorem mainTheoremLawRadius_final :
     MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
+  mainTheoremLawRadius_closed alexandrovStmt_proved lawlerLimicHarmonicDifference
     (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
       pegden_smart_prop24_stmt viscosityWeakLaplace)
 
 /-- **Theorem 1.1** (`MainTheoremStmt`, with corrections C3 and C12: the support radius `R` depends
-on `W`, `d` and `η_max`). Proved from the literature input `LawlerLimicHarmonicDifferenceStmt`
+on `W`, `d` and `η_max`). Proved using `lawlerLimicHarmonicDifference`
 (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). The other inputs of the proof
-are proved, including the formalized Peano expansion (`pegden_smart_prop24_stmt`): Alexandrov's theorem
+are also proved, including the formalized Peano expansion (`pegden_smart_prop24_stmt`): Alexandrov's theorem
 (`alexandrovStmt_proved`; Evans–Gariepy,
 *Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1),
 Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from Prop. 2.4) and the weak form of
 viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the equivalence of two notions of weak
 solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
-theorem mainTheorem_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+theorem mainTheorem_final :
     MainTheoremStmt :=
-  mainTheorem_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
+  mainTheorem_closed alexandrovStmt_proved lawlerLimicHarmonicDifference
     (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
       pegden_smart_prop24_stmt viscosityWeakLaplace)
 
@@ -165,26 +158,23 @@ theorem compactness_final :
     CompactnessStmt :=
   compactness_closed
 
-/-- **Lemma 7.3** (`DivisibleHomogenizeStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
-theorem divisibleHomogenize_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+/-- **Lemma 7.3** (`DivisibleHomogenizeStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
+theorem divisibleHomogenize_final :
     DivisibleHomogenizeStmt :=
-  divisibleHomogenize_closed hLawlerLimicHarmonicDifference
+  divisibleHomogenize_closed lawlerLimicHarmonicDifference
 
-/-- **Lemma 7.4** (`OdometerLowerBoundStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
-theorem odometerLowerBound_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+/-- **Lemma 7.4** (`OdometerLowerBoundStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
+theorem odometerLowerBound_final :
     OdometerLowerBoundStmt :=
-  odometerLowerBound_closed hLawlerLimicHarmonicDifference
+  odometerLowerBound_closed lawlerLimicHarmonicDifference
 
-/-- **Lemma 7.5** (`FlatStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
-theorem flat_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+/-- **Lemma 7.5** (`FlatStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
+theorem flat_final :
     FlatStmt :=
-  flat_closed hLawlerLimicHarmonicDifference
+  flat_closed lawlerLimicHarmonicDifference
 
 /-- **Lemma 7.6** (`PegdenSmartRegularityStmt`). Proved, using the formalized Peano expansion
 (`pegden_smart_prop24_stmt`). The other inputs of the proof are proved: Pegden–Smart Prop. 2.5
@@ -202,28 +192,25 @@ theorem divisibleLeastAction_final :
     DivisibleLeastActionStmt :=
   divisibleLeastAction_closed
 
-/-- **Lemma 8.1** (`DivisibleHomogenizeDomainStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
-theorem divisibleHomogenizeDomain_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+/-- **Lemma 8.1** (`DivisibleHomogenizeDomainStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
+theorem divisibleHomogenizeDomain_final :
     DivisibleHomogenizeDomainStmt :=
-  divisibleHomogenizeDomain_closed hLawlerLimicHarmonicDifference
+  divisibleHomogenizeDomain_closed lawlerLimicHarmonicDifference
 
-/-- **Theorem 8.2** (`DivisibleTheoremStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
-theorem divisibleTheorem_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+/-- **Theorem 8.2** (`DivisibleTheoremStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). -/
+theorem divisibleTheorem_final :
     DivisibleTheoremStmt :=
-  divisibleTheorem_closed hLawlerLimicHarmonicDifference
+  divisibleTheorem_closed lawlerLimicHarmonicDifference
 
-/-- **Theorem 9.1** (`OpenBoundaryTheoremStmt`). Proved from the literature input
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
+/-- **Theorem 9.1** (`OpenBoundaryTheoremStmt`). Proved using `lawlerLimicHarmonicDifference`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
 Alexandrov's theorem, also used, is proved (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory
 and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1). -/
-theorem openBoundaryTheorem_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
+theorem openBoundaryTheorem_final :
     OpenBoundaryTheoremStmt :=
-  openBoundaryTheorem_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
+  openBoundaryTheorem_closed alexandrovStmt_proved lawlerLimicHarmonicDifference
 
 /-- **Theorem 9.2**, height-bound form (correction C13; `SingleSourceTheoremRecurrentStmt`). Proved.
 The proof uses the Fey–Levine–Peres radius bound (`LatticeProb.External.feyLevinePeresRadius_holds`;
