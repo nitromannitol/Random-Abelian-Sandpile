@@ -5,7 +5,7 @@ package «random-abelian-sandpile» where
   leanOptions := #[⟨`autoImplicit, false⟩, ⟨`relaxedAutoImplicit, false⟩]
 
 require «lattice-probability» from git
-  "https://github.com/nitromannitol/Lattice-Probability.git" @ "561344dfa58a5a713294d35a1309a68bcc7863dc"
+  "https://github.com/nitromannitol/Lattice-Probability.git" @ "ed84300bd437a3b4ce321540379aa8c0eee93c7a"
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "065356127b1dc0016f66b7283ce0ce2c4055aa55"
