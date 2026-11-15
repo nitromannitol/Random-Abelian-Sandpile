@@ -147,6 +147,7 @@ import RandomSandpile.Proofs.Sec9.SingleSource
 import RandomSandpile.Proofs.Sec9.SingleSourceMinPrinciple
 import RandomSandpile.Proofs.Alexandrov
 import RandomSandpile.Proofs.PegdenSmart
+import RandomSandpile.Proofs.ViscosityWeakLaplace
 import RandomSandpile.Steps.Sec3.Abelian
 import RandomSandpile.Steps.Sec3.Burning
 import RandomSandpile.Steps.Sec3.LeastAction
