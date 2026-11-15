@@ -1,19 +1,30 @@
 import RandomSandpile.Inputs.PegdenSmartProp25
+import RandomSandpile.Proofs.Alexandrov
 import RandomSandpile.Proofs.FinalSteps
+import RandomSandpile.Proofs.PegdenSmart
 import RandomSandpile.Proofs.Sec7.PegdenSmartAdapter
 import RandomSandpile.Proofs.Sec9.RecurrentViscositySuper
 import RandomSandpile.Proofs.Sec9.RecurrentIdentificationFinal
 import RandomSandpile.Proofs.Sec9.RecurrentZeroComparison
+import RandomSandpile.Proofs.ViscosityWeakLaplace
+import LatticeProb.External.FeyLevinePeresRadiusProved
 
 /-! # Main results of "Convergence of the random Abelian sandpile"
 
 Bou-Rabee, *Convergence of the random Abelian sandpile*, Ann. Probab. 49 (2021), arXiv:1909.07849.
 This file states the main results of the paper as theorems `<name>_final`, following the corrected
 `paper/random_piles-corrected.tex`. The statements are the `Draft` definitions. A theorem has no
-hypotheses when its result is proved outright. Otherwise its hypotheses are literature inputs
-(`RandomSandpile/Inputs`), and its docstring names each one with its source.
+hypotheses when its result is proved outright. Otherwise its hypotheses are the literature inputs
+(`RandomSandpile/Inputs`) that are not proved here, and its docstring names each one with its source.
 
-Counts (28 numbered results, 33 theorems): 19 results proved outright and 9 proved from admitted
+Four literature inputs are proved and enter the proofs as theorems: Alexandrov's theorem
+(`alexandrovStmt_proved`), the weak form of viscosity solutions of `−K ≤ Δu ≤ K`
+(`viscosityWeakLaplace`), Pegden–Smart Prop. 2.5, which follows from Prop. 2.4
+(`pegdenSmartProp25Stmt_of_prop24`), and the Fey–Levine–Peres radius bound
+(`LatticeProb.External.feyLevinePeresRadius_holds`). The two remaining hypotheses are
+`LawlerLimicHarmonicDifferenceStmt` and `PegdenSmartProp24Stmt`.
+
+Counts (28 numbered results, 33 theorems): 20 results proved outright and 8 proved from admitted
 literature inputs only. Theorem 1.1 and Lemma 6.2 have two theorems each, and Theorem 9.2 has four.
 The table of statements is in `RandomSandpile/Assembly/Audit.lean`, and the axiom report of every
 theorem is in `RandomSandpileAudit/Axioms.lean`.
@@ -22,37 +33,39 @@ theorem is in `RandomSandpileAudit/Axioms.lean`.
 namespace RandomSandpile
 
 /-- **Theorem 1.1, weaker form** (`MainTheoremLawRadiusStmt`), implied by `MainTheoremStmt`
-(correction C12: `R = R(W, d, η_max)`). Proved from the literature inputs `AlexandrovStmt`
-(Alexandrov's theorem; Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1), `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern
-Introduction*, Thm 6.3.8), `PegdenSmartProp25Stmt` (Pegden–Smart, *Convergence of the Abelian
-sandpile*, Duke Math. J. 162 (2013), Prop. 2.5), `PegdenSmartProp24Stmt` (Pegden–Smart, the same
-paper, Prop. 2.4) and `ViscosityWeakLaplaceStmt` (Ishii, *On the equivalence of two notions of weak
-solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
+(correction C12: `R = R(W, d, η_max)`). Proved from the literature inputs
+`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8)
+and `PegdenSmartProp24Stmt` (Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
+(2013), Prop. 2.4). The other inputs of the proof are proved: Alexandrov's theorem
+(`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press
+1992, Section 6.4, Theorem 1), Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from
+Prop. 2.4) and the weak form of viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the
+equivalence of two notions of weak solutions, viscosity solutions and distribution solutions*,
+Funkcial. Ekvac. 38 (1995) 101–120). -/
 theorem mainTheoremLawRadius_final
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+    (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_closed hAlexandrov hLawlerLimicHarmonicDifference
-    (pegdenSmartTouching_of_ps13 hPS25 hPS24 hVW)
+  mainTheoremLawRadius_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
+      viscosityWeakLaplace)
 
 /-- **Theorem 1.1** (`MainTheoremStmt`, with corrections C3 and C12: the support radius `R` depends
-on `W`, `d` and `η_max`). Proved from the literature inputs `AlexandrovStmt` (Alexandrov's theorem;
-Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1),
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8),
-`PegdenSmartProp25Stmt` (Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
-(2013), Prop. 2.5), `PegdenSmartProp24Stmt` (Pegden–Smart, the same paper, Prop. 2.4) and
-`ViscosityWeakLaplaceStmt` (Ishii, *On the equivalence of two notions of weak solutions, viscosity
-solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
+on `W`, `d` and `η_max`). Proved from the literature inputs `LawlerLimicHarmonicDifferenceStmt`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8) and `PegdenSmartProp24Stmt`
+(Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Prop. 2.4). The
+other inputs of the proof are proved: Alexandrov's theorem (`alexandrovStmt_proved`; Evans–Gariepy,
+*Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1),
+Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from Prop. 2.4) and the weak form of
+viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the equivalence of two notions of weak
+solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
 theorem mainTheorem_final
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+    (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremStmt :=
-  mainTheorem_closed hAlexandrov hLawlerLimicHarmonicDifference
-    (pegdenSmartTouching_of_ps13 hPS25 hPS24 hVW)
+  mainTheorem_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
+      viscosityWeakLaplace)
 
 /-- **Proposition 3.1** (`LeastActionStmt`). Proved. -/
 theorem leastAction_final :
@@ -172,16 +185,17 @@ theorem flat_final
     FlatStmt :=
   flat_closed hLawlerLimicHarmonicDifference
 
-/-- **Lemma 7.6** (`PegdenSmartRegularityStmt`). Proved from the literature inputs `PegdenSmartProp25Stmt`
-(Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Prop. 2.5),
-`PegdenSmartProp24Stmt` (Pegden–Smart, the same paper, Prop. 2.4) and `ViscosityWeakLaplaceStmt`
-(Ishii, *On the equivalence of two notions of weak solutions, viscosity solutions and distribution
-solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
-theorem pegdenSmartRegularity_final
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+/-- **Lemma 7.6** (`PegdenSmartRegularityStmt`). Proved from the literature input
+`PegdenSmartProp24Stmt` (Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
+(2013), Prop. 2.4). The other inputs of the proof are proved: Pegden–Smart Prop. 2.5
+(`pegdenSmartProp25Stmt_of_prop24`, from Prop. 2.4) and the weak form of viscosity solutions
+(`viscosityWeakLaplace`; Ishii, *On the equivalence of two notions of weak solutions, viscosity
+solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
+theorem pegdenSmartRegularity_final (hPS24 : PegdenSmartProp24Stmt) :
     PegdenSmartRegularityStmt :=
-  pegdenSmartRegularity_closed (pegdenSmartTouching_of_ps13 hPS25 hPS24 hVW)
+  pegdenSmartRegularity_closed
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
+      viscosityWeakLaplace)
 
 /-- **Proposition 8.1** (`DivisibleLeastActionStmt`). Proved. -/
 theorem divisibleLeastAction_final :
@@ -202,30 +216,28 @@ theorem divisibleTheorem_final
     DivisibleTheoremStmt :=
   divisibleTheorem_closed hLawlerLimicHarmonicDifference
 
-/-- **Theorem 9.1** (`OpenBoundaryTheoremStmt`). Proved from the literature inputs `AlexandrovStmt`
-(Alexandrov's theorem; Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1) and `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern
-Introduction*, Thm 6.3.8). -/
+/-- **Theorem 9.1** (`OpenBoundaryTheoremStmt`). Proved from the literature input
+`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
+Alexandrov's theorem, also used, is proved (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory
+and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1). -/
 theorem openBoundaryTheorem_final
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     OpenBoundaryTheoremStmt :=
-  openBoundaryTheorem_closed hAlexandrov hLawlerLimicHarmonicDifference
+  openBoundaryTheorem_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
 
-/-- **Theorem 9.2**, height-bound form (correction C13; `SingleSourceTheoremRecurrentStmt`). Proved
-from the literature inputs `AlexandrovStmt` (Alexandrov's theorem; Evans–Gariepy, *Measure Theory and
-Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1) and `LatticeProb.External.FeyLevinePeresRadius`
-(Fey–Levine–Peres, *Growth rates and explosions in sandpiles*, J. Stat. Phys. 138 (2010), Thm 1.1). -/
-theorem singleSourceTheoremRecurrent_final
-    (hFLP : LatticeProb.External.FeyLevinePeresRadius) (hAlexandrov : AlexandrovStmt) :
-    SingleSourceTheoremRecurrentStmt :=
-  singleSourceRecurrent hFLP hAlexandrov
+/-- **Theorem 9.2**, height-bound form (correction C13; `SingleSourceTheoremRecurrentStmt`). Proved.
+The proof uses the Fey–Levine–Peres radius bound (`LatticeProb.External.feyLevinePeresRadius_holds`;
+Fey–Levine–Peres, *Growth rates and explosions in sandpiles*, J. Stat. Phys. 138 (2010), Thm 1.1) and
+Alexandrov's theorem (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory and Fine Properties of
+Functions*, CRC Press 1992, Section 6.4, Theorem 1), both proved. -/
+theorem singleSourceTheoremRecurrent_final : SingleSourceTheoremRecurrentStmt :=
+  singleSourceRecurrent LatticeProb.External.feyLevinePeresRadius_holds alexandrovStmt_proved
 
 /-- **Theorem 9.2**, vanishing-tail extension (correction C13; `SingleSourceTheoremRecurrentVTStmt`).
-Proved from the literature input `AlexandrovStmt` (Alexandrov's theorem; Evans–Gariepy, *Measure
-Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1). -/
-theorem singleSourceTheoremRecurrentVT_final (hAlexandrov : AlexandrovStmt) :
-    SingleSourceTheoremRecurrentVTStmt :=
-  singleSourceRecurrentVT hAlexandrov
+Proved. The proof uses Alexandrov's theorem (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory
+and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1), which is proved. -/
+theorem singleSourceTheoremRecurrentVT_final : SingleSourceTheoremRecurrentVTStmt :=
+  singleSourceRecurrentVT alexandrovStmt_proved
 
 /-- **Theorem 9.2**, identification of the operators on recurrent backgrounds (correction C13;
 `RecurrentOperatorIdentificationStmt`). Proved. -/

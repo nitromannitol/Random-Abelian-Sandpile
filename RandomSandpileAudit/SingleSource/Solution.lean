@@ -9,9 +9,11 @@ import RandomSandpileAudit.SingleSource.Bridge
 The challenge module `RandomSandpileAudit/SingleSource/Challenge.lean` imports only Mathlib and
 states `singleSourceRecurrent` with its one intentional proof gap. This solution imports the
 library `RandomSandpile` together with `SolutionBasic`, a verbatim copy of the challenge's
-vocabulary, and proves the byte-identical statement from
-`RandomSandpile.singleSourceTheoremRecurrent_final` (`RandomSandpile/Assembly/Main.lean`) through
-the identifications of `Bridge.lean`.
+vocabulary, and proves the byte-identical statement from `RandomSandpile.singleSourceRecurrent`
+(`RandomSandpile/Proofs/Sec9/RecurrentViscositySuper.lean`), the theorem behind
+`RandomSandpile.singleSourceTheoremRecurrent_final` (`RandomSandpile/Assembly/Main.lean`), through
+the identifications of `Bridge.lean`. The library proves both cited inputs, so
+`singleSourceTheoremRecurrent_final` itself takes no hypothesis.
 
 The transport is definitional: each audit definition is a token-for-token copy of the library
 definition, and the random environment is repacked by `toLibEnv`, whose fields are the audit
@@ -39,7 +41,7 @@ theorem singleSourceRecurrent (hFLP : FeyLevinePeresRadius) (hA : AlexandrovStmt
     rw [← AlexandrovStmt_eq]
     exact hA
   exact (singleSourceRecurrentConclusion_iff E).2
-    (_root_.RandomSandpile.singleSourceTheoremRecurrent_final hFLP' hA' d hd (toLibEnv E) hE)
+    (_root_.RandomSandpile.singleSourceRecurrent hFLP' hA' d hd (toLibEnv E) hE)
 
 end SingleSource
 end StatementAudit

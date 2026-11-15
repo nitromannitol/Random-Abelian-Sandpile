@@ -9,8 +9,8 @@ project:
     obstacle problem for a deterministic degenerate elliptic operator (Theorem 1.1); the same holds
     with the open boundary condition (Theorem 9.1); and single-source sandpiles on a random background
     converge, in a corrected form with a recurrent effective operator (Theorem 9.2). All 28 numbered
-    results are proved in Lean, 19 outright and 9 from six results of the literature that enter as
-    explicit hypotheses. Theorems 1.1 and 9.2 are independently checked by the comparator pairs under
+    results are proved in Lean, 20 outright and 8 from two results of the literature that enter as
+    explicit hypotheses (Lawler-Limic Theorem 6.3.8(a) and Pegden-Smart Proposition 2.4). Theorems 1.1 and 9.2 are independently checked by the comparator pairs under
     RandomSandpileAudit/.
   authors:
     - "Ahmed Bou-Rabee"
@@ -39,8 +39,8 @@ sources:
   - title: "Measure Theory and Fine Properties of Functions"
     authors: ["Lawrence C. Evans", "Ronald F. Gariepy"]
     type: "book"
-    relationship: "assumes"
-    note: "CRC Press, 1992. Section 6.4, Theorem 1 (Alexandrov's theorem), p. 242, enters as a literature input."
+    relationship: "cites"
+    note: "CRC Press, 1992. Section 6.4, Theorem 1 (Alexandrov's theorem), p. 242, is proved in Lattice-Probability and used as a theorem."
   - title: "Random Walk: A Modern Introduction"
     authors: ["Gregory F. Lawler", "Vlada Limic"]
     type: "book"
@@ -50,22 +50,22 @@ sources:
     authors: ["Wesley Pegden", "Charles K. Smart"]
     type: "paper"
     relationship: "assumes"
-    note: "Duke Math. J. 162 (2013); arXiv:1105.0111v2. Propositions 2.4 and 2.5 (p. 6) enter as literature inputs."
+    note: "Duke Math. J. 162 (2013); arXiv:1105.0111v2. Proposition 2.4 (p. 6) enters as a literature input; Proposition 2.5 (p. 6) is proved from it."
   - title: "On the equivalence of two notions of weak solutions, viscosity solutions and distribution solutions"
     authors: ["Hitoshi Ishii"]
     type: "paper"
-    relationship: "assumes"
-    note: "Funkcialaj Ekvacioj 38 (1995), 101-120. Theorem 1 (p. 103), with the passage from the two distributional inequalities to a bounded density, enters as a literature input on nonempty open sets."
+    relationship: "cites"
+    note: "Funkcialaj Ekvacioj 38 (1995), 101-120. Theorem 1 (p. 103), with the passage from the two distributional inequalities to a bounded density, on nonempty open sets, is proved and used as a theorem."
   - title: "Growth rates and explosions in sandpiles"
     authors: ["Anne Fey", "Lionel Levine", "Yuval Peres"]
     type: "paper"
-    relationship: "assumes"
-    note: "J. Stat. Phys. 138 (2010); arXiv:0901.3805v2. The radius bound of Theorem 1.1 (p. 4) enters as a literature input, stated in Lattice-Probability."
+    relationship: "cites"
+    note: "J. Stat. Phys. 138 (2010); arXiv:0901.3805v2. The radius bound of Theorem 1.1 (p. 4) is stated and proved in Lattice-Probability and used as a theorem."
 
 related_formalizations:
   - id: "https://github.com/nitromannitol/Lattice-Probability"
     relationship: "builds-on"
-    note: "Lattice sandpiles, toppling and odometers, the Akcoglu-Krengel subadditive ergodic theorem, Green's functions of the random walk, and the literature input of Fey, Levine and Peres; a pinned git dependency."
+    note: "Lattice sandpiles, toppling and odometers, the Akcoglu-Krengel subadditive ergodic theorem, Green's functions of the random walk, Alexandrov's theorem, and the radius bound of Fey, Levine and Peres; a pinned git dependency."
 
 status:
   scope: >-
@@ -82,12 +82,15 @@ status:
     - "propext"
     - "Classical.choice"
     - "Quot.sound"
-  literature_inputs: 6
+  literature_inputs: 2
   literature_inputs_note: >-
     Six results of the literature are stated as propositions, five in RandomSandpile/Inputs/ and one
     in the directory LatticeProb/External/ of Lattice-Probability, each with its source in its
-    docstring. They enter as explicit hypotheses of the theorems that use them, not as axioms;
-    README.md lists them with the results that use them. RandomSandpile/Inputs/ also states further
+    docstring. Four are proved and used as theorems: Alexandrov's theorem, Pegden-Smart Proposition
+    2.5 (from Proposition 2.4), the viscosity input of Ishii and the Fey-Levine-Peres radius bound.
+    The other two, RandomSandpile.LawlerLimicHarmonicDifferenceStmt and
+    RandomSandpile.PegdenSmartProp24Stmt, enter as explicit hypotheses of the theorems that use them,
+    not as axioms; README.md lists all six with the results that use them. RandomSandpile/Inputs/ also states further
     propositions that no theorem of RandomSandpile/Assembly/Main.lean assumes.
   main_results:
     - declaration: "RandomSandpile.mainTheorem_final"
@@ -97,18 +100,14 @@ status:
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "RandomSandpileAudit/MainTheorem/comparator.json"
       literature_dependencies:
-        - "RandomSandpile.AlexandrovStmt"
         - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
-        - "RandomSandpile.PegdenSmartProp25Stmt"
         - "RandomSandpile.PegdenSmartProp24Stmt"
-        - "RandomSandpile.ViscosityWeakLaplaceStmt"
     - declaration: "RandomSandpile.openBoundaryTheorem_final"
       file: "RandomSandpile/Assembly/Main.lean"
       statement: "Theorem 9.1"
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       literature_dependencies:
-        - "RandomSandpile.AlexandrovStmt"
         - "RandomSandpile.LawlerLimicHarmonicDifferenceStmt"
     - declaration: "RandomSandpile.singleSourceTheoremRecurrent_final"
       file: "RandomSandpile/Assembly/Main.lean"
@@ -116,9 +115,7 @@ status:
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "RandomSandpileAudit/SingleSource/comparator.json"
-      literature_dependencies:
-        - "LatticeProb.External.FeyLevinePeresRadius"
-        - "RandomSandpile.AlexandrovStmt"
+      literature_dependencies: []
 
 automation:
   methods:
