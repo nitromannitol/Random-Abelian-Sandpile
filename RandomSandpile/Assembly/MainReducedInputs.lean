@@ -14,20 +14,23 @@ Thm 6.3.8, and Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math.
 Prop. 2.4. -/
 theorem mainTheoremLawRadius_of_lawlerLimic_ps24
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS24 : PegdenSmartProp24Stmt) : MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_final hLawlerLimicHarmonicDifference
+    (hPS24 : PegdenSmartProp24Stmt) : MainTheoremLawRadiusStmt := by
+  clear hPS24
+  exact mainTheoremLawRadius_final hLawlerLimicHarmonicDifference
 
 /-- Theorem 1.1, assuming Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8, and
 Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Prop. 2.4. -/
 theorem mainTheorem_of_lawlerLimic_ps24
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS24 : PegdenSmartProp24Stmt) : MainTheoremStmt :=
-  mainTheorem_final hLawlerLimicHarmonicDifference
+    (hPS24 : PegdenSmartProp24Stmt) : MainTheoremStmt := by
+  clear hPS24
+  exact mainTheorem_final hLawlerLimicHarmonicDifference
 
 /-- Lemma 7.6, assuming Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
 (2013), Prop. 2.4. -/
 theorem pegdenSmartRegularity_of_ps24 (hPS24 : PegdenSmartProp24Stmt) :
-    PegdenSmartRegularityStmt :=
-  pegdenSmartRegularity_final
+    PegdenSmartRegularityStmt := by
+  clear hPS24
+  exact pegdenSmartRegularity_final
 
 end RandomSandpile

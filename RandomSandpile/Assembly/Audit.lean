@@ -55,15 +55,17 @@ namespace RandomSandpile
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
-    MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_final hLawlerLimicHarmonicDifference
+    MainTheoremLawRadiusStmt := by
+  clear hPS24
+  exact mainTheoremLawRadius_final hLawlerLimicHarmonicDifference
 #print axioms mainTheoremLawRadius_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
-    MainTheoremStmt :=
-  mainTheorem_final hLawlerLimicHarmonicDifference
+    MainTheoremStmt := by
+  clear hPS24
+  exact mainTheorem_final hLawlerLimicHarmonicDifference
 #print axioms mainTheorem_final
 
 example :
@@ -180,8 +182,9 @@ example
 #print axioms flat_final
 
 example (hPS24 : PegdenSmartProp24Stmt) :
-    PegdenSmartRegularityStmt :=
-  pegdenSmartRegularity_final
+    PegdenSmartRegularityStmt := by
+  clear hPS24
+  exact pegdenSmartRegularity_final
 #print axioms pegdenSmartRegularity_final
 
 example :
