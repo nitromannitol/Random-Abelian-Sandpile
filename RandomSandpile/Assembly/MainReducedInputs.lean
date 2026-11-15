@@ -2,9 +2,10 @@ import RandomSandpile.Assembly.Main
 
 /-! # Main results from reduced literature inputs
 
-The main theorem and Pegden–Smart regularity from the two literature inputs that remain
-hypotheses. These are the theorems `mainTheoremLawRadius_final`, `mainTheorem_final` and
-`pegdenSmartRegularity_final` of `RandomSandpile/Assembly/Main.lean`, which take the same inputs.
+Compatibility forms of the main theorem and Pegden–Smart regularity with their earlier literature
+inputs. In `RandomSandpile/Assembly/Main.lean`, `mainTheoremLawRadius_final` and `mainTheorem_final`
+take only `LawlerLimicHarmonicDifferenceStmt`, and `pegdenSmartRegularity_final` takes no literature
+input. The Pegden–Smart hypothesis retained below is redundant.
 -/
 
 namespace RandomSandpile

@@ -15,9 +15,8 @@ kept in [`paper/random_piles.tex`](paper/random_piles.tex), and both versions ar
 compiled PDFs.
 
 The paper has 28 numbered results, and all 28 are proved in Lean, with no `sorry` and only the
-standard axioms: 20 outright, and 8 from two results of the literature that enter as explicit
-hypotheses, Theorem 6.3.8(a) of Lawler and Limic and Proposition 2.4 of Pegden and Smart. Four
-further literature inputs are proved and used as theorems (see
+standard axioms: 21 outright, and 7 from the explicit literature hypothesis Theorem 6.3.8(a) of
+Lawler and Limic. Five other formalized literature inputs are proved and used as theorems (see
 [Assumed literature inputs](#assumed-literature-inputs)). The results that the paper quotes from the literature (Propositions 3.1, 3.2, 3.4, 5.1,
 5.2, 5.3 and 8.1, and Lemma 7.1) and the two theorems of Section 9, which the paper states without
 proof, are proved here as well. Theorem 1.1 is stated with corrections C3 and C12, and Theorem 9.2
@@ -95,7 +94,7 @@ as hypotheses.
 
 | Paper | Statement | Theorem | Inputs |
 | --- | --- | --- | --- |
-| Theorem 1.1 | `MainTheoremStmt` | `mainTheorem_final` | Lawler–Limic, PS 2.4 |
+| Theorem 1.1 | `MainTheoremStmt` | `mainTheorem_final` | Lawler–Limic |
 | Proposition 3.1 | `LeastActionStmt` | `leastAction_final` | — |
 | Proposition 3.2 | `AbelianDecompositionStmt` | `abelianDecomposition_final` | — |
 | Proposition 3.3 | `BurningStmt` | `burning_final` | — |
@@ -117,7 +116,7 @@ as hypotheses.
 | Lemma 7.3 | `DivisibleHomogenizeStmt` | `divisibleHomogenize_final` | Lawler–Limic |
 | Lemma 7.4 | `OdometerLowerBoundStmt` | `odometerLowerBound_final` | Lawler–Limic |
 | Lemma 7.5 | `FlatStmt` | `flat_final` | Lawler–Limic |
-| Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | PS 2.4 |
+| Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | — |
 | Proposition 8.1 | `DivisibleLeastActionStmt` | `divisibleLeastAction_final` | — |
 | Lemma 8.1 | `DivisibleHomogenizeDomainStmt` | `divisibleHomogenizeDomain_final` | Lawler–Limic |
 | Theorem 8.2 | `DivisibleTheoremStmt` | `divisibleTheorem_final` | Lawler–Limic |
@@ -126,8 +125,8 @@ as hypotheses.
 
 Five further theorems in `Main.lean` give other forms of these results:
 `mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a corollary of
-`mainTheorem_final`), `strictConcavityBeta_final` (Lemma 6.2 with the explicit constant
-`c(1 − β)²`), and the three companions of Theorem 9.2 described above (the extension under a
+`mainTheorem_final`, with Lawler–Limic as its only literature hypothesis),
+`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), and the three companions of Theorem 9.2 described above (the extension under a
 vanishing tail and the two operator statements, all outright).
 
 ## Corrections to the published version
@@ -188,19 +187,20 @@ follow the printed argument.
 
 The six inputs are propositions, stated in [`RandomSandpile/Inputs/`](RandomSandpile/Inputs/) and,
 for the last one, in the directory `LatticeProb/External/` of Lattice-Probability, each with its
-source in its docstring. Four of them are proved, and the proofs of the numbered results use these
-theorems: Alexandrov's theorem (`RandomSandpile.alexandrovStmt_proved`), Proposition 2.5 of Pegden
-and Smart, from their Proposition 2.4 (`RandomSandpile.pegdenSmartProp25Stmt_of_prop24`), the
-viscosity input (`RandomSandpile.viscosityWeakLaplace`) and the radius bound of Fey, Levine and Peres
-(`LatticeProb.External.feyLevinePeresRadius_holds`). The other two,
-`RandomSandpile.LawlerLimicHarmonicDifferenceStmt` and `RandomSandpile.PegdenSmartProp24Stmt`, enter
-as explicit hypotheses of the theorems that use them, not as axioms.
+source in its docstring. Five formalized inputs are proved and used as theorems: Alexandrov's
+theorem (`RandomSandpile.alexandrovStmt_proved`), the formalized Pegden–Smart Proposition 2.4
+(`RandomSandpile.pegden_smart_prop24_stmt`), Proposition 2.5 from Proposition 2.4
+(`RandomSandpile.pegdenSmartProp25Stmt_of_prop24`), the viscosity input
+(`RandomSandpile.viscosityWeakLaplace`) and the Fey–Levine–Peres radius bound
+(`LatticeProb.External.feyLevinePeresRadius_holds`). The formalized Proposition 2.4 omits the
+source's almost-everywhere Laplacian trace identification. The remaining input,
+`RandomSandpile.LawlerLimicHarmonicDifferenceStmt`, enters as an explicit hypothesis, not an axiom.
 
 | Lean name | Statement | Source | Results that use it | Status |
 | --- | --- | --- | --- | --- |
 | `RandomSandpile.AlexandrovStmt` | a convex function on `ℝᵈ` has a second-order Taylor expansion at almost every point (Alexandrov's theorem) | Evans and Gariepy, *Measure Theory and Fine Properties of Functions* (1992), §6.4, Theorem 1, p. 242 | Theorems 1.1, 9.1, 9.2 | proved, `RandomSandpile.alexandrovStmt_proved` |
 | `RandomSandpile.LawlerLimicHarmonicDifferenceStmt` | a function harmonic for the simple random walk in the ball of radius `n` and bounded by `M` on its closure has differences at the center at most `CM/n` | Lawler and Limic, *Random Walk: A Modern Introduction* (2010), Theorem 6.3.8(a), for the simple random walk | Theorems 1.1, 8.2, 9.1; Lemmas 7.3, 7.4, 7.5, 8.1 | hypothesis |
-| `RandomSandpile.PegdenSmartProp24Stmt` | a continuous weak solution of `Δu = s` in the unit ball with bounded `s` has a second-order Taylor expansion at almost every point | Pegden and Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Proposition 2.4 (arXiv:1105.0111v2, p. 6) | Theorem 1.1, Lemma 7.6 | hypothesis |
+| `RandomSandpile.PegdenSmartProp24Stmt` | a continuous weak solution of `Δu = s` in the unit ball with bounded `s` has a second-order Taylor expansion at almost every point | Pegden and Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Proposition 2.4 (arXiv:1105.0111v2, p. 6) | Theorem 1.1, Lemma 7.6 | proved, `RandomSandpile.pegden_smart_prop24_stmt` |
 | `RandomSandpile.PegdenSmartProp25Stmt` | if such a `u`, continuous on the closed ball, exceeds its boundary supremum somewhere in the ball, then on a set of positive measure it does so and has a second-order expansion with negative definite Hessian | Pegden and Smart, *ibid.*, Proposition 2.5 (p. 6) | Theorem 1.1, Lemma 7.6 | proved from Proposition 2.4, `RandomSandpile.pegdenSmartProp25Stmt_of_prop24` |
 | `RandomSandpile.ViscosityWeakLaplaceStmt` | on a nonempty open set, a continuous viscosity solution of `−K ≤ Δu ≤ K` is a weak solution of `Δu = s` with `\|s\| ≤ K` | Ishii, *On the equivalence of two notions of weak solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995), Theorem 1, p. 103, with the passage from the two distributional inequalities to a bounded density | Theorem 1.1, Lemma 7.6 | proved, `RandomSandpile.viscosityWeakLaplace` |
 | `LatticeProb.External.FeyLevinePeresRadius` | for a constant background `h` with `d ≤ h ≤ 2d − 2` and every `ε > 0`, for all large `n` the sites that topple when `n` chips start at the origin satisfy `max_i \|x_i\| ≤ (d + ε)/(2d − 1 − h) · (n/ω_d)^{1/d}`, `ω_d` the volume of the unit ball | Fey, Levine and Peres, *Growth rates and explosions in sandpiles*, J. Stat. Phys. 138 (2010), Theorem 1.1 (arXiv:0901.3805v2, p. 4) | Theorem 9.2 | proved, `LatticeProb.External.feyLevinePeresRadius_holds` |
@@ -217,7 +217,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   `propext`, `Classical.choice` and `Quot.sound`.
   [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the reports, and
   [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on
-  a missing report. The two remaining literature inputs are hypotheses, not axioms, so they do not
+  a missing report. The remaining literature input is a hypothesis, not an axiom, so it does not
   appear in the reports.
 - **Independent check of the statements.** Theorem 1.1 (`mainTheorem_final`) and the first part of
   Theorem 9.2 (`singleSourceTheoremRecurrent_final`, backgrounds with `η ≤ 2d − 2`) are restated
@@ -226,16 +226,17 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/). Each `Challenge.lean`
   restates every definition that its statement unfolds to and the literature inputs that the theorem
   took as hypotheses when the pair was written (all five inputs of Theorem 1.1; the radius bound and
-  Alexandrov's theorem for Theorem 9.2). The library has since proved all of them except the
-  Lawler–Limic and Pegden–Smart Proposition 2.4 inputs, so each restatement is implied by the
-  corresponding `_final` theorem; each `Solution.lean` proves the restatement from the library; and
+  Alexandrov's theorem for Theorem 9.2). The library has since proved the formalized inputs except
+  Lawler–Limic, so each restatement is implied by the corresponding `_final` theorem. The comparator
+  checks the original five- and two-input restatements, not the current one- and zero-input `_final`
+  signatures; each `Solution.lean` proves its restatement from the library; and
   [leanprover/comparator](https://github.com/leanprover/comparator) checks that the two statements
   agree, that only the permitted axioms are used, and replays the proof through an independent
   implementation of the Lean kernel. Theorem 9.1, the other three parts of Theorem 9.2 and the other
   numbered results have no comparator pair.
-- **Pinned toolchain and dependencies.** Lean `v4.32.0`, Mathlib
-  `81a5d257c8e410db227a6665ed08f64fea08e997` and Lattice-Probability
-  `99cfc20cb60d38c947523641e991a84350e77309`, as recorded in [`lean-toolchain`](lean-toolchain) and
+- **Pinned toolchain and dependencies.** Lean `v4.35.0-rc2`, Mathlib
+  `065356127b1dc0016f66b7283ce0ce2c4055aa55` and Lattice-Probability
+  `561344dfa58a5a713294d35a1309a68bcc7863dc`, as recorded in [`lean-toolchain`](lean-toolchain) and
   [`lake-manifest.json`](lake-manifest.json) (see [Building](#building)).
 - **The paper is part of the repository.** [`paper/`](paper/) holds the arXiv source, the corrected
   draft, both compiled to PDF, and the list of corrections. The statements follow the corrected
@@ -245,7 +246,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   `ab52e936f60ab3496685184a71f622670d355371c3d4f29356f170e42e8b269e`.
 - **Statements and inputs checked against their sources.** Each Lean statement was compared with the
   corrected draft, and each literature input with its source, in an independent model review. The
-  inputs remain assumptions.
+  remaining Lawler–Limic input is an assumption.
 
 ## Size
 
@@ -269,7 +270,7 @@ Lattice-Probability has no prebuilt cache, so the first build compiles it as wel
 It is a public repository, pinned in [`lake-manifest.json`](lake-manifest.json):
 
 - Lattice-Probability: `https://github.com/nitromannitol/Lattice-Probability` at
-  `99cfc20cb60d38c947523641e991a84350e77309`.
+  `561344dfa58a5a713294d35a1309a68bcc7863dc`.
 
 `import RandomSandpile` loads the numbered results and what they use.
 
