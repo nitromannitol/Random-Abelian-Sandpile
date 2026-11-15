@@ -1,4 +1,5 @@
 import RandomSandpile.Proofs.HessianAdapterDefs
+import LatticeProb.Analysis.HessianLpReduction
 import Mathlib.Analysis.InnerProductSpace.Laplacian
 
 /-!
@@ -18,16 +19,6 @@ open Laplacian
 namespace HessianAdapter
 
 open PDE
-
-/-- The Euclidean model space. -/
-abbrev Euc (d : ℕ) := EuclideanSpace ℝ (Fin d)
-
-/-- The `L²` bound for the Hessian on the model space. -/
-def L2HessEucStmt (d : ℕ) : Prop :=
-  ∃ C₂ : ℝ≥0∞, C₂ ≠ ⊤ ∧ ∀ w : Euc d → ℝ, ContDiffOn ℝ ∞ w (ball (0 : Euc d) (4 / 3)) →
-    eLpNorm (fun x => ‖fderiv ℝ (fderiv ℝ w) x‖) 2 (volume.restrict (ball (0 : Euc d) 1)) ≤
-      C₂ * (eLpNorm (Δ w) 2 (volume.restrict (ball (0 : Euc d) (4 / 3))) +
-        eLpNorm w 2 (volume.restrict (ball (0 : Euc d) (4 / 3))))
 
 section Transport
 
