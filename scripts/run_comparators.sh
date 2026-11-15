@@ -57,7 +57,8 @@ for index, path in enumerate(paths):
     config = json.loads(path.read_text(), object_pairs_hook=unique_keys)
     if not isinstance(config, dict) or set(config) - allowed_keys:
         raise SystemExit(f'{path}: unsupported configuration fields')
-    # The literature inputs are hypotheses of the theorems, so no pair may permit another axiom.
+    # Final theorems apply proved inputs internally; compatibility challenges retain their arguments.
+    # No pair may permit another axiom.
     axioms = config.get('permitted_axioms')
     if not isinstance(axioms, list) or len(set(axioms)) != len(axioms) or set(axioms) != standard_axioms:
         raise SystemExit(f'{path}: permitted_axioms must be exactly propext, Classical.choice, Quot.sound')

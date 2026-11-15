@@ -1,12 +1,12 @@
 import RandomSandpile.Defs.Viscosity
 import Mathlib.MeasureTheory.Integral.Average
 
-/-! # Pegden-Smart, Propositions 2.4 and 2.5, stated as in the source
+/-! # Pegden-Smart, Propositions 2.4 and 2.5
 
-Literature inputs: Propositions 2.4 and 2.5 of Pegden and Smart, as stated in their source, with the
-weak-solution and second-order Taylor notions they use. The touching statement
-`PegdenSmartTouchingStmt` (`Inputs/Proposed.lean`) is built from them, and these statements are
-explicit hypotheses of the theorems that use them; nothing here is proved.
+Literature inputs: Proposition 2.5 of Pegden and Smart and the twice-differentiability part of their
+Proposition 2.4, with the weak-solution and second-order Taylor notions they use. This module states the propositions; proofs
+of the formalized inputs and their touching consequence are in separate proof and library modules.
+The `_final` theorems apply proved inputs internally; compatibility reductions retain their arguments.
 
 Source: W. Pegden and C. K. Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013),
 627-642, arXiv:1105.0111v2.

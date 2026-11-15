@@ -5,10 +5,10 @@ import RandomSandpile.Assembly.Main
 The table has one row for each theorem of `RandomSandpile/Assembly/Main.lean`, with the statement
 (a `Draft` definition), the theorem and how it is proved. Together the rows give the 28 numbered results of
 the paper: Theorem 1.1 and Lemma 6.2 have two forms each, and Theorem 9.2 has four parts. Below, one
-`example` per theorem checks its statement, and `#print axioms` reports its axioms. The three
+`example` per theorem checks its statement, and `#print axioms` reports its axioms. Several
 examples retain redundant Lawler–Limic and Pegden–Smart hypotheses for compatibility;
-their `_final` theorems have the hypotheses shown in the table. Each report lists only `propext`,
-`Classical.choice` and `Quot.sound`.
+the corresponding `_final` theorems apply proved inputs internally, as shown in the table. Each report
+lists only `propext`, `Classical.choice` and `Quot.sound`.
 
 Counts (28 numbered results, 33 theorems): all are proved without literature-input hypotheses.
 The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace identification.

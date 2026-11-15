@@ -3,8 +3,8 @@ import RandomSandpile.Assembly.Main
 /-! The axiom report of every numbered result of the paper; `scripts/check_axioms.py` checks it.
 
 Each numbered result is reported through its theorems in `RandomSandpile/Assembly/Main.lean`: Theorem
-1.1, Lemma 6.2 and Theorem 9.2 have two, two and four theorems. A result proved from literature inputs
-takes them as explicit hypotheses of its theorem, so they do not appear in the report. -/
+1.1, Lemma 6.2 and Theorem 9.2 have two, two and four theorems. The `_final` theorems apply
+proved formalized literature inputs internally; compatibility reductions retain their arguments. -/
 
 -- Theorem 1.1
 #print axioms RandomSandpile.mainTheoremLawRadius_final               -- Theorem 1.1, weaker form

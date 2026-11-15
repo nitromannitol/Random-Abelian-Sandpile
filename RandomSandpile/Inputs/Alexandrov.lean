@@ -4,8 +4,8 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
 
 /-! # Alexandrov's theorem
 
-The proposition `AlexandrovStmt` is a literature input. It is not proved in the library: each consumer
-takes it as an explicit hypothesis. -/
+The proposition `AlexandrovStmt` states a literature input. Its proof is in
+`RandomSandpile/Proofs/Alexandrov.lean`; compatibility reductions retain their arguments. -/
 
 open MeasureTheory
 
