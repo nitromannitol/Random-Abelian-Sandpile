@@ -5,14 +5,14 @@ other than propext, Classical.choice and Quot.sound.
     lake env lean RandomSandpileAudit/Axioms.lean 2>&1 | tee axioms-audit.log
     python3 scripts/check_axioms.py axioms-audit.log
 
-The literature inputs are hypotheses of the theorems, not axioms. Lean may wrap a long report over
-several lines; each report is joined before it is read.
+The six formalized literature inputs, stated in RandomSandpile/Inputs/ and Lattice-Probability,
+are proved. Lean may wrap a long report over several lines; each report is joined before it is read.
 """
 import re
 import sys
 
-# Numbered result -> its Lean theorems in RandomSandpile/Assembly/Main.lean. A result proved from
-# literature inputs is reported through its theorem; the inputs are hypotheses of that theorem.
+# Numbered result -> its Lean theorems in RandomSandpile/Assembly/Main.lean. None of the `_final`
+# theorems takes a literature-input hypothesis.
 results = {
     'Theorem 1.1': ['RandomSandpile.mainTheoremLawRadius_final', 'RandomSandpile.mainTheorem_final'],
     'Proposition 3.1': ['RandomSandpile.leastAction_final'],
