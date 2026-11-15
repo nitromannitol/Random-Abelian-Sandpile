@@ -8,13 +8,15 @@ the paper: Theorem 1.1 and Lemma 6.2 have two forms each, and Theorem 9.2 has fo
 `example` per theorem restates it with exactly the hypotheses that it takes, and `#print axioms`
 reports its axioms. Each report lists only `propext`, `Classical.choice` and `Quot.sound`.
 
-Counts (28 numbered results, 33 theorems): 19 results proved outright and 9 proved from admitted
-literature inputs only.
+Counts (28 numbered results, 33 theorems): 20 results proved outright and 8 proved from admitted
+literature inputs only. The admitted inputs are `LawlerLimicHarmonicDifferenceStmt` and
+`PegdenSmartProp24Stmt`. Alexandrov's theorem, Pegden–Smart Prop. 2.5, the weak form of viscosity
+solutions and the Fey–Levine–Peres radius bound are proved and enter the proofs as theorems.
 
 | Result | Statement | Theorem | Proof |
 |---|---|---|---|
-| Theorem 1.1, weaker form | `MainTheoremLawRadiusStmt` | `mainTheoremLawRadius_final` | Proved from `AlexandrovStmt` (Evans–Gariepy, Section 6.4, Theorem 1), `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)), `PegdenSmartProp25Stmt` (Pegden–Smart, Prop. 2.5), `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4) and `ViscosityWeakLaplaceStmt` (Ishii, 1995, Theorem 1) |
-| Theorem 1.1, corrections C3 and C12 | `MainTheoremStmt` | `mainTheorem_final` | Proved from `AlexandrovStmt` (Evans–Gariepy, Section 6.4, Theorem 1), `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)), `PegdenSmartProp25Stmt` (Pegden–Smart, Prop. 2.5), `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4) and `ViscosityWeakLaplaceStmt` (Ishii, 1995, Theorem 1) |
+| Theorem 1.1, weaker form | `MainTheoremLawRadiusStmt` | `mainTheoremLawRadius_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)) and `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4). |
+| Theorem 1.1, corrections C3 and C12 | `MainTheoremStmt` | `mainTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)) and `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4). |
 | Proposition 3.1 | `LeastActionStmt` | `leastAction_final` | Proved. |
 | Proposition 3.2 | `AbelianDecompositionStmt` | `abelianDecomposition_final` | Proved. |
 | Proposition 3.3 | `BurningStmt` | `burning_final` | Proved. |
@@ -37,13 +39,13 @@ literature inputs only.
 | Lemma 7.3 | `DivisibleHomogenizeStmt` | `divisibleHomogenize_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
 | Lemma 7.4 | `OdometerLowerBoundStmt` | `odometerLowerBound_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
 | Lemma 7.5 | `FlatStmt` | `flat_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | Proved from `PegdenSmartProp25Stmt` (Pegden–Smart, Prop. 2.5), `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4) and `ViscosityWeakLaplaceStmt` (Ishii, 1995, Theorem 1). |
+| Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | Proved from `PegdenSmartProp24Stmt` (Pegden–Smart, Prop. 2.4). |
 | Proposition 8.1 | `DivisibleLeastActionStmt` | `divisibleLeastAction_final` | Proved. |
 | Lemma 8.1 | `DivisibleHomogenizeDomainStmt` | `divisibleHomogenizeDomain_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
 | Theorem 8.2 | `DivisibleTheoremStmt` | `divisibleTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | Proved from `AlexandrovStmt` (Evans–Gariepy, Section 6.4, Theorem 1) and `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
-| Theorem 9.2, height-bound form (correction C13) | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | Proved from `AlexandrovStmt` (Evans–Gariepy, Section 6.4, Theorem 1) and `LatticeProb.External.FeyLevinePeresRadius` (Fey–Levine–Peres, Thm 1.1). |
-| Theorem 9.2, vanishing-tail extension (correction C13) | `SingleSourceTheoremRecurrentVTStmt` | `singleSourceTheoremRecurrentVT_final` | Proved from `AlexandrovStmt` (Evans–Gariepy, Section 6.4, Theorem 1). |
+| Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | Proved from `LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, Thm 6.3.8(a)). |
+| Theorem 9.2, height-bound form (correction C13) | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | Proved. |
+| Theorem 9.2, vanishing-tail extension (correction C13) | `SingleSourceTheoremRecurrentVTStmt` | `singleSourceTheoremRecurrentVT_final` | Proved. |
 | Theorem 9.2, identification of the operators on recurrent backgrounds (correction C13) | `RecurrentOperatorIdentificationStmt` | `recurrentOperatorIdentification_final` | Proved. |
 | Theorem 9.2, distinction of the operators at zero background (correction C13) | `RecurrentOperatorZeroBackgroundDifferenceStmt` | `recurrentOperatorZeroBackgroundDifference_final` | Proved. |
 -/
@@ -51,21 +53,17 @@ literature inputs only.
 namespace RandomSandpile
 
 example
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+    (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_final hAlexandrov hLawlerLimicHarmonicDifference hPS25 hPS24 hVW
+  mainTheoremLawRadius_final hLawlerLimicHarmonicDifference hPS24
 #print axioms mainTheoremLawRadius_final
 
 example
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+    (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremStmt :=
-  mainTheorem_final hAlexandrov hLawlerLimicHarmonicDifference hPS25 hPS24 hVW
+  mainTheorem_final hLawlerLimicHarmonicDifference hPS24
 #print axioms mainTheorem_final
 
 example :
@@ -181,11 +179,9 @@ example
   flat_final hLawlerLimicHarmonicDifference
 #print axioms flat_final
 
-example
-    (hPS25 : PegdenSmartProp25Stmt) (hPS24 : PegdenSmartProp24Stmt)
-    (hVW : ViscosityWeakLaplaceStmt) :
+example (hPS24 : PegdenSmartProp24Stmt) :
     PegdenSmartRegularityStmt :=
-  pegdenSmartRegularity_final hPS25 hPS24 hVW
+  pegdenSmartRegularity_final hPS24
 #print axioms pegdenSmartRegularity_final
 
 example :
@@ -206,18 +202,15 @@ example
 #print axioms divisibleTheorem_final
 
 example
-    (hAlexandrov : AlexandrovStmt)
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     OpenBoundaryTheoremStmt :=
-  openBoundaryTheorem_final hAlexandrov hLawlerLimicHarmonicDifference
+  openBoundaryTheorem_final hLawlerLimicHarmonicDifference
 #print axioms openBoundaryTheorem_final
 
-example (hFLP : LatticeProb.External.FeyLevinePeresRadius) (hAlexandrov : AlexandrovStmt) :
-    SingleSourceTheoremRecurrentStmt := singleSourceTheoremRecurrent_final hFLP hAlexandrov
+example : SingleSourceTheoremRecurrentStmt := singleSourceTheoremRecurrent_final
 #print axioms singleSourceTheoremRecurrent_final
 
-example (hAlexandrov : AlexandrovStmt) : SingleSourceTheoremRecurrentVTStmt :=
-  singleSourceTheoremRecurrentVT_final hAlexandrov
+example : SingleSourceTheoremRecurrentVTStmt := singleSourceTheoremRecurrentVT_final
 #print axioms singleSourceTheoremRecurrentVT_final
 
 example : RecurrentOperatorIdentificationStmt := recurrentOperatorIdentification_final
