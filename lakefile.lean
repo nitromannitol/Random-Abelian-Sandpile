@@ -10,6 +10,9 @@ require «lattice-probability» from git
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "065356127b1dc0016f66b7283ce0ce2c4055aa55"
 
+require «elliptic_regularity» from git
+  "https://github.com/scottnarmstrong/EllipticRegularityLean" @ "1e29da02bcc6e3c2359a5b8e0559e76d02ec4002"
+
 @[default_target]
 lean_lib «RandomSandpile» where
   globs := #[.andSubmodules `RandomSandpile]
