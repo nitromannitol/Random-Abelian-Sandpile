@@ -2,6 +2,7 @@ import RandomSandpile.Inputs.PegdenSmartProp25
 import RandomSandpile.Proofs.Alexandrov
 import RandomSandpile.Proofs.FinalSteps
 import RandomSandpile.Proofs.PegdenSmart
+import RandomSandpile.Proofs.PegdenSmartProp24
 import RandomSandpile.Proofs.Sec7.PegdenSmartAdapter
 import RandomSandpile.Proofs.Sec9.RecurrentViscositySuper
 import RandomSandpile.Proofs.Sec9.RecurrentIdentificationFinal
@@ -17,14 +18,15 @@ This file states the main results of the paper as theorems `<name>_final`, follo
 hypotheses when its result is proved outright. Otherwise its hypotheses are the literature inputs
 (`RandomSandpile/Inputs`) that are not proved here, and its docstring names each one with its source.
 
-Four literature inputs are proved and enter the proofs as theorems: Alexandrov's theorem
+Five literature inputs are proved and enter the proofs as theorems: Alexandrov's theorem
 (`alexandrovStmt_proved`), the weak form of viscosity solutions of `−K ≤ Δu ≤ K`
 (`viscosityWeakLaplace`), Pegden–Smart Prop. 2.5, which follows from Prop. 2.4
-(`pegdenSmartProp25Stmt_of_prop24`), and the Fey–Levine–Peres radius bound
-(`LatticeProb.External.feyLevinePeresRadius_holds`). The two remaining hypotheses are
-`LawlerLimicHarmonicDifferenceStmt` and `PegdenSmartProp24Stmt`.
+(`pegdenSmartProp25Stmt_of_prop24`), Pegden–Smart Prop. 2.4
+(`pegden_smart_prop24_stmt`), and the Fey–Levine–Peres radius bound
+(`LatticeProb.External.feyLevinePeresRadius_holds`). The remaining hypothesis is
+`LawlerLimicHarmonicDifferenceStmt`.
 
-Counts (28 numbered results, 33 theorems): 20 results proved outright and 8 proved from admitted
+Counts (28 numbered results, 33 theorems): 21 results proved outright and 7 proved from admitted
 literature inputs only. Theorem 1.1 and Lemma 6.2 have two theorems each, and Theorem 9.2 has four.
 The table of statements is in `RandomSandpile/Assembly/Audit.lean`, and the axiom report of every
 theorem is in `RandomSandpileAudit/Axioms.lean`.
@@ -33,39 +35,37 @@ theorem is in `RandomSandpileAudit/Axioms.lean`.
 namespace RandomSandpile
 
 /-- **Theorem 1.1, weaker form** (`MainTheoremLawRadiusStmt`), implied by `MainTheoremStmt`
-(correction C12: `R = R(W, d, η_max)`). Proved from the literature inputs
-`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8)
-and `PegdenSmartProp24Stmt` (Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
-(2013), Prop. 2.4). The other inputs of the proof are proved: Alexandrov's theorem
+(correction C12: `R = R(W, d, η_max)`). Proved from the literature input
+`LawlerLimicHarmonicDifferenceStmt` (Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8).
+The other inputs of the proof are proved, including Pegden–Smart Prop. 2.4
+(`pegden_smart_prop24_stmt`): Alexandrov's theorem
 (`alexandrovStmt_proved`; Evans–Gariepy, *Measure Theory and Fine Properties of Functions*, CRC Press
 1992, Section 6.4, Theorem 1), Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from
 Prop. 2.4) and the weak form of viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the
 equivalence of two notions of weak solutions, viscosity solutions and distribution solutions*,
 Funkcial. Ekvac. 38 (1995) 101–120). -/
 theorem mainTheoremLawRadius_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS24 : PegdenSmartProp24Stmt) :
+    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     MainTheoremLawRadiusStmt :=
   mainTheoremLawRadius_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
-    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
-      viscosityWeakLaplace)
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
+      pegden_smart_prop24_stmt viscosityWeakLaplace)
 
 /-- **Theorem 1.1** (`MainTheoremStmt`, with corrections C3 and C12: the support radius `R` depends
-on `W`, `d` and `η_max`). Proved from the literature inputs `LawlerLimicHarmonicDifferenceStmt`
-(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8) and `PegdenSmartProp24Stmt`
-(Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Prop. 2.4). The
-other inputs of the proof are proved: Alexandrov's theorem (`alexandrovStmt_proved`; Evans–Gariepy,
+on `W`, `d` and `η_max`). Proved from the literature input `LawlerLimicHarmonicDifferenceStmt`
+(Lawler–Limic, *Random Walk: A Modern Introduction*, Thm 6.3.8). The other inputs of the proof
+are proved, including Pegden–Smart Prop. 2.4 (`pegden_smart_prop24_stmt`): Alexandrov's theorem
+(`alexandrovStmt_proved`; Evans–Gariepy,
 *Measure Theory and Fine Properties of Functions*, CRC Press 1992, Section 6.4, Theorem 1),
 Pegden–Smart Prop. 2.5 (`pegdenSmartProp25Stmt_of_prop24`, from Prop. 2.4) and the weak form of
 viscosity solutions (`viscosityWeakLaplace`; Ishii, *On the equivalence of two notions of weak
 solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
 theorem mainTheorem_final
-    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
-    (hPS24 : PegdenSmartProp24Stmt) :
+    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt) :
     MainTheoremStmt :=
   mainTheorem_closed alexandrovStmt_proved hLawlerLimicHarmonicDifference
-    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
-      viscosityWeakLaplace)
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
+      pegden_smart_prop24_stmt viscosityWeakLaplace)
 
 /-- **Proposition 3.1** (`LeastActionStmt`). Proved. -/
 theorem leastAction_final :
@@ -185,17 +185,16 @@ theorem flat_final
     FlatStmt :=
   flat_closed hLawlerLimicHarmonicDifference
 
-/-- **Lemma 7.6** (`PegdenSmartRegularityStmt`). Proved from the literature input
-`PegdenSmartProp24Stmt` (Pegden–Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162
-(2013), Prop. 2.4). The other inputs of the proof are proved: Pegden–Smart Prop. 2.5
+/-- **Lemma 7.6** (`PegdenSmartRegularityStmt`). Proved, using Pegden–Smart Prop. 2.4
+(`pegden_smart_prop24_stmt`). The other inputs of the proof are proved: Pegden–Smart Prop. 2.5
 (`pegdenSmartProp25Stmt_of_prop24`, from Prop. 2.4) and the weak form of viscosity solutions
 (`viscosityWeakLaplace`; Ishii, *On the equivalence of two notions of weak solutions, viscosity
 solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995) 101–120). -/
-theorem pegdenSmartRegularity_final (hPS24 : PegdenSmartProp24Stmt) :
+theorem pegdenSmartRegularity_final :
     PegdenSmartRegularityStmt :=
   pegdenSmartRegularity_closed
-    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 hPS24) hPS24
-      viscosityWeakLaplace)
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
+      pegden_smart_prop24_stmt viscosityWeakLaplace)
 
 /-- **Proposition 8.1** (`DivisibleLeastActionStmt`). Proved. -/
 theorem divisibleLeastAction_final :

@@ -56,14 +56,14 @@ example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremLawRadiusStmt :=
-  mainTheoremLawRadius_final hLawlerLimicHarmonicDifference hPS24
+  mainTheoremLawRadius_final hLawlerLimicHarmonicDifference
 #print axioms mainTheoremLawRadius_final
 
 example
     (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
     (hPS24 : PegdenSmartProp24Stmt) :
     MainTheoremStmt :=
-  mainTheorem_final hLawlerLimicHarmonicDifference hPS24
+  mainTheorem_final hLawlerLimicHarmonicDifference
 #print axioms mainTheorem_final
 
 example :
@@ -181,7 +181,7 @@ example
 
 example (hPS24 : PegdenSmartProp24Stmt) :
     PegdenSmartRegularityStmt :=
-  pegdenSmartRegularity_final hPS24
+  pegdenSmartRegularity_final
 #print axioms pegdenSmartRegularity_final
 
 example :
