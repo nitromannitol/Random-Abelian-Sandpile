@@ -1,4 +1,5 @@
 import RandomSandpile.Assembly.Audit
+import RandomSandpile.Assembly.FeyLevinePeresRadiusProved
 import RandomSandpile.Assembly.Main
 import RandomSandpile.Basic
 import RandomSandpile.Defs.Divisible
