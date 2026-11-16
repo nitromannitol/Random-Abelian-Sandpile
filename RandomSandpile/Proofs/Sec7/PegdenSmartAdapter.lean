@@ -1,4 +1,5 @@
 import RandomSandpile.Proofs.Sec7.PegdenSmartAdapterWeak
+import RandomSandpile.Proofs.Sec7.PegdenSmartRestrictedWeakSubtraction
 import RandomSandpile.Proofs.Sec7.PegdenSmartAdapterVisc
 import RandomSandpile.Inputs.Proposed
 
@@ -15,8 +16,8 @@ function is below `w(x₀)`) and has `w(x₁) > m`. Take `ρ > 0` with `B̄_ρ(x
 `ũ(y) = u'(x₁ + ρ y)`, `vt(y) = v(x₁ + ρ y)`, `u' = u + ε|x - x₀|² - (ε/2)|x - x₁|²`. Both satisfy
 `|Δ| ≤ ρ²(K + dε)` in the viscosity sense on `B_1` (`Proofs/Sec7/PegdenSmartAdapterVisc.lean`), hence
 are weak solutions with bounded right sides (`ViscosityWeakLaplaceStmt`), and so is `f = ũ - vt`
-(`isWeakSolutionLaplace_sub`). `f(0) = max_{Ū}(w + ε|x - x₀|²)` exceeds `f` on `∂B_1` by `ερ²/2`, so
-Proposition 2.5 gives a set of positive measure where `f` has a Peano expansion with `D²f < 0`;
+(`isWeakSolutionLaplace_sub_of_memLp_top`). `f(0) = max_{Ū}(w + ε|x - x₀|²)` exceeds `f` on
+`∂B_1` by `ερ²/2`, so Proposition 2.5 gives a set of positive measure where `f` has a Peano expansion with `D²f < 0`;
 Proposition 2.4 adds expansions of `ũ` and `vt` almost everywhere. At such a point, by uniqueness of
 the quadratic form (`qM_eq_of_taylor`), `D²u - D²v = ρ⁻²(D²ũ - D²vt) - εI ≤ -εI` at `x₁ + ρ y`, and
 `y ↦ x₁ + ρ y` maps sets of positive measure to sets of positive measure.
@@ -166,12 +167,13 @@ theorem pegdenSmartTouching_of_ps13 (h25 : PegdenSmartProp25Stmt) (h24 : PegdenS
     (hũc.mono ball_subset_closedBall) hũ1 hũ2
   obtain ⟨s₂, hs₂m, hs₂b, hs₂w⟩ := hVW d hd (ball 0 1) isOpen_ball ⟨0, mem_ball_self one_pos⟩ (ρ ^ 2 * (K + d * ε)) _
     (hvtc.mono ball_subset_closedBall) hvt1 hvt2
-  have hfw := isWeakSolutionLaplace_sub isOpen_ball (hũc.mono ball_subset_closedBall)
-    (hvtc.mono ball_subset_closedBall) hs₁m hs₂m hs₁b hs₂b hs₁w hs₂w
   have hmem : ∀ s : Rd d → ℝ, Measurable s → ∀ C : ℝ, (∀ x, |s x| ≤ C) →
       MemLp s ⊤ (volume.restrict (ball (0 : Rd d) 1)) := fun s hs C hC =>
     memLp_top_of_bound hs.aestronglyMeasurable C
       (ae_of_all _ fun x => by rw [Real.norm_eq_abs]; exact hC x)
+  have hfw := isWeakSolutionLaplace_sub_of_memLp_top isOpen_ball
+    (hũc.mono ball_subset_closedBall) (hvtc.mono ball_subset_closedBall)
+    (hmem s₁ hs₁m _ hs₁b) (hmem s₂ hs₂m _ hs₂b) hs₁w hs₂w
   have hdiffb : ∀ x, |s₁ x - s₂ x| ≤ 2 * (ρ ^ 2 * (K + d * ε)) := fun x => by
     have h1 := abs_le.1 (hs₁b x)
     have h2 := abs_le.1 (hs₂b x)

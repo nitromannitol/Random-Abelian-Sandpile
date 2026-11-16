@@ -226,10 +226,15 @@ theorem ps25Paraboloid_of_ps25 (h25 : PegdenSmartProp25Stmt) : PS25ParaboloidStm
   have hPw : IsWeakSolutionLaplace (ball a r) P (fun _ => X.trace) := by
     rw [hPdef]; exact isWeakSolutionLaplace_paraboloid _ _ _ _ hX
   have hcu : ContinuousOn u (ball a r) := hu.mono ball_subset_closedBall
+  have hPmem : MemLp (fun _ : Rd 2 => X.trace) ⊤ (volume.restrict (ball a r)) :=
+    memLp_top_of_bound measurable_const.aestronglyMeasurable |X.trace|
+      (ae_of_all _ fun _ => by rw [Real.norm_eq_abs])
+  have hsmem : MemLp s ⊤ (volume.restrict (ball a r)) :=
+    memLp_top_of_bound hs.aestronglyMeasurable C
+      (ae_of_all _ fun x => by rw [Real.norm_eq_abs]; exact hC x)
   have hw' : IsWeakSolutionLaplace (ball a r) (fun x => P x - u x) (fun x => X.trace - s x) :=
-    PegdenSmartAdapter.isWeakSolutionLaplace_sub isOpen_ball hPc.continuous.continuousOn hcu
-      measurable_const hs (C := max |X.trace| C) (fun _ => le_max_left _ _)
-      (fun x => (hC x).trans (le_max_right _ _)) hPw hw
+    PegdenSmartAdapter.isWeakSolutionLaplace_sub_of_memLp_top isOpen_ball
+      hPc.continuous.continuousOn hcu hPmem hsmem hPw hw
   have hres := isWeakSolutionLaplace_rescale hr hw'
   -- the rescaled function
   have haff : ∀ y : Rd 2, y ∈ closedBall (0 : Rd 2) 1 → a + r • y ∈ closedBall a r := by
