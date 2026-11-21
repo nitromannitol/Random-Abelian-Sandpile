@@ -52,7 +52,6 @@ theorem nv_xv_lt {R : ℝ} {y : Site d} (hy : y ∈ ballZ0 (d := d) R) : nv (xv 
   have := MuLipschitz.mem_ballZ0.1 hy
   exact this
 
-set_option maxHeartbeats 800000 in
 theorem boundaryMin : BoundaryMinStmt := by
   intro d hd A hA hnot
   have hd0 : 0 < d := by omega
@@ -144,13 +143,15 @@ theorem boundaryMin : BoundaryMinStmt := by
           _ ≤ 2 * R * (c₂ * M) := mul_le_mul_of_nonneg_right htR (by positivity)
       have e3 : t ^ 2 / 2 * (e ⬝ᵥ A *ᵥ e) ≤ 0 :=
         mul_nonpos_of_nonneg_of_nonpos (by positivity) hAe
-      have : C * ((R : ℝ) + 1) = C * R + C := by ring
-      have hCge : C * R ≥ (2 * c₁ + 2 * M * c₂) * R := by
-        apply mul_le_mul_of_nonneg_right _ hR0
-        rw [hC]; nlinarith [mul_nonneg hc₁0 hc₂0, mul_nonneg hM0 (sq_nonneg c₂),
+      have hCR1 : C * ((R : ℝ) + 1) = C * R + C := by ring
+      have hC1 : 2 * c₁ + 2 * M * c₂ ≤ C := by
+        linarith only [hC, mul_nonneg hc₁0 hc₂0, mul_nonneg hM0 (sq_nonneg c₂),
           mul_nonneg hc₁0 hc₃0, mul_nonneg hM0 (sq_nonneg c₃)]
-      nlinarith [mul_nonneg hc₁0 hc₂0, mul_nonneg hM0 (sq_nonneg c₂), mul_nonneg hc₁0 hc₃0,
-        mul_nonneg hM0 (sq_nonneg c₃), mul_nonneg hM0 hc₂0]
+      have hC2 : c₁ * c₂ + M * c₂ ^ 2 / 2 ≤ C := by
+        linarith only [hC, hc₁0, mul_nonneg hM0 hc₂0, mul_nonneg hc₁0 hc₃0,
+          mul_nonneg hM0 (sq_nonneg c₃)]
+      have hCge : (2 * c₁ + 2 * M * c₂) * R ≤ C * R := mul_le_mul_of_nonneg_right hC1 hR0
+      linarith only [hmin', e1, e2, e3, b2, b4, hCge, hC2, hCR1]
     · -- small radius
       push Not at hbig
       obtain ⟨b₀, hb₀⟩ := Burning.bdry_nonempty hd0 (MuLipschitz.ballZ0_finite (d := d) (R : ℝ))
@@ -170,7 +171,9 @@ theorem boundaryMin : BoundaryMinStmt := by
         calc ∑ i, |(WithLp.toLp 2 h : Rd d) i| ≤ ∑ _i : Fin d, 2 * ((R : ℝ) + 1) :=
               Finset.sum_le_sum fun i _ => hcoord i
           _ = d * (2 * ((R : ℝ) + 1)) := by simp
-          _ ≤ c₃ := by rw [hc₃]; nlinarith
+          _ ≤ c₃ := by
+              rw [hc₃]
+              linarith only [mul_le_mul_of_nonneg_left hbig.le hdR.le]
       have hxb : xv b₀ = xv x + h := by rw [hh]; abel
       have hmin' : gq A pv (xv x) ≤ gq A pv (xv y) := hxmin y hy
       rw [hxb, gq_add A hA]
@@ -181,9 +184,10 @@ theorem boundaryMin : BoundaryMinStmt := by
         have := abs_quad_le A h
         refine (le_abs_self _).trans (this.trans ?_)
         exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ (nv_nonneg _) hnh 2) hM0
-      have hCge : C ≥ c₁ * c₃ + M * c₃ ^ 2 / 2 := by
-        rw [hC]; nlinarith [mul_nonneg hc₁0 hc₂0, mul_nonneg hM0 (sq_nonneg c₂), hc₁0, hM0]
-      nlinarith [mul_nonneg hC0 hR0]
+      have hCge : c₁ * c₃ + M * c₃ ^ 2 / 2 ≤ C := by
+        linarith only [hC, hc₁0, mul_nonneg hc₁0 hc₂0, mul_nonneg hM0 hc₂0,
+          mul_nonneg hM0 (sq_nonneg c₂)]
+      linarith only [hmin', b2, b4, hCge, mul_nonneg hC0 hR0]
   · exact ⟨x, hxb, by linarith [hxmin y hy]⟩
 
 end SingleSourceH0

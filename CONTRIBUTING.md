@@ -39,7 +39,7 @@ that use them, not axioms, so they do not appear in the reports.
 ## Conventions for Lean files
 
 - No `sorry`, `admit`, `native_decide` or new `axiom` in the library. Avoid
-  `set_option maxHeartbeats`; the five existing uses are under `RandomSandpile/Proofs/`.
+  `set_option maxHeartbeats`; the four existing uses are under `RandomSandpile/Proofs/`.
 - Statements stay faithful to the corrected draft `paper/random_piles-corrected.tex` and are
   referred to by their number and LaTeX label, never by line number. Where a statement departs
   from the printed paper, the departure is listed in `paper/CORRECTIONS.md`.
