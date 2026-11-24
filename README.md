@@ -234,7 +234,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   numbered results have no comparator pair.
 - **Pinned toolchain and dependencies.** Lean `v4.35.0-rc2`, Mathlib
   `065356127b1dc0016f66b7283ce0ce2c4055aa55` and Lattice-Probability
-  `ed84300bd437a3b4ce321540379aa8c0eee93c7a`, as recorded in [`lean-toolchain`](lean-toolchain) and
+  `6c5bebe06b65795cd9daed01d9b2d84795be8ac7`, as recorded in [`lean-toolchain`](lean-toolchain) and
   [`lake-manifest.json`](lake-manifest.json) (see [Building](#building)).
 - **The paper is part of the repository.** [`paper/`](paper/) holds the arXiv source, the corrected
   draft, both compiled to PDF, and the list of corrections. The statements follow the corrected
@@ -267,7 +267,7 @@ Lattice-Probability has no prebuilt cache, so the first build compiles it as wel
 It is a public repository, pinned in [`lake-manifest.json`](lake-manifest.json):
 
 - Lattice-Probability: `https://github.com/nitromannitol/Lattice-Probability` at
-  `ed84300bd437a3b4ce321540379aa8c0eee93c7a`.
+  `6c5bebe06b65795cd9daed01d9b2d84795be8ac7`.
 
 `import RandomSandpile` loads the numbered results and what they use.
 
