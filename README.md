@@ -226,7 +226,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 
 ## Guarantees
 
-- **No `sorry`.** The library has none. The two comparator challenges under
+- **No `sorry`.** The library has none. The four comparator challenges under
   [`RandomSandpileAudit/`](RandomSandpileAudit/) each contain one intentional statement-level
   `sorry`, which the corresponding solution proves.
 - **Standard axioms only.** The axiom report of each of the 35 theorems in `Main.lean` lists exactly
@@ -236,15 +236,15 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
   a missing report.
 - **Independent check of the statements.** Theorem 1.1 (`mainTheorem_final`) and the first part of
   Theorem 9.2 (`singleSourceTheoremRecurrent_final`, backgrounds with `η ≤ 2d − 2`) are restated
-  using mathlib alone in
-  [`RandomSandpileAudit/MainTheorem/`](RandomSandpileAudit/MainTheorem/) and
-  [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/). Each `Challenge.lean`
-  restates every definition that its statement unfolds to and the literature inputs that the theorem
-  took as hypotheses when the pair was written (all five inputs of Theorem 1.1; the radius bound and
-  Alexandrov's theorem for Theorem 9.2). The library has since proved the formalized inputs, so each
-  restatement is implied by the corresponding `_final` theorem. The comparator
-  checks the original five- and two-input restatements, not the current zero-input `_final`
-  signatures; each `Solution.lean` proves its restatement from the library; and
+  using mathlib alone, with no literature-input hypothesis, in
+  [`RandomSandpileAudit/MainTheoremFinal/`](RandomSandpileAudit/MainTheoremFinal/) and
+  [`RandomSandpileAudit/SingleSourceFinal/`](RandomSandpileAudit/SingleSourceFinal/), as the `_final`
+  theorems state them. The pairs [`RandomSandpileAudit/MainTheorem/`](RandomSandpileAudit/MainTheorem/)
+  and [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/) restate the same two
+  theorems with the literature inputs that they took as hypotheses when the pairs were written (all
+  five inputs of Theorem 1.1; the radius bound and Alexandrov's theorem for Theorem 9.2). Each
+  `Challenge.lean` restates every definition that its statement unfolds to; each `Solution.lean`
+  proves its restatement from the library; and
   [leanprover/comparator](https://github.com/leanprover/comparator) checks that the two statements
   agree, that only the permitted axioms are used, and replays the proof through an independent
   implementation of the Lean kernel. Theorem 9.1, the other three parts of Theorem 9.2 and the other
@@ -265,7 +265,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 ## Size
 
 `RandomSandpile/` and `RandomSandpile.lean`: 383 Lean files with 70,497 lines, on top of mathlib and
-Lattice-Probability. The comparator sources (9 files, 2,252 lines) are counted separately.
+Lattice-Probability. The comparator sources (13 files, 3,064 lines) are counted separately.
 
 ## Building
 
@@ -311,7 +311,7 @@ script builds the library and the audit modules, runs the comparator on every pa
 pair is missing or rejected.
 
 There are two continuous-integration workflows: **CI** builds the library, checks the axiom reports
-and builds the comparator pairs; **Comparator audit** runs the comparator on the two pairs. CI runs
+and builds the comparator pairs; **Comparator audit** runs the comparator on the four pairs. CI runs
 on pushes to `main` that change more than documentation, the paper, `formalization.yaml` or
 `CITATION.cff`; the comparator audit runs when it is started manually. Both workflows can be started
 manually from the [Actions page](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions).
@@ -335,7 +335,9 @@ RandomSandpile/
     Audit.lean                checks for each result and its axioms
 RandomSandpileAudit/
   Axioms.lean                 the axiom report of every theorem in Main.lean
-  MainTheorem/, SingleSource/ the mathlib-only comparator pairs of Theorems 1.1 and 9.2
+  MainTheoremFinal/, SingleSourceFinal/
+                              the mathlib-only comparator pairs of Theorems 1.1 and 9.2
+  MainTheorem/, SingleSource/ the same with the literature inputs as hypotheses
 paper/                        the arXiv source and the corrected draft (LaTeX and PDF), figures,
                               CORRECTIONS.md, make_corrected.py, README.md
 scripts/                      check_axioms.py, run_comparators.sh, prefetch_toolchain.py (used by CI)

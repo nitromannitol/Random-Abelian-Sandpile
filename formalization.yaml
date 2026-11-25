@@ -10,7 +10,8 @@ project:
     with the open boundary condition (Theorem 9.1); and single-source sandpiles on a random background
     converge, in a corrected form with a recurrent effective operator (Theorem 9.2). All 28 numbered
     results are proved in Lean without literature-input hypotheses. Comparator pairs under
-    RandomSandpileAudit/ check the older five- and two-input restatements of Theorems 1.1 and 9.2, respectively.
+    RandomSandpileAudit/ check Theorems 1.1 and 9.2 with no literature-input hypothesis (MainTheoremFinal,
+    SingleSourceFinal), and the older five- and two-input restatements (MainTheorem, SingleSource).
   authors:
     - "Ahmed Bou-Rabee"
   responsible_maintainers:
@@ -75,7 +76,7 @@ status:
     Smart's Propositions 2.4 and 2.5. README.md lists every numbered result with its Lean declaration.
   sorry_count: 0
   sorry_count_scope: "RandomSandpile/ and RandomSandpile.lean"
-  comparator_challenge_sorry_count: 2
+  comparator_challenge_sorry_count: 4
   sorry_in_definitions: 0
   axioms:
     - "propext"
@@ -97,7 +98,7 @@ status:
       statement: "Theorem 1.1"
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
-      comparator_config: "RandomSandpileAudit/MainTheorem/comparator.json"
+      comparator_config: "RandomSandpileAudit/MainTheoremFinal/comparator.json"
       literature_dependencies: []
     - declaration: "RandomSandpile.openBoundaryTheorem_final"
       file: "RandomSandpile/Assembly/Main.lean"
@@ -110,7 +111,7 @@ status:
       statement: "Theorem 9.2 (correction C13)"
       sorry_count: 0
       axioms: ["propext", "Classical.choice", "Quot.sound"]
-      comparator_config: "RandomSandpileAudit/SingleSource/comparator.json"
+      comparator_config: "RandomSandpileAudit/SingleSourceFinal/comparator.json"
       literature_dependencies: []
 
 automation:
@@ -178,7 +179,7 @@ automation:
     results of the literature enter only as explicit hypotheses. Every numbered result was stated in
     Lean before its proof; each proof step of the paper was then stated as its own Lean proposition
     and proved from the propositions of the steps it uses. Every proof is checked by the Lean kernel.
-    The library contains no sorry; each of the two comparator challenge files contains exactly one
+    The library contains no sorry; each of the four comparator challenge files contains exactly one
     intentional statement-level sorry, which the corresponding Solution.lean proves.
 
 fidelity:

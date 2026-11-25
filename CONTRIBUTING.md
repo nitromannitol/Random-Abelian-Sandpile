@@ -14,9 +14,8 @@ lake build RandomSandpileAudit   # the comparator challenges and solutions
 ```
 
 The library must build with **no warnings**. Lattice-Probability has no prebuilt cache, so the
-first build compiles it as well as the library. The only intentional `sorry`s are the two
-statement-level ones in `RandomSandpileAudit/MainTheorem/Challenge.lean` and
-`RandomSandpileAudit/SingleSource/Challenge.lean`, one each; `lake build RandomSandpileAudit`
+first build compiles it as well as the library. The only intentional `sorry`s are the four
+statement-level ones in `RandomSandpileAudit/*/Challenge.lean`, one in each; `lake build RandomSandpileAudit`
 reports them as warnings, and the comparator checks each against its solution.
 
 ## The main results and the axiom audit
@@ -54,9 +53,13 @@ that use them, not axioms, so they do not appear in the reports.
 
 ## Comparators
 
-`RandomSandpileAudit/` has two pairs, `MainTheorem/` (Theorem 1.1) and `SingleSource/`
-(Theorem 9.2). Each has a mathlib-only `Challenge.lean`, a `Solution.lean` that proves the same
-statement from the library, and a `comparator.json` that permits exactly `propext`,
+`RandomSandpileAudit/` has four pairs. `MainTheoremFinal/` (Theorem 1.1) and `SingleSourceFinal/`
+(Theorem 9.2) state the theorems with no literature-input hypothesis, as `mainTheorem_final` and
+`singleSourceTheoremRecurrent_final` do; `MainTheorem/` and `SingleSource/` state them with the five
+and the two literature inputs as hypotheses. The two final pairs restate the vocabulary of the
+corresponding first pair without the literature inputs, and their solutions use the `SolutionBasic.lean`
+and `Bridge.lean` of the first pair. Each pair has a mathlib-only `Challenge.lean`, a `Solution.lean`
+that proves the same statement from the library, and a `comparator.json` that permits exactly `propext`,
 `Classical.choice` and `Quot.sound` and enables the nanoda kernel. Do not add a declaration to a
 challenge that the statement does not need, and do not change a challenge without checking it
 against the paper's statement.
