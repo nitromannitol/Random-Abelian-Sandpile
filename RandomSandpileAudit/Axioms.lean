@@ -53,4 +53,5 @@ proved formalized literature inputs internally; compatibility reductions retain 
 #print axioms RandomSandpile.singleSourceTheoremRecurrentVT_final     -- Theorem 9.2, vanishing tail
 #print axioms RandomSandpile.recurrentOperatorIdentification_final    -- Theorem 9.2, identification
 #print axioms RandomSandpile.recurrentOperatorZeroBackgroundDifference_final  -- Theorem 9.2, zero background
-#print axioms RandomSandpile.singleSourceTheoremD2_final                -- Theorem 9.2, original operator, d = 2
+#print axioms RandomSandpile.recurrentOperatorProperties_final         -- Theorem 9.2, the recurrent operator
+#print axioms RandomSandpile.singleSourceTheoremD2_final                -- original operator, d = 2

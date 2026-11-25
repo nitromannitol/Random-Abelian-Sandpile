@@ -190,11 +190,10 @@ fidelity:
     the support radius depends on W, d and eta_max (C12, a weakening adopted by the author); the printed
     radius, depending only on W, d and E eta(0), is also proved (mainTheoremPrinted_final). Theorem
     9.2 is stated for the recurrent operator (C13), with the height bound eta <= 2d - 2 or, in its
-    second form, with finite odometers and a vanishing tail. The sign-corrected form with the original
-    operator is proved in dimension two (singleSourceTheoremD2_final), with Perron's method and the
-    comparison for the obstacle problem proved here (the Crandall-Ishii-Lions statements in
-    RandomSandpile/Inputs/CrandallIshiiLions.lean are not used); in dimension d >= 3 it is open, and is proved for backgrounds with mu*(l, 0) = 0 for l > 0
-    from the unproved step FlatCorrectorStmt (singleSourceTheoremH0_of_flatCorrector). Lemma 5.4 is proved for all integer
+    second form, with finite odometers and a vanishing tail, and is proved as corrected in C13 in
+    every dimension d >= 2, with the properties of the recurrent operator stated in C13. In dimension
+    two the form with the original operator and correction C3 alone is also proved
+    (singleSourceTheoremD2_final). Lemma 5.4 is proved for all integer
     bounds, with the threshold -max(eta_max, 0) - tr M, which is the printed one in the paper's
     setting. High density is a hypothesis of Theorems 1.1 and 9.1 and Lemmas 7.4 and 7.5, as in the
     paper.

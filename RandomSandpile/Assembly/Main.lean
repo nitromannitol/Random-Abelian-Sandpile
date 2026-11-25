@@ -12,6 +12,9 @@ import RandomSandpile.Proofs.Sec9.RecurrentZeroComparison
 import RandomSandpile.Proofs.ViscosityWeakLaplace
 import LatticeProb.External.FeyLevinePeresRadiusProved
 import RandomSandpile.Proofs.Sec9.SingleSourceSignCorrected
+import RandomSandpile.Proofs.Sec9.RecurrentElliptic
+import RandomSandpile.Proofs.Sec9.RecurrentOperatorShift
+import RandomSandpile.Proofs.Sec9.RecurrentOperatorBasic
 
 /-! # Main results of "Convergence of the random Abelian sandpile"
 
@@ -247,6 +250,12 @@ theorem recurrentOperatorIdentification_final : RecurrentOperatorIdentificationS
 theorem recurrentOperatorZeroBackgroundDifference_final :
     RecurrentOperatorZeroBackgroundDifferenceStmt :=
   recurrentOperatorZeroBackgroundDifference
+
+/-- **The recurrent operator of Theorem 9.2** (correction C13; `RecurrentOperatorPropertiesStmt`):
+continuous, degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) - dt`. Proved. -/
+theorem recurrentOperatorProperties_final : RecurrentOperatorPropertiesStmt :=
+  fun _ hd E => ⟨continuous_effOpRecurrent hd E, recurrent_degenerateElliptic hd E,
+    fun M t => effOpRecurrent_shift hd E M t⟩
 
 /-- **Theorem 9.2 in dimension two with the original operator** (correction C3 alone;
 `SingleSourceD2.SingleSourceTheoremD2Stmt`). Proved. -/

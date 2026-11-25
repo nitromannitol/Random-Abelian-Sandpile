@@ -49,7 +49,8 @@ The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace id
 | Theorem 9.2, vanishing-tail extension (correction C13) | `SingleSourceTheoremRecurrentVTStmt` | `singleSourceTheoremRecurrentVT_final` | Proved. |
 | Theorem 9.2, identification of the operators on recurrent backgrounds (correction C13) | `RecurrentOperatorIdentificationStmt` | `recurrentOperatorIdentification_final` | Proved. |
 | Theorem 9.2, distinction of the operators at zero background (correction C13) | `RecurrentOperatorZeroBackgroundDifferenceStmt` | `recurrentOperatorZeroBackgroundDifference_final` | Proved. |
-| Theorem 9.2 in dimension two, with the original operator (correction C3) | `SingleSourceD2.SingleSourceTheoremD2Stmt` | `singleSourceTheoremD2_final` | Proved. |
+| Theorem 9.2, properties of the recurrent operator (correction C13) | `RecurrentOperatorPropertiesStmt` | `recurrentOperatorProperties_final` | Proved. |
+| Single-source theorem in dimension two with the original operator (correction C3 alone) | `SingleSourceD2.SingleSourceTheoremD2Stmt` | `singleSourceTheoremD2_final` | Proved. |
 -/
 
 namespace RandomSandpile
@@ -228,6 +229,9 @@ example : RecurrentOperatorIdentificationStmt := recurrentOperatorIdentification
 example : RecurrentOperatorZeroBackgroundDifferenceStmt :=
   recurrentOperatorZeroBackgroundDifference_final
 #print axioms recurrentOperatorZeroBackgroundDifference_final
+
+example : RecurrentOperatorPropertiesStmt := recurrentOperatorProperties_final
+#print axioms recurrentOperatorProperties_final
 
 example : SingleSourceD2.SingleSourceTheoremD2Stmt := singleSourceTheoremD2_final
 #print axioms singleSourceTheoremD2_final

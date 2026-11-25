@@ -42,7 +42,7 @@ quantities `μ` and `μ*` of Section 5.
 | --- | --- | --- |
 | Theorem 1.1 | `RandomSandpile.mainTheorem_final` | Free-boundary sandpiles on a random background converge to the solution of an obstacle problem for `F̄_η`. |
 | Theorem 9.1 | `RandomSandpile.openBoundaryTheorem_final` | Sandpiles with the open boundary condition converge to the solution of the Dirichlet problem for `F̄_η`. |
-| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` and four companions | Single-source sandpiles on a random background converge, with the recurrent operator `F̄ᴿ_η`. |
+| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` and four companions | Single-source sandpiles on a random background converge, with the recurrent operator `F̄ᴿ_η` (correction C13). |
 
 **Theorem 1.1.** Let `W` be a bounded Lipschitz domain and `η` a random background of high density.
 Let `v_n` and `s_n` be the odometer and the final configuration of the sandpile that starts from
@@ -70,15 +70,17 @@ fundamental solution of `−Δ` and `v̄` is the least element of
 
 in the viscosity sense with test functions touching from below. Here `F̄ᴿ_η` (`effOpRecurrent E`) is
 defined as `F̄_η`, with the recurrent functions of correction C13 in place of the legal and
-stabilizing ones. The same
+stabilizing ones; it is continuous and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt`. The same
 conclusion holds for every bounded stationary ergodic background for which almost surely all `v_n`
 are finite and the rescaled odometers have a vanishing tail far from the origin. If `η` is almost
 surely recurrent on every finite set, then `F̄ᴿ_η = F̄_η`; the two operators differ for `η ≡ 0`.
 
-The five parts of Theorem 9.2 are `singleSourceTheoremRecurrent_final`,
-`singleSourceTheoremRecurrentVT_final`, `recurrentOperatorIdentification_final`,
-`recurrentOperatorZeroBackgroundDifference_final` and, in dimension two with the original operator
-`F̄_η` (correction C3 alone), `singleSourceTheoremD2_final`. None of them takes a hypothesis: the
+Theorem 9.2 is proved as corrected in C13, in every dimension `d ≥ 2`. Its five parts are
+`singleSourceTheoremRecurrent_final`, `singleSourceTheoremRecurrentVT_final`,
+`recurrentOperatorIdentification_final`, `recurrentOperatorZeroBackgroundDifference_final` and
+`recurrentOperatorProperties_final` (the properties of `F̄ᴿ_η`). In dimension two the statement with
+the original operator `F̄_η` and correction C3 alone is also proved, `singleSourceTheoremD2_final`.
+None of them takes a hypothesis: the
 literature inputs of their proofs, Alexandrov's theorem, the radius bound of Fey, Levine and Peres
 and Propositions 2.4 and 2.5 of Pegden and Smart, are proved. None of the `_final` theorems takes a literature-input hypothesis. The statements of the
 theorems are definitions `…Stmt` in [`RandomSandpile/Draft/`](RandomSandpile/Draft/), written out
@@ -123,13 +125,14 @@ literature inputs that a result takes as hypotheses.
 | Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | — |
 | Theorem 9.2 | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | — |
 
-Seven further theorems in `Main.lean` give other forms of these results:
+Eight further theorems in `Main.lean` give other forms of these results:
 `mainTheoremPrinted_final` (Theorem 1.1 with the printed radius, depending only on `W`, `d` and
 `E η(0)`), `mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a
 corollary of `mainTheorem_final`),
-`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), and the four
+`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), the four
 companions of Theorem 9.2 described above (the extension under a vanishing tail, the two operator
-statements and the form with the original operator in dimension two, all outright).
+statements and the properties of the recurrent operator) and the single-source theorem with the
+original operator in dimension two (`singleSourceTheoremD2_final`), all outright.
 
 ## Corrections to the published version
 
@@ -165,21 +168,15 @@ potential of its mean (`RandomSandpile/Proofs/Sec7/Confinement*.lean`); heights 
 sign. Theorem 9.2 is
 false as printed (C3: for `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`); C13 states it for the recurrent
 operator `F̄ᴿ_η`, for which the proof goes through. The two operators agree on backgrounds that are
-recurrent on every finite set and differ for `η ≡ 0`. The sign-corrected statement with `F̄_η`
-(C3 alone, `SingleSourceTheoremStmt`) is proved in dimension two, `singleSourceTheoremD2_final`; its
-proof uses Perron's method with bounded barriers (`perron_exists_of_bounded`) and comparison for the
-obstacle problem from Alexandrov's theorem (`obsComparison_of_alexandrov`), both proved here. The
+recurrent on every finite set and differ for `η ≡ 0`. Theorem 9.2 is proved in this corrected form
+in every dimension, following the proof in the corrected draft. In dimension two the statement with
+`F̄_η` and C3 alone is also proved, `singleSourceTheoremD2_final`; its proof uses Perron's method with
+bounded barriers (`perron_exists_of_bounded`) and comparison for the obstacle problem from
+Alexandrov's theorem (`obsComparison_of_alexandrov`), both proved here. The
 statements of Crandall, Ishii and Lions in
 [`RandomSandpile/Inputs/CrandallIshiiLions.lean`](RandomSandpile/Inputs/CrandallIshiiLions.lean)
 (Theorems 3.2 and 4.1, Lemma 6.1) are used only by conditional forms of the same results
-(`SingleSourceD2.singleSourceTheorem_d2`, `singleSourceTheorem_d2_of_cil`). In dimension `d ≥ 3` the
-sign-corrected statement is open. For the backgrounds with `μ*(l, 0) = 0` for every `l > 0` (`StabThresholdZero`,
-which holds when `d ≤ η ≤ 2d − 2`) it is proved, `RandomSandpile.singleSourceTheoremH0_of_flatCorrector`,
-from the step `FlatCorrectorStmt` of
-[`RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean`](RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean),
-which is not proved: for every symmetric `A` with `sup {l : μ*(l, A) > 0} = 0`, almost surely, for
-every `ε > 0` and all large `R`, there are an integer function `v`, stable for `η` on the ball of
-radius `R`, and a constant `c` with `|v − q_A − c| ≤ ε R²` on the closure of the ball.
+(`SingleSourceD2.singleSourceTheorem_d2`, `singleSourceTheorem_d2_of_cil`).
 [`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) also lists the places where the Lean proofs do not
 follow the printed argument.
 

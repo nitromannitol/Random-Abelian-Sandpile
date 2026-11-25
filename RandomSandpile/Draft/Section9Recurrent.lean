@@ -1,6 +1,7 @@
 import RandomSandpile.Defs.Recurrent
 import RandomSandpile.Defs.Obstacle
 import RandomSandpile.Defs.Odometer
+import RandomSandpile.Defs.Viscosity
 
 /-! # Corrected single-source theorem (C13)
 
@@ -54,6 +55,14 @@ def RecurrentOperatorIdentificationStmt : Prop :=
   ∀ (d : ℕ), 2 ≤ d → ∀ E : RandomEnvironment d,
     (∀ᵐ η ∂E.P, ∀ A : Set (Site d), A.Finite → IsRecurrentOn η A) →
       effOpRecurrent E = effOp E
+
+/-- The properties of the recurrent operator stated with its definition in C13: it is continuous
+and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) - dt`. -/
+def RecurrentOperatorPropertiesStmt : Prop :=
+  ∀ (d : ℕ), 2 ≤ d → ∀ E : RandomEnvironment d,
+    Continuous (effOpRecurrent E) ∧ DegenerateElliptic (effOpRecurrent E) ∧
+      ∀ (M : Matrix (Fin d) (Fin d) ℝ) (t : ℝ),
+        effOpRecurrent E (M + t • 1) = effOpRecurrent E M - (d : ℝ) * t
 
 /-- At the zero background the two operators take different values at the zero matrix. -/
 def RecurrentOperatorZeroBackgroundDifferenceStmt : Prop :=
