@@ -56,9 +56,10 @@ that use them, not axioms, so they do not appear in the reports.
 `RandomSandpileAudit/` has four pairs. `MainTheoremFinal/` (Theorem 1.1) and `SingleSourceFinal/`
 (Theorem 9.2) state the theorems with no literature-input hypothesis, as `mainTheorem_final` and
 `singleSourceTheoremRecurrent_final` do; `MainTheorem/` and `SingleSource/` state them with the five
-and the two literature inputs as hypotheses. The two final pairs restate the vocabulary of the
-corresponding first pair without the literature inputs, and their solutions use the `SolutionBasic.lean`
-and `Bridge.lean` of the first pair. Each pair has a mathlib-only `Challenge.lean`, a `Solution.lean`
+and the two literature inputs as hypotheses. The vocabulary of `MainTheoremFinal/` is that of
+`MainTheorem/` byte for byte (its literature inputs are defined but not used), the vocabulary of
+`SingleSourceFinal/` is that of `SingleSource/` without the two literature inputs, and the solutions of
+the final pairs use the `SolutionBasic.lean` and `Bridge.lean` of the first pairs. Each pair has a mathlib-only `Challenge.lean`, a `Solution.lean`
 that proves the same statement from the library, and a `comparator.json` that permits exactly `propext`,
 `Classical.choice` and `Quot.sound` and enables the nanoda kernel. Do not add a declaration to a
 challenge that the statement does not need, and do not change a challenge without checking it

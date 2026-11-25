@@ -6,10 +6,13 @@ import Mathlib
 Bou-Rabee, *Convergence of the random Abelian sandpile*, Ann. Probab. 49 (2021), Theorem 1.1.
 
 This file imports only Mathlib. It restates, in the namespace `RandomSandpile.StatementAudit.MainTheorem`,
-every definition that `RandomSandpile.MainTheoremStmt` unfolds to: the vocabulary of
-`RandomSandpileAudit/MainTheorem/Challenge.lean` without its five literature inputs, which the library
-proves. The restated bodies are those of the library (`RandomSandpile/Defs`, `RandomSandpile/Draft/Section1.lean`)
-and of the Lattice-Probability modules they use. `RandomSandpileAudit/MainTheorem/Bridge.lean` proves that each
+every definition that `RandomSandpile.MainTheoremStmt` unfolds to. Its vocabulary is that of
+`RandomSandpileAudit/MainTheorem/Challenge.lean`, byte for byte, so that every restated constant is the
+constant of `RandomSandpileAudit/MainTheorem/SolutionBasic.lean`; it includes the five literature inputs
+as propositions, which the theorem below does not take as hypotheses and its statement does not use (the
+library proves them). The restated bodies are those of the library (`RandomSandpile/Defs`,
+`RandomSandpile/Inputs`, `RandomSandpile/Draft/Section1.lean`) and of the Lattice-Probability modules
+they use. `RandomSandpileAudit/MainTheorem/Bridge.lean` proves that each
 restated definition equals the library definition, and `Solution.lean` proves `mainTheoremFinal` from
 `RandomSandpile.mainTheorem_final`, which takes no hypothesis.
 
@@ -394,6 +397,63 @@ def rescaleOdo (v : Site d → ℤ) (n : ℕ) : Rd d → ℝ :=
 `L^∞(ℝ^d)` and the integral `∫ s̄_n` make sense. -/
 def rescaleSandpile (s : Site d → ℤ) (n : ℕ) : Rd d → ℝ :=
   fun x => (s (latticeRound ((n : ℝ) • x)) : ℝ)
+
+/-! ## Literature inputs (the five hypotheses of the theorem; none is assumed inside the vocabulary) -/
+
+/-- **Alexandrov's theorem** (input IR9): for a convex `f : ℝⁿ → ℝ`, almost every point admits a
+second-order Peano expansion with gradient `Df(x)` and a symmetric matrix `D²f(x)`. -/
+def AlexandrovStmt : Prop :=
+  ∀ (d : ℕ) (f : Rd d → ℝ), ConvexOn ℝ Set.univ f →
+    ∀ᵐ x ∂(volume : Measure (Rd d)), ∃ (p : Rd d) (X : Matrix (Fin d) (Fin d) ℝ),
+      X.IsSymm ∧ HasSecondOrderTaylorAt f x p X
+
+/-- `u` is a weak solution of `Δu = s` in the open set `U` (Pegden-Smart (2.1)):
+`∫ u Δφ = ∫ s φ` for every smooth compactly supported `φ` with support in `U`, `Δφ = tr D²φ`. -/
+def IsWeakSolutionLaplace (U : Set (Rd d)) (u s : Rd d → ℝ) : Prop :=
+  ∀ φ : Rd d → ℝ, ContDiff ℝ (⊤ : ℕ∞) φ → HasCompactSupport φ → tsupport φ ⊆ U →
+    ∫ x, u x * Matrix.trace (hessian φ x) = ∫ x, s x * φ x
+
+/-- **Pegden-Smart, Proposition 2.5** (input IR2; PS13, cited to Caffarelli-Cabré, Theorem 3.2):
+if `s ∈ L^∞(B_1)` and `u ∈ C(B̄_1)` is a weak solution of `Δu = s` in `B_1`, and
+`sup_{B_1} u > sup_{∂B_1} u`, then the set of `x ∈ B_1` with `u(x) > sup_{∂B_1} u`, `u`
+twice differentiable at `x` and `D²u(x) < 0` has positive measure. -/
+def PegdenSmartProp25Stmt : Prop :=
+  ∀ (d : ℕ), 2 ≤ d → ∀ s u : Rd d → ℝ,
+    MemLp s ⊤ (volume.restrict (Metric.ball (0 : Rd d) 1)) →
+    ContinuousOn u (Metric.closedBall 0 1) →
+    IsWeakSolutionLaplace (Metric.ball 0 1) u s →
+    sSup (u '' Metric.sphere 0 1) < sSup (u '' Metric.ball 0 1) →
+      0 < volume {x : Rd d | x ∈ Metric.ball 0 1 ∧ sSup (u '' Metric.sphere 0 1) < u x ∧
+        ∃ (p : Rd d) (X : Matrix (Fin d) (Fin d) ℝ),
+          X.IsSymm ∧ HasSecondOrderTaylorAt u x p X ∧ (-X).PosDef}
+
+/-- **Pegden-Smart, Proposition 2.4** (input IR2; PS13, cited to Christ, Theorem III.4): if
+`s ∈ L^∞(B_1)` and `u ∈ C(B_1)` is a weak solution of `Δu = s` in `B_1`, then `u` is twice
+differentiable (in the Peano sense) at almost every point of `B_1`. -/
+def PegdenSmartProp24Stmt : Prop :=
+  ∀ (d : ℕ), 2 ≤ d → ∀ s u : Rd d → ℝ,
+    MemLp s ⊤ (volume.restrict (Metric.ball (0 : Rd d) 1)) →
+    ContinuousOn u (Metric.ball 0 1) →
+    IsWeakSolutionLaplace (Metric.ball 0 1) u s →
+      ∀ᵐ x ∂(volume.restrict (Metric.ball (0 : Rd d) 1)), PeanoTwiceDifferentiableAt u x
+
+/-- Viscosity solutions of `|Δu| ≤ K` are weak solutions of `Δu = s` with `|s| ≤ K` (input,
+Ishii 1995): a continuous `u` that is a viscosity subsolution of `Δu ≥ -K` and a viscosity
+supersolution of `Δu ≤ K` in `U` is a weak solution of `Δu = s` for a measurable `s` with
+`|s| ≤ K`. -/
+def ViscosityWeakLaplaceStmt : Prop :=
+  ∀ (d : ℕ), 2 ≤ d → ∀ U : Set (Rd d), IsOpen U → U.Nonempty → ∀ (K : ℝ) (u : Rd d → ℝ),
+    ContinuousOn u U →
+    ViscFromAboveGE (fun X => X.trace + K) U u → ViscFromBelowLE (fun X => X.trace - K) U u →
+      ∃ s : Rd d → ℝ, Measurable s ∧ (∀ x, |s x| ≤ K) ∧ IsWeakSolutionLaplace U u s
+
+/-- **Lawler-Limic, difference estimate for discrete harmonic functions** (input): for `d ≥ 1`
+there is `C` such that for `n ≥ 1`, `f : ℤ^d → ℝ` with `Δ_{ℤ^d} f = 0` on `B_n` and `|f| ≤ M`
+on `B̄_n`, and every direction `i`, `|f(e_i) - f(0)| ≤ C M / n`. -/
+def LawlerLimicHarmonicDifferenceStmt : Prop :=
+  ∀ d : ℕ, 1 ≤ d → ∃ C : ℝ, 0 < C ∧ ∀ (n : ℕ), 1 ≤ n → ∀ (f : Site d → ℝ) (M : ℝ),
+    (∀ z ∈ ballZ0 (n : ℝ), lapR f z = 0) → (∀ z ∈ dClosure (ballZ0 (n : ℝ)), |f z| ≤ M) →
+      ∀ i : Fin d, |f (unit i) - f 0| ≤ C * M / n
 
 /-! ## Theorem 1.1: the main theorem on the free-boundary odometers -/
 

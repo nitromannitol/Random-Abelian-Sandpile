@@ -265,7 +265,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 ## Size
 
 `RandomSandpile/` and `RandomSandpile.lean`: 383 Lean files with 70,497 lines, on top of mathlib and
-Lattice-Probability. The comparator sources (13 files, 3,064 lines) are counted separately.
+Lattice-Probability. The comparator sources (13 files, 3,124 lines) are counted separately.
 
 ## Building
 
