@@ -4,13 +4,13 @@ import RandomSandpile.Assembly.Main
 
 The table has one row for each theorem of `RandomSandpile/Assembly/Main.lean`, with the statement
 (a `Draft` definition), the theorem and how it is proved. Together the rows give the 28 numbered results of
-the paper: Theorem 1.1 and Lemma 6.2 have two forms each, and Theorem 9.2 has four parts. Below, one
+the paper: Theorem 1.1 and Lemma 6.2 have two forms each, and Theorem 9.2 has five parts. Below, one
 `example` per theorem checks its statement, and `#print axioms` reports its axioms. Several
 examples retain redundant Lawler–Limic and Pegden–Smart hypotheses for compatibility;
 the corresponding `_final` theorems apply proved inputs internally, as shown in the table. Each report
 lists only `propext`, `Classical.choice` and `Quot.sound`.
 
-Counts (28 numbered results, 34 theorems): all are proved without literature-input hypotheses.
+Counts (28 numbered results, 35 theorems): all are proved without literature-input hypotheses.
 The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace identification.
 
 | Result | Statement | Theorem | Proof |
@@ -49,6 +49,7 @@ The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace id
 | Theorem 9.2, vanishing-tail extension (correction C13) | `SingleSourceTheoremRecurrentVTStmt` | `singleSourceTheoremRecurrentVT_final` | Proved. |
 | Theorem 9.2, identification of the operators on recurrent backgrounds (correction C13) | `RecurrentOperatorIdentificationStmt` | `recurrentOperatorIdentification_final` | Proved. |
 | Theorem 9.2, distinction of the operators at zero background (correction C13) | `RecurrentOperatorZeroBackgroundDifferenceStmt` | `recurrentOperatorZeroBackgroundDifference_final` | Proved. |
+| Theorem 9.2 in dimension two, with the original operator (correction C3) | `SingleSourceD2.SingleSourceTheoremD2Stmt` | `singleSourceTheoremD2_final` | Proved. |
 -/
 
 namespace RandomSandpile
@@ -227,5 +228,8 @@ example : RecurrentOperatorIdentificationStmt := recurrentOperatorIdentification
 example : RecurrentOperatorZeroBackgroundDifferenceStmt :=
   recurrentOperatorZeroBackgroundDifference_final
 #print axioms recurrentOperatorZeroBackgroundDifference_final
+
+example : SingleSourceD2.SingleSourceTheoremD2Stmt := singleSourceTheoremD2_final
+#print axioms singleSourceTheoremD2_final
 
 end RandomSandpile

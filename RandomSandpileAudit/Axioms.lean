@@ -3,7 +3,7 @@ import RandomSandpile.Assembly.Main
 /-! The axiom report of every numbered result of the paper; `scripts/check_axioms.py` checks it.
 
 Each numbered result is reported through its theorems in `RandomSandpile/Assembly/Main.lean`: Theorem
-1.1, Lemma 6.2 and Theorem 9.2 have three, two and four theorems. The `_final` theorems apply
+1.1, Lemma 6.2 and Theorem 9.2 have three, two and five theorems. The `_final` theorems apply
 proved formalized literature inputs internally; compatibility reductions retain their arguments. -/
 
 -- Theorem 1.1
@@ -53,3 +53,4 @@ proved formalized literature inputs internally; compatibility reductions retain 
 #print axioms RandomSandpile.singleSourceTheoremRecurrentVT_final     -- Theorem 9.2, vanishing tail
 #print axioms RandomSandpile.recurrentOperatorIdentification_final    -- Theorem 9.2, identification
 #print axioms RandomSandpile.recurrentOperatorZeroBackgroundDifference_final  -- Theorem 9.2, zero background
+#print axioms RandomSandpile.singleSourceTheoremD2_final                -- Theorem 9.2, original operator, d = 2

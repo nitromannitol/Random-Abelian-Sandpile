@@ -3,8 +3,10 @@ import RandomSandpile.Proofs.Sec9.SingleSourceD2PerronPrep
 /-!
 # Theorem 9.2 in dimension two: Perron's method on annuli
 
-`annulus_solution` (from CIL Theorem 4.1, `CILPerronStmt`, with the comparison `obsComparison`
-from CIL Theorem 3.2): on `A_r = {r < |x| < L}` there is `u ∈ C(Ā_r)` with `V_1 ≤ u ≤ U`, a
+`annulus_solution` (from Perron's method with bounded barriers, `PerronBoundedStmt`, and the
+comparison for the obstacle problem, `ObsComparisonStmt`; both follow from CIL Theorems 4.1 and
+3.2, `perronBounded_of_cil` and `obsComparisonStmt_of_cil`, and are proved without them in
+`SingleSourceD2PerronProof.lean` and `SingleSourceD2ObsCompareProof.lean`): on `A_r = {r < |x| < L}` there is `u ∈ C(Ā_r)` with `V_1 ≤ u ≤ U`, a
 viscosity supersolution of `F_ε = 0` on `A_r` and a subsolution where `u > 0`.
 
 The Dirichlet data `u = M_r = V_1(r)` on `|x| = r`, `u = 0` on `|x| = L` are removed by subtracting
@@ -56,6 +58,39 @@ theorem perron_exists (hP : CILPerronStmt) {F : Rd 2 → ℝ → Rd 2 → Matrix
       (S := {w | (∀ y ∈ closure Ω, ul y ≤ w y ∧ w y ≤ uu y) ∧ IsSubsolutionDP F Ω w})
       (And.intro (fun y hy => ⟨le_refl _, hle y hy⟩) hul) fun w hw => (hw.1 x hx).2⟩
 
+/-- Perron's method on an open set of `ℝ²` between barriers bounded on `Ω̄` (proved in
+`SingleSourceD2PerronProof.lean`, `perron_exists_of_bounded`). -/
+def PerronBoundedStmt : Prop :=
+  ∀ (F : Rd 2 → ℝ → Rd 2 → Matrix (Fin 2) (Fin 2) ℝ → ℝ) (Ω : Set (Rd 2)), IsOpen Ω →
+    IsProper F →
+    Continuous (fun w : Rd 2 × ℝ × Rd 2 × Matrix (Fin 2) (Fin 2) ℝ =>
+      F w.1 w.2.1 w.2.2.1 w.2.2.2) →
+    (∀ w v : Rd 2 → ℝ, IsSubsolutionDP F Ω w → IsSupersolutionDP F Ω v →
+      ∀ x ∈ closure Ω, w x ≤ v x) →
+    ∀ ul uu : Rd 2 → ℝ, IsSubsolutionDP F Ω ul → IsSupersolutionDP F Ω uu →
+      (∀ x ∈ frontier Ω, LowerEnvelopeZeroAt Ω ul x ∧ UpperEnvelopeZeroAt Ω uu x) →
+      (∀ y ∈ closure Ω, ul y ≤ uu y) → ∀ C : ℝ, (∀ y ∈ closure Ω, |ul y| ≤ C ∧ |uu y| ≤ C) →
+      ∃ W : Rd 2 → ℝ, ContinuousOn W (closure Ω) ∧ IsSubsolution F Ω W ∧
+        IsSupersolution F Ω W ∧ (∀ x ∈ frontier Ω, W x = 0) ∧
+        ∀ x ∈ closure Ω, ul x ≤ W x ∧ W x ≤ uu x
+
+/-- `PerronBoundedStmt` from CIL Theorem 4.1. -/
+theorem perronBounded_of_cil (hP : CILPerronStmt) : PerronBoundedStmt :=
+  fun _ _ hΩ hprop hcont hcomp _ _ hul huu henv hle _ _ =>
+    perron_exists hP hΩ hprop hcont hcomp hul huu henv hle
+
+/-- Comparison for the obstacle Dirichlet problem on bounded open sets of `ℝ²` (proved in
+`SingleSourceD2ObsCompareProof.lean`, `obsComparison_of_alexandrov`). -/
+def ObsComparisonStmt : Prop :=
+  ∀ (Ω : Set (Rd 2)), IsOpen Ω → Bornology.IsBounded Ω → ∀ g : Rd 2 → ℝ, Continuous g →
+    ∀ A : Matrix (Fin 2) (Fin 2) ℝ → ℝ, HasTraceShift A → DegenerateElliptic A →
+      ContinuousOn A {M | M.IsSymm} → ∀ w v : Rd 2 → ℝ, IsSubsolutionDP (obsOp g A) Ω w →
+        IsSupersolutionDP (obsOp g A) Ω v → ∀ x ∈ closure Ω, w x ≤ v x
+
+/-- `ObsComparisonStmt` from CIL Theorem 3.2. -/
+theorem obsComparisonStmt_of_cil (hTS : CILTheoremOfSumsStmt) : ObsComparisonStmt :=
+  fun _ hΩ hΩb _ hg _ hA hAd hAc _ _ hw hv => obsComparison hTS hΩ hΩb hg hA hAd hAc hw hv
+
 theorem trace_sub_hasTraceShift (c : ℝ) :
     HasTraceShift (fun M : Matrix (Fin 2) (Fin 2) ℝ => c - M.trace) := by
   intro M _ t
@@ -72,7 +107,7 @@ theorem superJet2_of_open {O O' : Set (Rd 2)} (hO : IsOpen O) (hO' : IsOpen O') 
   exact h
 
 /-- **Perron's method on annuli**. -/
-theorem annulus_solution (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
+theorem annulus_solution (hPer : PerronBoundedStmt) (hCmp : ObsComparisonStmt)
     {F : Matrix (Fin 2) (Fin 2) ℝ → ℝ} (hF : HasTraceShift F) (hdeg : DegenerateElliptic F)
     {K : ℝ} (hK : 1 ≤ K) (hTr : ∀ z, traceGraph F z ≤ K) (hF0 : 0 ≤ F 0)
     {v : Rd 2 → ℝ} (hv : Continuous v)
@@ -223,10 +258,14 @@ theorem annulus_solution (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
     exact ⟨(envelopes_of_continuousWithinAt hxc (hulc x hxc) (hul0 x hx)).1,
       (envelopes_of_continuousWithinAt hxc (huuc x hxc) (huu0 x hx)).2⟩
   -- Perron's method
-  obtain ⟨W, hWc, hWsub, hWsup, -, hWb⟩ := perron_exists hP hΩ (isProper_obsOp hAdeg)
+  obtain ⟨C₁, hC₁⟩ := (isBounded_annSet r L).isCompact_closure.exists_bound_of_continuousOn hulc
+  obtain ⟨C₂, hC₂⟩ := (isBounded_annSet r L).isCompact_closure.exists_bound_of_continuousOn huuc
+  obtain ⟨W, hWc, hWsub, hWsup, -, hWb⟩ := hPer _ Ω hΩ (isProper_obsOp hAdeg)
     (continuous_obsOp hgc hAc)
-    (fun w w' hw hw' => obsComparison hTS hΩ (isBounded_annSet r L) hgc hAshift hAdeg
-      hAc.continuousOn hw hw') hsubDP hsupDP henv hle
+    (fun w w' hw hw' => hCmp Ω hΩ (isBounded_annSet r L) g hgc A hAshift hAdeg
+      hAc.continuousOn w w' hw hw') ul uu hsubDP hsupDP henv hle (max C₁ C₂)
+    (fun y hy => ⟨le_trans (by simpa only [Real.norm_eq_abs] using hC₁ y hy) (le_max_left _ _),
+      le_trans (by simpa only [Real.norm_eq_abs] using hC₂ y hy) (le_max_right _ _)⟩)
   have hmat : ∀ X : Matrix (Fin 2) (Fin 2) ℝ,
       X + (2 * -κ) • (1 : Matrix (Fin 2) (Fin 2) ℝ) + (2 * κ) • 1 = X := fun X => by
     rw [add_assoc, ← add_smul, show 2 * -κ + 2 * κ = (0 : ℝ) by ring, zero_smul, add_zero]

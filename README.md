@@ -42,7 +42,7 @@ quantities `μ` and `μ*` of Section 5.
 | --- | --- | --- |
 | Theorem 1.1 | `RandomSandpile.mainTheorem_final` | Free-boundary sandpiles on a random background converge to the solution of an obstacle problem for `F̄_η`. |
 | Theorem 9.1 | `RandomSandpile.openBoundaryTheorem_final` | Sandpiles with the open boundary condition converge to the solution of the Dirichlet problem for `F̄_η`. |
-| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` and three companions | Single-source sandpiles on a random background converge, with the recurrent operator `F̄ᴿ_η`. |
+| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` and four companions | Single-source sandpiles on a random background converge, with the recurrent operator `F̄ᴿ_η`. |
 
 **Theorem 1.1.** Let `W` be a bounded Lipschitz domain and `η` a random background of high density.
 Let `v_n` and `s_n` be the odometer and the final configuration of the sandpile that starts from
@@ -75,11 +75,12 @@ conclusion holds for every bounded stationary ergodic background for which almos
 are finite and the rescaled odometers have a vanishing tail far from the origin. If `η` is almost
 surely recurrent on every finite set, then `F̄ᴿ_η = F̄_η`; the two operators differ for `η ≡ 0`.
 
-The four parts of Theorem 9.2 are `singleSourceTheoremRecurrent_final`,
-`singleSourceTheoremRecurrentVT_final`, `recurrentOperatorIdentification_final` and
-`recurrentOperatorZeroBackgroundDifference_final`. None of them takes a hypothesis: the literature
-inputs of their proofs, Alexandrov's theorem and the radius bound of Fey, Levine and Peres, are
-proved. None of the `_final` theorems takes a literature-input hypothesis. The statements of the
+The five parts of Theorem 9.2 are `singleSourceTheoremRecurrent_final`,
+`singleSourceTheoremRecurrentVT_final`, `recurrentOperatorIdentification_final`,
+`recurrentOperatorZeroBackgroundDifference_final` and, in dimension two with the original operator
+`F̄_η` (correction C3 alone), `singleSourceTheoremD2_final`. None of them takes a hypothesis: the
+literature inputs of their proofs, Alexandrov's theorem, the radius bound of Fey, Levine and Peres
+and Propositions 2.4 and 2.5 of Pegden and Smart, are proved. None of the `_final` theorems takes a literature-input hypothesis. The statements of the
 theorems are definitions `…Stmt` in [`RandomSandpile/Draft/`](RandomSandpile/Draft/), written out
 in full with the paper's notation in their docstrings.
 
@@ -122,12 +123,13 @@ literature inputs that a result takes as hypotheses.
 | Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | — |
 | Theorem 9.2 | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | — |
 
-Six further theorems in `Main.lean` give other forms of these results:
+Seven further theorems in `Main.lean` give other forms of these results:
 `mainTheoremPrinted_final` (Theorem 1.1 with the printed radius, depending only on `W`, `d` and
 `E η(0)`), `mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a
 corollary of `mainTheorem_final`),
-`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), and the three companions of Theorem 9.2 described above (the extension under a
-vanishing tail and the two operator statements, all outright).
+`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), and the four
+companions of Theorem 9.2 described above (the extension under a vanishing tail, the two operator
+statements and the form with the original operator in dimension two, all outright).
 
 ## Corrections to the published version
 
@@ -164,12 +166,14 @@ sign. Theorem 9.2 is
 false as printed (C3: for `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`); C13 states it for the recurrent
 operator `F̄ᴿ_η`, for which the proof goes through. The two operators agree on backgrounds that are
 recurrent on every finite set and differ for `η ≡ 0`. The sign-corrected statement with `F̄_η`
-(C3 alone, `SingleSourceTheoremStmt`) is proved in dimension two,
-`RandomSandpile.singleSourceTheorem_d2_of_cil`, from the theorem of sums and Perron's method of
-Crandall, Ishii and Lions (*User's guide*, Theorems 3.2 and 4.1), which are stated in
+(C3 alone, `SingleSourceTheoremStmt`) is proved in dimension two, `singleSourceTheoremD2_final`; its
+proof uses Perron's method with bounded barriers (`perron_exists_of_bounded`) and comparison for the
+obstacle problem from Alexandrov's theorem (`obsComparison_of_alexandrov`), both proved here. The
+statements of Crandall, Ishii and Lions in
 [`RandomSandpile/Inputs/CrandallIshiiLions.lean`](RandomSandpile/Inputs/CrandallIshiiLions.lean)
-and are not proved here; no result of the paper uses them. In dimension `d ≥ 3` the sign-corrected
-statement is open. For the backgrounds with `μ*(l, 0) = 0` for every `l > 0` (`StabThresholdZero`,
+(Theorems 3.2 and 4.1, Lemma 6.1) are used only by conditional forms of the same results
+(`SingleSourceD2.singleSourceTheorem_d2`, `singleSourceTheorem_d2_of_cil`). In dimension `d ≥ 3` the
+sign-corrected statement is open. For the backgrounds with `μ*(l, 0) = 0` for every `l > 0` (`StabThresholdZero`,
 which holds when `d ≤ η ≤ 2d − 2`) it is proved, `RandomSandpile.singleSourceTheoremH0_of_flatCorrector`,
 from the step `FlatCorrectorStmt` of
 [`RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean`](RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean),
@@ -228,7 +232,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 - **No `sorry`.** The library has none. The two comparator challenges under
   [`RandomSandpileAudit/`](RandomSandpileAudit/) each contain one intentional statement-level
   `sorry`, which the corresponding solution proves.
-- **Standard axioms only.** The axiom report of each of the 34 theorems in `Main.lean` lists exactly
+- **Standard axioms only.** The axiom report of each of the 35 theorems in `Main.lean` lists exactly
   `propext`, `Classical.choice` and `Quot.sound`.
   [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the reports, and
   [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on
@@ -263,7 +267,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 
 ## Size
 
-`RandomSandpile/` and `RandomSandpile.lean`: 345 Lean files with 65,542 lines, on top of mathlib and
+`RandomSandpile/` and `RandomSandpile.lean`: 383 Lean files with 70,497 lines, on top of mathlib and
 Lattice-Probability. The comparator sources (9 files, 2,252 lines) are counted separately.
 
 ## Building

@@ -11,6 +11,7 @@ import RandomSandpile.Proofs.Sec9.RecurrentIdentificationFinal
 import RandomSandpile.Proofs.Sec9.RecurrentZeroComparison
 import RandomSandpile.Proofs.ViscosityWeakLaplace
 import LatticeProb.External.FeyLevinePeresRadiusProved
+import RandomSandpile.Proofs.Sec9.SingleSourceSignCorrected
 
 /-! # Main results of "Convergence of the random Abelian sandpile"
 
@@ -246,5 +247,10 @@ theorem recurrentOperatorIdentification_final : RecurrentOperatorIdentificationS
 theorem recurrentOperatorZeroBackgroundDifference_final :
     RecurrentOperatorZeroBackgroundDifferenceStmt :=
   recurrentOperatorZeroBackgroundDifference
+
+/-- **Theorem 9.2 in dimension two with the original operator** (correction C3 alone;
+`SingleSourceD2.SingleSourceTheoremD2Stmt`). Proved. -/
+theorem singleSourceTheoremD2_final : SingleSourceD2.SingleSourceTheoremD2Stmt :=
+  singleSourceTheorem_d2_final
 
 end RandomSandpile

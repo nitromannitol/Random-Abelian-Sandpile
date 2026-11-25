@@ -45,7 +45,8 @@ results = {
     'Theorem 9.2': ['RandomSandpile.singleSourceTheoremRecurrent_final',
                     'RandomSandpile.singleSourceTheoremRecurrentVT_final',
                     'RandomSandpile.recurrentOperatorIdentification_final',
-                    'RandomSandpile.recurrentOperatorZeroBackgroundDifference_final'],
+                    'RandomSandpile.recurrentOperatorZeroBackgroundDifference_final',
+                    'RandomSandpile.singleSourceTheoremD2_final'],
 }
 standard = {'propext', 'Classical.choice', 'Quot.sound'}
 

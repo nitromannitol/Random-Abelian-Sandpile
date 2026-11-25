@@ -5,7 +5,8 @@ import RandomSandpile.Proofs.Sec9.SingleSourceD2Ascoli
 /-!
 # Theorem 9.2 in dimension two: the regularized family
 
-`regularizedFamily : CILTheoremOfSumsStmt → CILPerronStmt → AlexandrovStmt → RegularizedFamilyStmt`.
+`regularizedFamily_gen : PerronBoundedStmt → ObsComparisonStmt → AlexandrovStmt →
+RegularizedFamilyStmt`, and `regularizedFamily` from Crandall-Ishii-Lions Theorems 3.2 and 4.1.
 
 For fixed `ε`, the annulus solutions `u_r` of `annulus_solution` (radii `r_n = r₁/(n + 2) → 0`) are
 extended to `ℝ² ∖ {0}` through the radial clamp onto `{r_n ≤ |x| ≤ L}` (`ext_props`). On every
@@ -383,9 +384,9 @@ theorem tendsto_Vbar_one {F : Matrix (Fin 2) (Fin 2) ℝ → ℝ} {K : ℝ}
   rw [← hB] at h1
   linarith
 
-/-- ** The regularized family**, from Crandall-Ishii-Lions
-Theorems 3.2 and 4.1 and Alexandrov's theorem. -/
-theorem regularizedFamily (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
+/-- **The regularized family**, from Perron's method with bounded barriers, the comparison for
+the obstacle problem and Alexandrov's theorem. -/
+theorem regularizedFamily_gen (hPer : PerronBoundedStmt) (hCmp : ObsComparisonStmt)
     (hA : AlexandrovStmt) : RegularizedFamilyStmt := by
   intro _ F K hT hDE hK hTr hF0 v hv hprof
   have hTrK : ∀ z, traceGraph F z ≤ K := fun z => (hTr z).2
@@ -421,7 +422,7 @@ theorem regularizedFamily (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
     have hrs : r < Real.sqrt (rad2 (K + 2) 1) :=
       lt_of_lt_of_le hrr1 (by rw [hr1]; exact min_le_right _ _)
     have hrR : r ^ 2 < rad2 (K + 2) 1 := (Real.lt_sqrt hr.le).1 hrs
-    exact annulus_solution hTS hP hT hDE hK hTrK hF0 hv hprof hε0 hε1
+    exact annulus_solution hPer hCmp hT hDE hK hTrK hF0 hv hprof hε0 hε1
       (fun x hx => hU0 x (by linarith)) hLR hr hrR
   obtain ⟨W, hW, hWU, hVW⟩ := regProfile_of_annuli hA hT hDE hK hTr hF0 hε0 hε1
     (U := fun x => v x + fundamentalSolution 2 x) hprof.continuousOn hL01 hU0 hLR
@@ -429,6 +430,12 @@ theorem regularizedFamily (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
   refine ⟨W, hW, hWU, fun x hx hxρ => ?_⟩
   have hxR : ‖x‖ ^ 2 ≤ rad2 (K + 2) 1 := ((Real.lt_sqrt (norm_nonneg x)).1 hxρ).le
   exact (fundamentalSolution_sub_le hc hx hxR).trans (hVW x hx)
+
+/-- **The regularized family**, from Crandall-Ishii-Lions Theorems 3.2 and 4.1 and Alexandrov's
+theorem. -/
+theorem regularizedFamily (hTS : CILTheoremOfSumsStmt) (hP : CILPerronStmt)
+    (hA : AlexandrovStmt) : RegularizedFamilyStmt :=
+  regularizedFamily_gen (perronBounded_of_cil hP) (obsComparisonStmt_of_cil hTS) hA
 
 end SingleSourceD2
 
