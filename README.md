@@ -163,8 +163,19 @@ potential of its mean (`RandomSandpile/Proofs/Sec7/Confinement*.lean`); heights 
 sign. Theorem 9.2 is
 false as printed (C3: for `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`); C13 states it for the recurrent
 operator `F̄ᴿ_η`, for which the proof goes through. The two operators agree on backgrounds that are
-recurrent on every finite set and differ for `η ≡ 0`; the sign-corrected statement with `F̄_η` in
-general is not proved here.
+recurrent on every finite set and differ for `η ≡ 0`. The sign-corrected statement with `F̄_η`
+(C3 alone, `SingleSourceTheoremStmt`) is proved in dimension two,
+`RandomSandpile.singleSourceTheorem_d2_of_cil`, from the theorem of sums and Perron's method of
+Crandall, Ishii and Lions (*User's guide*, Theorems 3.2 and 4.1), which are stated in
+[`RandomSandpile/Inputs/CrandallIshiiLions.lean`](RandomSandpile/Inputs/CrandallIshiiLions.lean)
+and are not proved here; no result of the paper uses them. In dimension `d ≥ 3` the sign-corrected
+statement is open. For the backgrounds with `μ*(l, 0) = 0` for every `l > 0` (`StabThresholdZero`,
+which holds when `d ≤ η ≤ 2d − 2`) it is proved, `RandomSandpile.singleSourceTheoremH0_of_flatCorrector`,
+from the step `FlatCorrectorStmt` of
+[`RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean`](RandomSandpile/Proofs/Sec9/NonPosDefLegalFlatSteps.lean),
+which is not proved: for every symmetric `A` with `sup {l : μ*(l, A) > 0} = 0`, almost surely, for
+every `ε > 0` and all large `R`, there are an integer function `v`, stable for `η` on the ball of
+radius `R`, and a constant `c` with `|v − q_A − c| ≤ ε R²` on the closure of the ball.
 [`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) also lists the places where the Lean proofs do not
 follow the printed argument.
 
