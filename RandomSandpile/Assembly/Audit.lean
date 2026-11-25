@@ -10,13 +10,14 @@ examples retain redundant Lawler–Limic and Pegden–Smart hypotheses for compa
 the corresponding `_final` theorems apply proved inputs internally, as shown in the table. Each report
 lists only `propext`, `Classical.choice` and `Quot.sound`.
 
-Counts (28 numbered results, 33 theorems): all are proved without literature-input hypotheses.
+Counts (28 numbered results, 34 theorems): all are proved without literature-input hypotheses.
 The formalized Prop. 2.4 omits the source's almost-everywhere Laplacian trace identification.
 
 | Result | Statement | Theorem | Proof |
 |---|---|---|---|
 | Theorem 1.1, weaker form | `MainTheoremLawRadiusStmt` | `mainTheoremLawRadius_final` | Proved. |
 | Theorem 1.1, corrections C3 and C12 | `MainTheoremStmt` | `mainTheorem_final` | Proved. |
+| Theorem 1.1, printed radius | `MainTheoremPrintedStmt` | `mainTheoremPrinted_final` | Proved. |
 | Proposition 3.1 | `LeastActionStmt` | `leastAction_final` | Proved. |
 | Proposition 3.2 | `AbelianDecompositionStmt` | `abelianDecomposition_final` | Proved. |
 | Proposition 3.3 | `BurningStmt` | `burning_final` | Proved. |
@@ -65,6 +66,13 @@ example
     MainTheoremStmt :=
   (fun (_ : PegdenSmartProp24Stmt) => (fun (_ : LawlerLimicHarmonicDifferenceStmt) => mainTheorem_final) hLawlerLimicHarmonicDifference) hPS24
 #print axioms mainTheorem_final
+
+example
+    (hLawlerLimicHarmonicDifference : LawlerLimicHarmonicDifferenceStmt)
+    (hPS24 : PegdenSmartProp24Stmt) :
+    MainTheoremPrintedStmt :=
+  (fun (_ : PegdenSmartProp24Stmt) => (fun (_ : LawlerLimicHarmonicDifferenceStmt) => mainTheoremPrinted_final) hLawlerLimicHarmonicDifference) hPS24
+#print axioms mainTheoremPrinted_final
 
 example :
     LeastActionStmt :=

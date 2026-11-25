@@ -14,7 +14,8 @@ import sys
 # Numbered result -> its Lean theorems in RandomSandpile/Assembly/Main.lean. None of the `_final`
 # theorems takes a literature-input hypothesis.
 results = {
-    'Theorem 1.1': ['RandomSandpile.mainTheoremLawRadius_final', 'RandomSandpile.mainTheorem_final'],
+    'Theorem 1.1': ['RandomSandpile.mainTheoremLawRadius_final', 'RandomSandpile.mainTheorem_final',
+                    'RandomSandpile.mainTheoremPrinted_final'],
     'Proposition 3.1': ['RandomSandpile.leastAction_final'],
     'Proposition 3.2': ['RandomSandpile.abelianDecomposition_final'],
     'Proposition 3.3': ['RandomSandpile.burning_final'],

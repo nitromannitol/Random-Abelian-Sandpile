@@ -122,9 +122,10 @@ literature inputs that a result takes as hypotheses.
 | Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | — |
 | Theorem 9.2 | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | — |
 
-Five further theorems in `Main.lean` give other forms of these results:
-`mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a corollary of
-`mainTheorem_final`),
+Six further theorems in `Main.lean` give other forms of these results:
+`mainTheoremPrinted_final` (Theorem 1.1 with the printed radius, depending only on `W`, `d` and
+`E η(0)`), `mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a
+corollary of `mainTheorem_final`),
 `strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), and the three companions of Theorem 9.2 described above (the extension under a
 vanishing tail and the two operator statements, all outright).
 
@@ -154,8 +155,12 @@ C9 and C10 are not used.
 | C15 | Theorem 9.1 | the limit vanishes outside `W`; uniqueness is on the closure of `W` | statement |
 | P1 | Section 6 | a footnote: the continuity in `l` used to define `F̄_η` needs the constant of Lemma 6.3 uniform in `l` | proof |
 
-C12 is a weakening adopted by the author: the proof gives a radius depending on `η_max`, and the
-printed dependence on `W` and `E η(0)` alone is neither proved nor refuted here. Theorem 9.2 is
+C12 is a weakening adopted by the author: the printed proof gives a radius depending on `η_max`.
+The printed dependence on `W` and `E η(0)` alone is proved here as well
+(`mainTheoremPrinted_final`, `MainTheoremPrintedStmt`), by a different argument: a quadratic
+barrier in a box around `W`, with the Green potential of `η 𝟙_{W_n}` in that box compared with the
+potential of its mean (`RandomSandpile/Proofs/Sec7/Confinement*.lean`); heights may have either
+sign. Theorem 9.2 is
 false as printed (C3: for `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`); C13 states it for the recurrent
 operator `F̄ᴿ_η`, for which the proof goes through. The two operators agree on backgrounds that are
 recurrent on every finite set and differ for `η ≡ 0`; the sign-corrected statement with `F̄_η` in
@@ -212,7 +217,7 @@ The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their P
 - **No `sorry`.** The library has none. The two comparator challenges under
   [`RandomSandpileAudit/`](RandomSandpileAudit/) each contain one intentional statement-level
   `sorry`, which the corresponding solution proves.
-- **Standard axioms only.** The axiom report of each of the 33 theorems in `Main.lean` lists exactly
+- **Standard axioms only.** The axiom report of each of the 34 theorems in `Main.lean` lists exactly
   `propext`, `Classical.choice` and `Quot.sound`.
   [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the reports, and
   [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on

@@ -2,6 +2,7 @@ import RandomSandpile.Inputs.LawlerLimicHarmonicDifference
 import RandomSandpile.Inputs.PegdenSmartProp25
 import RandomSandpile.Proofs.Alexandrov
 import RandomSandpile.Proofs.FinalSteps
+import RandomSandpile.Proofs.Sec7.ConfinementSupport
 import RandomSandpile.Proofs.PegdenSmart
 import RandomSandpile.Proofs.PegdenSmartProp24
 import RandomSandpile.Proofs.Sec7.PegdenSmartAdapter
@@ -60,6 +61,15 @@ theorem mainTheorem_final :
   mainTheorem_closed alexandrovStmt_proved lawlerLimicHarmonicDifference
     (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
       pegden_smart_prop24_stmt viscosityWeakLaplace)
+
+/-- **Theorem 1.1 with the printed support radius** (`MainTheoremPrintedStmt`): the radius `R`
+depends only on `W`, `d` and `E η(0)`, chosen before the law. The radius step is
+`sandpileSupport` (`Proofs/Sec7/ConfinementSupport.lean`). -/
+theorem mainTheoremPrinted_final :
+    MainTheoremPrintedStmt :=
+  mainTheoremPrinted_closed alexandrovStmt_proved lawlerLimicHarmonicDifference
+    (pegdenSmartTouching_of_ps13 (pegdenSmartProp25Stmt_of_prop24 pegden_smart_prop24_stmt)
+      pegden_smart_prop24_stmt viscosityWeakLaplace) sandpileSupport
 
 /-- **Proposition 3.1** (`LeastActionStmt`). Proved. -/
 theorem leastAction_final :
