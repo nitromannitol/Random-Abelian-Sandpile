@@ -3,8 +3,13 @@ name: Comparator audit
 # Runs the official leanprover/comparator on every RandomSandpileAudit/<Pair> (scripts/run_comparators.sh):
 # for each pair it checks that Solution proves a statement whose full dependency closure matches
 # Challenge's, uses only the permitted axioms, and is accepted by BOTH the Lean kernel (replay) and
-# the independent nanoda kernel. It runs on manual dispatch; there is no `pull_request` trigger.
+# the independent nanoda kernel. It runs after each successful CI run on main, on the commit
+# that CI built, and on manual dispatch; there is no `pull_request` trigger.
 on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -23,12 +28,14 @@ env:
 jobs:
   comparator:
     name: Comparator over the audit pairs
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 350
     steps:
       - name: Checkout
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           persist-credentials: false
 
       - name: Reclaim runner disk space

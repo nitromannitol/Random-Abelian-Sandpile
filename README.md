@@ -313,7 +313,7 @@ pair is missing or rejected.
 There are two continuous-integration workflows: **CI** builds the library, checks the axiom reports
 and builds the comparator pairs; **Comparator audit** runs the comparator on the four pairs. CI runs
 on pushes to `main` that change more than documentation, the paper, `formalization.yaml` or
-`CITATION.cff`; the comparator audit runs when it is started manually. Both workflows can be started
+`CITATION.cff`; the comparator audit runs after each successful CI run on `main` (on the commit that CI built) and on manual dispatch. Both workflows can be started
 manually from the [Actions page](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions).
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for build conventions.
 
