@@ -1,148 +1,155 @@
 # Convergence of the random Abelian sandpile
 
-A machine-checked **Lean 4** formalization of the paper
+[![CI](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/build.yml)
+[![Comparator audit](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/comparator.yml/badge.svg?branch=main)](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/comparator.yml)
+
+A Lean 4 formalization of the paper
 
 > Ahmed Bou-Rabee,
 > [*Convergence of the random Abelian sandpile*](https://arxiv.org/abs/1909.07849),
 > Annals of Probability 49(6) (2021), 3168–3196,
-> [doi:10.1214/21-AOP1528](https://doi.org/10.1214/21-AOP1528); arXiv:1909.07849.
+> [doi:10.1214/21-AOP1528](https://doi.org/10.1214/21-AOP1528).
 
-The statements follow a corrected draft of the arXiv source,
-[`paper/random_piles-corrected.tex`](paper/random_piles-corrected.tex). Every change from the arXiv
-source is a local correction, marked in the source by a comment `% CORRECTION [Cn]`;
-[the table below](#corrections-to-the-published-version) lists them. The unmodified arXiv source is
-kept in [`paper/random_piles.tex`](paper/random_piles.tex), and both versions are included as
-compiled PDFs.
+All 28 numbered results of the paper are proved in Lean, with no `sorry` and only the standard
+axioms. The results that the paper quotes from other works, and the two theorems of Section 9 that
+it states without proof, are proved as well. The main theorems therefore hold in Lean with no
+assumption beyond the setting of the paper. The statements follow a corrected draft of the arXiv
+source; Theorem 9.2 is false as printed and is proved in a corrected form.
 
-The paper has 28 numbered results, and all 28 are proved in Lean, with no `sorry` and only the
-standard axioms and no literature-input hypotheses. The six formalized literature inputs are
-proved and used as theorems (see [Literature inputs](#literature-inputs)). The results that the
-paper quotes from the literature (Propositions 3.1, 3.2, 3.4, 5.1,
-5.2, 5.3 and 8.1, and Lemma 7.1) and the two theorems of Section 9, which the paper states without
-proof, are proved here as well. Theorem 1.1 is stated with corrections C3 and C12, and Theorem 9.2
-in the corrected form C13, which replaces the effective operator by its recurrent version.
+## The paper
 
-The development is built on [mathlib](https://github.com/leanprover-community/mathlib4) and on the
-public library [Lattice-Probability](https://github.com/nitromannitol/Lattice-Probability).
+A *sandpile* on `ℤᵈ`, `d ≥ 2`, is a function `η : ℤᵈ → ℤ`, a number of chips at each site. A site
+with at least `2d` chips is unstable and *topples*: it gives one chip to each of its `2d` neighbours.
+Toppling unstable sites until none is left *stabilizes* the sandpile. The final configuration does
+not depend on the order of the topplings, and the *odometer* `v(x)` counts how often `x` topples.
 
-[![CI](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/build.yml)
-[![Comparator audit](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/comparator.yml/badge.svg?branch=main)](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions/workflows/comparator.yml)
+Pegden and Smart proved that sandpiles started from a single source, or from a periodic
+configuration, have scaling limits. This paper treats random initial configurations. The
+background `η` is random, with a law that is stationary and ergodic under the shifts of `ℤᵈ`, and
+almost surely bounded, `η_min ≤ η ≤ η_max`. It has *high density* if `E η(0) > 2d − 1`.
 
-## What is proved
+- **Theorem 1.1.** Start from `η` on a discretized domain `W_n = nW ∩ ℤᵈ` and stabilize in `ℤᵈ`.
+  Almost surely the rescaled odometers converge to the solution of an obstacle problem with two
+  operators, and the rescaled sandpiles converge to a deterministic limit. One operator, `F̄_η`,
+  depends on the law of `η`; the other, `F̄₀`, is the one of the single-source sandpile.
+- **Theorem 8.2.** The divisible sandpile started from `η` has the same scaling limit as the
+  divisible sandpile started from the constant `E η(0)`.
+- **Theorem 9.1.** The same convergence holds with the open boundary condition, where chips that
+  leave `W_n` are lost, and the limit solves a Dirichlet problem for `F̄_η`.
+- **Theorem 9.2.** Sandpiles with `n` chips at the origin on a random background converge.
 
-The initial sandpile is a random configuration `η : ℤᵈ → ℤ`, `d ≥ 2`, whose law is stationary and
-ergodic under the lattice shifts and almost surely bounded, `η_min ≤ η ≤ η_max`; it has *high
-density* if `E η(0) > 2d − 1`. In Lean the law is a `RandomSandpile.RandomEnvironment d`, high
-density is `HighDensity E.P`, and `W` is a bounded Lipschitz domain (`IsLipschitzDomain W`) with
-discretizations `W_n = nW ∩ ℤᵈ`. The *effective operator* `F̄_η` (`effOp E`) is the deterministic,
-degenerate elliptic operator of Section 6, defined through the almost sure limits of the curvature
-quantities `μ` and `μ*` of Section 5.
+The *effective operator* `F̄_η` is a deterministic, degenerate elliptic operator on symmetric
+matrices. It is defined in Section 6 through the almost sure limits of the curvature quantities `μ`
+and `μ*` of Section 5, which come from the subadditive ergodic theorem.
 
-| Paper | Lean declaration | Content |
-| --- | --- | --- |
-| Theorem 1.1 | `RandomSandpile.mainTheorem_final` | Free-boundary sandpiles on a random background converge to the solution of an obstacle problem for `F̄_η`. |
-| Theorem 9.1 | `RandomSandpile.openBoundaryTheorem_final` | Sandpiles with the open boundary condition converge to the solution of the Dirichlet problem for `F̄_η`. |
-| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` and four companions | Single-source sandpiles on a random background converge, with the recurrent operator `F̄ᴿ_η` (correction C13). |
+Precisely, let `W` be a bounded Lipschitz domain and `η` of high density.
 
-**Theorem 1.1.** Let `W` be a bounded Lipschitz domain and `η` a random background of high density.
-Let `v_n` and `s_n` be the odometer and the final configuration of the sandpile that starts from
-`η` on `W_n` and stabilizes in `ℤᵈ`. Almost surely, the rescaled odometers
+**Theorem 1.1.** Let `v_n` and `s_n` be the odometer and the final configuration of the sandpile that
+starts from `η` on `W_n` and stabilizes in `ℤᵈ`. Almost surely, the rescaled odometers
 `v̄_n(x) = n⁻² v_n([nx])` converge uniformly on `ℝᵈ` to
 
 `v̄ = min { v ∈ C(ℝᵈ) : v ≥ 0, F̄_η(D²v) ≥ 0 in W, F̄₀(D²v) ≤ 0 in ℝᵈ }`,
 
-in the viscosity sense with test functions touching from below, and the rescaled sandpiles
+in the viscosity sense with test functions touching from below. The rescaled sandpiles
 `s̄_n(x) = s_n([nx])` converge weakly-* in `L^∞` to a deterministic `s` with `∫ s = |W| E η(0)`,
 `s ≤ 2d − 1`, `s = 0` outside `B_R(W)` for a radius `R` depending on `W`, `d` and `η_max`, and
 `s = Δv̄ + E η(0) 1_W` weakly.
 
-**Theorem 9.1.** For `W` and `η` as above, let `v_n` be the odometer of the sandpile on `W_n` with the
-open boundary condition. Almost surely, `v̄_n` converges uniformly to the function `v̄ ∈ C(ℝᵈ)` that
-vanishes outside `W` and whose restriction to the closure of `W` is the unique viscosity solution of
-`F̄_η(D²v̄) = 0` in `W`, `v̄ = 0` on `∂W`.
+**Theorem 9.1.** Let `v_n` be the odometer of the sandpile on `W_n` with the open boundary condition.
+Almost surely, `v̄_n` converges uniformly to the function `v̄ ∈ C(ℝᵈ)` that vanishes outside `W` and
+whose restriction to the closure of `W` is the unique viscosity solution of `F̄_η(D²v̄) = 0` in `W`,
+`v̄ = 0` on `∂W`.
 
-**Theorem 9.2.** Let `η` be a random background with `η ≤ 2d − 2`, and `v_n` the odometer of the
-sandpile with `n` chips at the origin on the background `η`. Almost surely every `v_n` is finite, and
+**Theorem 9.2** (corrected). Let `η ≤ 2d − 2`, and let `v_n` be the odometer of the sandpile with `n`
+chips at the origin on the background `η`. Almost surely every `v_n` is finite, and
 `n^{−2/d} v_n([n^{1/d} x])` converges locally uniformly on `ℝᵈ ∖ {0}` to `v̄ + G`, where `G` is the
 fundamental solution of `−Δ` and `v̄` is the least element of
 
 `{ w ∈ C(ℝᵈ) : w + G ≥ 0, F̄ᴿ_η(D²(w + G)) ≥ 0 in ℝᵈ ∖ {0} }`,
 
-in the viscosity sense with test functions touching from below. Here `F̄ᴿ_η` (`effOpRecurrent E`) is
-defined as `F̄_η`, with the recurrent functions of correction C13 in place of the legal and
-stabilizing ones; it is continuous and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt`. The same
-conclusion holds for every bounded stationary ergodic background for which almost surely all `v_n`
-are finite and the rescaled odometers have a vanishing tail far from the origin. If `η` is almost
-surely recurrent on every finite set, then `F̄ᴿ_η = F̄_η`; the two operators differ for `η ≡ 0`.
+in the viscosity sense with test functions touching from below. The operator `F̄ᴿ_η` is defined as
+`F̄_η`, with recurrent functions in place of the legal and stabilizing ones (correction C13). It is
+continuous and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt`. If `η` is almost surely
+recurrent on every finite set, then `F̄ᴿ_η = F̄_η`; for `η ≡ 0` the two operators differ.
 
-Theorem 9.2 is proved as corrected in C13, in every dimension `d ≥ 2`. Its five parts are
-`singleSourceTheoremRecurrent_final`, `singleSourceTheoremRecurrentVT_final`,
-`recurrentOperatorIdentification_final`, `recurrentOperatorZeroBackgroundDifference_final` and
-`recurrentOperatorProperties_final` (the properties of `F̄ᴿ_η`). In dimension two the statement with
-the original operator `F̄_η` and correction C3 alone is also proved, `singleSourceTheoremD2_final`.
-None of them takes a hypothesis: the
-literature inputs of their proofs, Alexandrov's theorem, the radius bound of Fey, Levine and Peres
-and Propositions 2.4 and 2.5 of Pegden and Smart, are proved. None of the `_final` theorems takes a literature-input hypothesis. The statements of the
-theorems are definitions `…Stmt` in [`RandomSandpile/Draft/`](RandomSandpile/Draft/), written out
-in full with the paper's notation in their docstrings.
+## The main theorems in Lean
 
-### All numbered results
+The main theorems are in [`RandomSandpile/Assembly/Main.lean`](RandomSandpile/Assembly/Main.lean),
+in the namespace `RandomSandpile`. None takes a hypothesis: each has as its type a statement
+`…Stmt`, written out in [`RandomSandpile/Draft/`](RandomSandpile/Draft/) with the paper's notation
+in its docstring.
 
-The table lists the 28 numbered results in the order of the paper. All theorems are in
-[`RandomSandpile/Assembly/Main.lean`](RandomSandpile/Assembly/Main.lean), in the namespace
-`RandomSandpile`; [`RandomSandpile/Assembly/Audit.lean`](RandomSandpile/Assembly/Audit.lean)
-checks each one; some examples retain redundant hypotheses for compatibility. "Inputs" names
-literature inputs that a result takes as hypotheses.
+| Paper | Lean declaration |
+| --- | --- |
+| Theorem 1.1 | `RandomSandpile.mainTheorem_final` |
+| Theorem 8.2 | `RandomSandpile.divisibleTheorem_final` |
+| Theorem 9.1 | `RandomSandpile.openBoundaryTheorem_final` |
+| Theorem 9.2, corrected | `RandomSandpile.singleSourceTheoremRecurrent_final` |
 
-| Paper | Statement | Theorem | Inputs |
-| --- | --- | --- | --- |
-| Theorem 1.1 | `MainTheoremStmt` | `mainTheorem_final` | — |
-| Proposition 3.1 | `LeastActionStmt` | `leastAction_final` | — |
-| Proposition 3.2 | `AbelianDecompositionStmt` | `abelianDecomposition_final` | — |
-| Proposition 3.3 | `BurningStmt` | `burning_final` | — |
-| Proposition 3.4 | `RecurrentOfToppledStmt` | `recurrentOfToppled_final` | — |
-| Lemma 5.1 | `StabilizingLegalStmt` | `stabilizingLegal_final` | — |
-| Lemma 5.2 | `ABPStmt` | `abp_final` | — |
-| Proposition 5.1 | `ConcaveEnvelopeRepStmt` | `concaveEnvelopeRep_final` | — |
-| Lemma 5.3 | `MongeAmpereRepStmt` | `mongeAmpereRep_final` | — |
-| Lemma 5.4 | `MuBoundedStmt` | `muBounded_final` | — |
-| Proposition 5.2 | `HarnackQuadraticStmt` | `harnackQuadratic_final` | — |
-| Proposition 5.3 | `SubadditiveErgodicStmt` | `subadditiveErgodic_final` | — |
-| Lemma 5.5 | `MuConvergenceStmt` | `muConvergence_final` | — |
-| Lemma 6.1 | `MuMonotoneStmt` | `muMonotone_final` | — |
-| Lemma 6.2 | `StrictConcavityStmt` | `strictConcavity_final` | — |
-| Lemma 6.3 | `MuLipschitzStmt` | `muLipschitz_final` | — |
-| Lemma 6.4 | `EffectiveOperatorBasicStmt` | `effectiveOperatorBasic_final` | — |
-| Lemma 7.1 | `OneDimTopplingStmt` | `oneDimToppling_final` | — |
-| Lemma 7.2 | `CompactnessStmt` | `compactness_final` | — |
-| Lemma 7.3 | `DivisibleHomogenizeStmt` | `divisibleHomogenize_final` | — |
-| Lemma 7.4 | `OdometerLowerBoundStmt` | `odometerLowerBound_final` | — |
-| Lemma 7.5 | `FlatStmt` | `flat_final` | — |
-| Lemma 7.6 | `PegdenSmartRegularityStmt` | `pegdenSmartRegularity_final` | — |
-| Proposition 8.1 | `DivisibleLeastActionStmt` | `divisibleLeastAction_final` | — |
-| Lemma 8.1 | `DivisibleHomogenizeDomainStmt` | `divisibleHomogenizeDomain_final` | — |
-| Theorem 8.2 | `DivisibleTheoremStmt` | `divisibleTheorem_final` | — |
-| Theorem 9.1 | `OpenBoundaryTheoremStmt` | `openBoundaryTheorem_final` | — |
-| Theorem 9.2 | `SingleSourceTheoremRecurrentStmt` | `singleSourceTheoremRecurrent_final` | — |
+How to read the statements: the law of the background is a `RandomSandpile.RandomEnvironment d`,
+high density is `HighDensity E.P`, and `W` is a bounded Lipschitz domain, `IsLipschitzDomain W`.
+The effective operators `F̄_η` and `F̄ᴿ_η` are `effOp E` and `effOpRecurrent E`.
 
-Eight further theorems in `Main.lean` give other forms of these results:
-`mainTheoremPrinted_final` (Theorem 1.1 with the printed radius, depending only on `W`, `d` and
-`E η(0)`), `mainTheoremLawRadius_final` (Theorem 1.1 with the radius `R` chosen after the law, a
-corollary of `mainTheorem_final`),
-`strictConcavityBeta_final` (Lemma 6.2 with the explicit constant `c(1 − β)²`), the four
-companions of Theorem 9.2 described above (the extension under a vanishing tail, the two operator
-statements and the properties of the recurrent operator) and the single-source theorem with the
-original operator in dimension two (`singleSourceTheoremD2_final`), all outright.
+Further forms of these results are proved as well:
 
-## Corrections to the published version
+| Result | Lean declaration |
+| --- | --- |
+| Theorem 1.1 with the printed radius, depending only on `W`, `d` and `E η(0)` | `RandomSandpile.mainTheoremPrinted_final` |
+| Theorem 1.1 with the radius chosen after the law | `RandomSandpile.mainTheoremLawRadius_final` |
+| Theorem 9.2 for every background whose odometers are finite and have a vanishing tail | `RandomSandpile.singleSourceTheoremRecurrentVT_final` |
+| `F̄ᴿ_η = F̄_η` for backgrounds recurrent on every finite set | `RandomSandpile.recurrentOperatorIdentification_final` |
+| `F̄ᴿ_η ≠ F̄_η` for `η ≡ 0` | `RandomSandpile.recurrentOperatorZeroBackgroundDifference_final` |
+| `F̄ᴿ_η` is continuous, degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt` | `RandomSandpile.recurrentOperatorProperties_final` |
+| Theorem 9.2 with `F̄_η`, in dimension two | `RandomSandpile.singleSourceTheoremD2_final` |
+| Lemma 6.2 with the explicit constant `c(1 − β)²` | `RandomSandpile.strictConcavityBeta_final` |
 
-The corrected draft differs from the arXiv source by the corrections below, each marked in
-[`paper/random_piles-corrected.tex`](paper/random_piles-corrected.tex) by a comment
-`% CORRECTION [Cn]` at the end of the changed line, with its reason. The full list, with the reason
-for each change, is [`paper/CORRECTIONS.md`](paper/CORRECTIONS.md), and the script
+## All numbered results
+
+| Paper | Lean declaration | Content |
+| --- | --- | --- |
+| Theorem 1.1 | `RandomSandpile.mainTheorem_final` | Sandpiles on `W_n` with a random background converge to the solution of an obstacle problem for `F̄_η`. |
+| Proposition 3.1 | `RandomSandpile.leastAction_final` | The least action principle: the odometer is the largest legal and the smallest stabilizing toppling function. |
+| Proposition 3.2 | `RandomSandpile.abelianDecomposition_final` | A toppling function with boundary values splits into the odometer and the topplings from the boundary. |
+| Proposition 3.3 | `RandomSandpile.burning_final` | The maximum and comparison principles for the sandpile equation, from Dhar's burning algorithm. |
+| Proposition 3.4 | `RandomSandpile.recurrentOfToppled_final` | If every site of a connected set has toppled, what remains there is recurrent. |
+| Lemma 5.1 | `RandomSandpile.stabilizingLegal_final` | The solution with the boundary values of a legal function has a larger superdifferential; dually for stabilizing functions. |
+| Lemma 5.2 | `RandomSandpile.abp_final` | The discrete Alexandroff–Bakelman–Pucci estimate in terms of `μ` and `μ*`. |
+| Proposition 5.1 | `RandomSandpile.concaveEnvelopeRep_final` | The concave envelope on a cube is a supremum of convex combinations of `d + 1` values. |
+| Lemma 5.3 | `RandomSandpile.mongeAmpereRep_final` | The measure of the superdifferential of a function equals that of its concave envelope. |
+| Lemma 5.4 | `RandomSandpile.muBounded_final` | `μ` and `μ*` are bounded by a multiple of the volume, and vanish beyond explicit thresholds in `l`. |
+| Proposition 5.2 | `RandomSandpile.harnackQuadratic_final` | A nonnegative function with `f(0) = 0` and bounded Laplacian grows at most quadratically. |
+| Proposition 5.3 | `RandomSandpile.subadditiveErgodic_final` | The multiparameter subadditive ergodic theorem, on all bounded Lipschitz domains at once. |
+| Lemma 5.5 | `RandomSandpile.muConvergence_final` | The almost sure limits `μ(l, M)` and `μ*(l, M)` of the curvature quantities exist and are bounded. |
+| Lemma 6.1 | `RandomSandpile.muMonotone_final` | `μ` is nondecreasing in `l` and `μ*` nonincreasing. |
+| Lemma 6.2 | `RandomSandpile.strictConcavity_final` | If `α = μ(l, M) > 0`, some `w_n ∈ S(B_n, η, l, M)` lies `C α n²` below its supporting planes at contact points of `B_{βn}`, on `∂B_n`. |
+| Lemma 6.3 | `RandomSandpile.muLipschitz_final` | `μ` and `μ*` are Lipschitz in `l`. |
+| Lemma 6.4 | `RandomSandpile.effectiveOperatorBasic_final` | `F̄_η` is degenerate elliptic, Lipschitz and finite. |
+| Lemma 7.1 | `RandomSandpile.oneDimToppling_final` | An explicit one-dimensional toppling function with a prescribed second difference. |
+| Lemma 7.2 | `RandomSandpile.compactness_final` | The rescaled odometers are precompact for uniform convergence. |
+| Lemma 7.3 | `RandomSandpile.divisibleHomogenize_final` | The Green potential of `η` in `B_n` is within `ε n²` of the potential of its mean. |
+| Lemma 7.4 | `RandomSandpile.odometerLowerBound_final` | Under high density, every site of `B_{(1−ε)n}` topples at least once. |
+| Lemma 7.5 | `RandomSandpile.flat_final` | `μ(l_M, M) = μ*(l_M, M) = 0` at `l_M = F̄_η(M)`. |
+| Lemma 7.6 | `RandomSandpile.pegdenSmartRegularity_final` | Where two distinct subsequential limits `v, v'` separate, both are twice differentiable with `D²(v − v') < −δI`, and integer functions with `Δu ≤ 2d − 1` lie above the quadratics of `D²v`. |
+| Proposition 8.1 | `RandomSandpile.divisibleLeastAction_final` | The least action principle for the divisible sandpile. |
+| Lemma 8.1 | `RandomSandpile.divisibleHomogenizeDomain_final` | Lemma 7.3 on the domains `W_n`. |
+| Theorem 8.2 | `RandomSandpile.divisibleTheorem_final` | The divisible sandpile on `W_n` has the scaling limit of the averaged divisible sandpile. |
+| Theorem 9.1 | `RandomSandpile.openBoundaryTheorem_final` | With the open boundary condition, the limit solves the Dirichlet problem for `F̄_η`. |
+| Theorem 9.2 | `RandomSandpile.singleSourceTheoremRecurrent_final` | Single-source sandpiles on a random background converge, with the operator `F̄ᴿ_η`. |
+
+Propositions 3.1, 3.2, 3.4, 5.1, 5.2, 5.3 and 8.1 and Lemmas 7.1 and 7.6 are quoted in the paper
+from other works. The proofs also use Alexandrov's theorem, Propositions 2.4 and 2.5 of Pegden and
+Smart, Ishii's equivalence of viscosity and weak solutions, a difference estimate for discrete
+harmonic functions from Lawler and Limic, and the radius bound of Fey, Levine and Peres. All of these
+are proved in Lean.
+
+## Corrections
+
+The Lean statements follow a corrected draft of the arXiv source,
+[`paper/random_piles-corrected.tex`](paper/random_piles-corrected.tex). It differs from the arXiv
+source by the corrections below, each marked in the source by a comment `% CORRECTION [Cn]`.
+[`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) lists them with their reasons, and
 [`paper/make_corrected.py`](paper/make_corrected.py) produces the corrected draft from the arXiv
-source by applying them. Each correction was tested in an independent model review. The numbers C7,
-C9 and C10 are not used.
+source. The numbers C7, C9 and C10 are not used.
 
 | Id | Result | Change | Kind |
 | --- | --- | --- | --- |
@@ -160,112 +167,59 @@ C9 and C10 are not used.
 | C15 | Theorem 9.1 | the limit vanishes outside `W`; uniqueness is on the closure of `W` | statement |
 | P1 | Section 6 | a footnote: the continuity in `l` used to define `F̄_η` needs the constant of Lemma 6.3 uniform in `l` | proof |
 
-C12 is a weakening adopted by the author: the printed proof gives a radius depending on `η_max`.
-The printed dependence on `W` and `E η(0)` alone is proved here as well
-(`mainTheoremPrinted_final`, `MainTheoremPrintedStmt`), by a different argument: a quadratic
-barrier in a box around `W`, with the Green potential of `η 𝟙_{W_n}` in that box compared with the
-potential of its mean (`RandomSandpile/Proofs/Sec7/Confinement*.lean`); heights may have either
-sign. Theorem 9.2 is
-false as printed (C3: for `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`); C13 states it for the recurrent
-operator `F̄ᴿ_η`, for which the proof goes through. The two operators agree on backgrounds that are
-recurrent on every finite set and differ for `η ≡ 0`. Theorem 9.2 is proved in this corrected form
-in every dimension, following the proof in the corrected draft. In dimension two the statement with
-`F̄_η` and C3 alone is also proved, `singleSourceTheoremD2_final`; its proof uses Perron's method with
-bounded barriers (`perron_exists_of_bounded`) and comparison for the obstacle problem from
-Alexandrov's theorem (`obsComparison_of_alexandrov`), both proved here. The
-statements of Crandall, Ishii and Lions in
-[`RandomSandpile/Inputs/CrandallIshiiLions.lean`](RandomSandpile/Inputs/CrandallIshiiLions.lean)
-(Theorems 3.2 and 4.1, Lemma 6.1) are used only by conditional forms of the same results
-(`SingleSourceD2.singleSourceTheorem_d2`, `singleSourceTheorem_d2_of_cil`).
-[`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) also lists the places where the Lean proofs do not
-follow the printed argument.
+- **Theorem 9.2 is false as printed.** For `d = 2` and `η ≡ 0`, `F̄_η(0) = 4/3 > 0`. Correction C13
+  states it for the recurrent operator `F̄ᴿ_η`, and it is proved in this form in every dimension.
+  In dimension two the statement with `F̄_η` and C3 alone is proved too.
+- **C12** is a weakening adopted by the author: the printed proof gives a radius depending on
+  `η_max`. The printed dependence on `W` and `E η(0)` alone is also proved, by a different argument.
 
-## Standing assumptions and scope
+The unmodified arXiv source is [`paper/random_piles.tex`](paper/random_piles.tex); both versions
+are included as PDFs. [`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) also lists the places where
+the Lean proofs do not follow the printed argument.
 
-1. **The random background.** A `RandomEnvironment d` is a probability measure on `ℤ^{ℤᵈ}` that is
-   invariant and ergodic under the shifts, with integer bounds `η_min ≤ η(x) ≤ η_max` holding almost
-   surely at every site. Theorems 1.1 and 9.1 and Lemmas 7.4, 7.5 and 7.6 assume high density,
-   `E η(0) > 2d − 1`, as the paper does.
-2. **Lemma 5.4** is proved for all integer bounds, with the threshold `l ≤ −max(η_max, 0) − tr M`.
-   This is the printed threshold in the paper's setting, where `η_max ≥ 2d`; for a negative upper
-   bound the printed threshold is false, and the Lean statement is the correct generalization.
-3. **Viscosity solutions** are in the sense of Crandall, Ishii and Lions, with `C²` test functions;
-   supersolutions are tested from below and subsolutions from above.
-4. **Rescaling.** `[nx]` is the coordinatewise floor; the rescaled sandpiles are tested against all
-   integrable functions (weak-* convergence in `L^∞`).
-5. **The divisible sandpile** of Section 8 runs on finite domains, and its odometer counts the mass
-   sent to each neighbor (correction C14).
-6. **Theorem 9.2** is proved for the recurrent operator (correction C13). Its first form assumes
-   `η ≤ 2d − 2` and uses the radius bound of Fey, Levine and Peres for the constant background
-   `2d − 2`; the second form assumes instead that the odometers are finite and have a vanishing tail.
+## Scope
 
-## Literature inputs
+- **The random background.** A `RandomEnvironment d` is a probability measure on `ℤ^{ℤᵈ}`,
+  invariant and ergodic under the shifts, with integer bounds `η_min ≤ η(x) ≤ η_max` almost surely
+  at every site. Theorems 1.1 and 9.1 and Lemmas 7.4, 7.5 and 7.6 assume high density, as the paper
+  does.
+- **Lemma 5.4** is proved for all integer bounds, with the threshold `l ≤ −max(η_max, 0) − tr M`.
+  This is the printed threshold when `η_max ≥ 2d`, as in the paper; for a negative upper bound the
+  printed threshold is false.
+- **Viscosity solutions** are in the sense of Crandall, Ishii and Lions, with `C²` test functions;
+  supersolutions are tested from below and subsolutions from above.
+- **Rescaling.** `[nx]` is the coordinatewise floor. The rescaled sandpiles are tested against all
+  integrable functions (weak-* convergence in `L^∞`).
+- **Theorem 9.2.** The main form assumes `η ≤ 2d − 2`; the second form assumes instead that the
+  odometers are finite and have a vanishing tail far from the origin.
 
-The six inputs are propositions, stated in [`RandomSandpile/Inputs/`](RandomSandpile/Inputs/) and,
-for the last one, in the directory `LatticeProb/External/` of Lattice-Probability, each with its
-source in its docstring. All six formalized inputs are proved and used as theorems: Alexandrov's
-theorem (`RandomSandpile.alexandrovStmt_proved`), the formalized Pegden–Smart Proposition 2.4
-(`RandomSandpile.pegden_smart_prop24_stmt`), Proposition 2.5 from Proposition 2.4
-(`RandomSandpile.pegdenSmartProp25Stmt_of_prop24`), the viscosity input
-(`RandomSandpile.viscosityWeakLaplace`), the Fey–Levine–Peres radius bound
-(`LatticeProb.External.feyLevinePeresRadius_holds`) and the Lawler–Limic harmonic difference
-estimate (`RandomSandpile.lawlerLimicHarmonicDifference`). The formalized Proposition 2.4 omits the
-source's almost-everywhere Laplacian trace identification.
+## Checking the proofs
 
-| Lean name | Statement | Source | Results that use it | Status |
-| --- | --- | --- | --- | --- |
-| `RandomSandpile.AlexandrovStmt` | a convex function on `ℝᵈ` has a second-order Taylor expansion at almost every point (Alexandrov's theorem) | Evans and Gariepy, *Measure Theory and Fine Properties of Functions* (1992), §6.4, Theorem 1, p. 242 | Theorems 1.1, 9.1, 9.2 | proved, `RandomSandpile.alexandrovStmt_proved` |
-| `RandomSandpile.LawlerLimicHarmonicDifferenceStmt` | a function harmonic for the simple random walk in the ball of radius `n` and bounded by `M` on its closure has differences at the center at most `CM/n` | Lawler and Limic, *Random Walk: A Modern Introduction* (2010), Theorem 6.3.8(a), for the simple random walk | Theorems 1.1, 8.2, 9.1; Lemmas 7.3, 7.4, 7.5, 8.1 | proved, `RandomSandpile.lawlerLimicHarmonicDifference` |
-| `RandomSandpile.PegdenSmartProp24Stmt` | a continuous weak solution of `Δu = s` in the unit ball with bounded `s` has a second-order Taylor expansion at almost every point | Pegden and Smart, *Convergence of the Abelian sandpile*, Duke Math. J. 162 (2013), Proposition 2.4 (arXiv:1105.0111v2, p. 6) | Theorem 1.1, Lemma 7.6 | proved, `RandomSandpile.pegden_smart_prop24_stmt` |
-| `RandomSandpile.PegdenSmartProp25Stmt` | if such a `u`, continuous on the closed ball, exceeds its boundary supremum somewhere in the ball, then on a set of positive measure it does so and has a second-order expansion with negative definite Hessian | Pegden and Smart, *ibid.*, Proposition 2.5 (p. 6) | Theorem 1.1, Lemma 7.6 | proved from Proposition 2.4, `RandomSandpile.pegdenSmartProp25Stmt_of_prop24` |
-| `RandomSandpile.ViscosityWeakLaplaceStmt` | on a nonempty open set, a continuous viscosity solution of `−K ≤ Δu ≤ K` is a weak solution of `Δu = s` with `\|s\| ≤ K` | Ishii, *On the equivalence of two notions of weak solutions, viscosity solutions and distribution solutions*, Funkcial. Ekvac. 38 (1995), Theorem 1, p. 103, with the passage from the two distributional inequalities to a bounded density | Theorem 1.1, Lemma 7.6 | proved, `RandomSandpile.viscosityWeakLaplace` |
-| `LatticeProb.External.FeyLevinePeresRadius` | for a constant background `h` with `d ≤ h ≤ 2d − 2` and every `ε > 0`, for all large `n` the sites that topple when `n` chips start at the origin satisfy `max_i \|x_i\| ≤ (d + ε)/(2d − 1 − h) · (n/ω_d)^{1/d}`, `ω_d` the volume of the unit ball | Fey, Levine and Peres, *Growth rates and explosions in sandpiles*, J. Stat. Phys. 138 (2010), Theorem 1.1 (arXiv:0901.3805v2, p. 4) | Theorem 9.2 | proved, `LatticeProb.External.feyLevinePeresRadius_holds` |
-
-The paper quotes Lemma 7.6 from Pegden and Smart; here it is proved from their Propositions 2.4 and
-2.5 and the equivalence of viscosity and weak solutions, by an argument localized to balls.
-
-## Guarantees
-
-- **No `sorry`.** The library has none. The four comparator challenges under
-  [`RandomSandpileAudit/`](RandomSandpileAudit/) each contain one intentional statement-level
-  `sorry`, which the corresponding solution proves.
-- **Standard axioms only.** The axiom report of each of the 35 theorems in `Main.lean` lists exactly
-  `propext`, `Classical.choice` and `Quot.sound`.
-  [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean) prints the reports, and
-  [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any other axiom, on `sorryAx`, or on
-  a missing report.
-- **Independent check of the statements.** Theorem 1.1 (`mainTheorem_final`) and the first part of
-  Theorem 9.2 (`singleSourceTheoremRecurrent_final`, backgrounds with `η ≤ 2d − 2`) are restated
-  using mathlib alone, with no literature-input hypothesis, in
-  [`RandomSandpileAudit/MainTheoremFinal/`](RandomSandpileAudit/MainTheoremFinal/) and
-  [`RandomSandpileAudit/SingleSourceFinal/`](RandomSandpileAudit/SingleSourceFinal/), as the `_final`
-  theorems state them. The pairs [`RandomSandpileAudit/MainTheorem/`](RandomSandpileAudit/MainTheorem/)
-  and [`RandomSandpileAudit/SingleSource/`](RandomSandpileAudit/SingleSource/) restate the same two
-  theorems with the literature inputs that they took as hypotheses when the pairs were written (all
-  five inputs of Theorem 1.1; the radius bound and Alexandrov's theorem for Theorem 9.2). Each
-  `Challenge.lean` restates every definition that its statement unfolds to; each `Solution.lean`
-  proves its restatement from the library; and
-  [leanprover/comparator](https://github.com/leanprover/comparator) checks that the two statements
-  agree, that only the permitted axioms are used, and replays the proof through an independent
-  implementation of the Lean kernel. Theorem 9.1, the other three parts of Theorem 9.2 and the other
-  numbered results have no comparator pair.
-- **Pinned toolchain and dependencies.** Lean `v4.35.0-rc2`, Mathlib
-  `065356127b1dc0016f66b7283ce0ce2c4055aa55` and Lattice-Probability
-  `6c5bebe06b65795cd9daed01d9b2d84795be8ac7`, as recorded in [`lean-toolchain`](lean-toolchain) and
-  [`lake-manifest.json`](lake-manifest.json) (see [Building](#building)).
-- **The paper is part of the repository.** [`paper/`](paper/) holds the arXiv source, the corrected
-  draft, both compiled to PDF, and the list of corrections. The statements follow the corrected
-  draft `paper/random_piles-corrected.tex`, with SHA-256
-  `f772dd2109fd010ed0c83eaa405831121b8698bd061facaee2af457dcc4d27ce`; the arXiv source
-  `paper/random_piles.tex` has SHA-256
+- **No `sorry`.** The library has none. Each of the four comparator challenges under
+  [`RandomSandpileAudit/`](RandomSandpileAudit/) contains one intentional `sorry` at the statement,
+  which the matching solution file proves.
+- **Standard axioms only.** [`RandomSandpileAudit/Axioms.lean`](RandomSandpileAudit/Axioms.lean)
+  prints the axioms of the 36 theorems of `Main.lean`, and
+  [`scripts/check_axioms.py`](scripts/check_axioms.py) fails on any axiom other than `propext`,
+  `Classical.choice` and `Quot.sound`, on `sorryAx`, and on a missing report.
+- **Independent check of the statements.** Theorem 1.1 and Theorem 9.2 (corrected, `η ≤ 2d − 2`)
+  each have a comparator pair, in [`RandomSandpileAudit/MainTheoremFinal/`](RandomSandpileAudit/MainTheoremFinal/)
+  and [`RandomSandpileAudit/SingleSourceFinal/`](RandomSandpileAudit/SingleSourceFinal/). A
+  `Challenge.lean` restates the theorem and every definition it uses with mathlib alone, and a
+  `Solution.lean` proves it from the library. [leanprover/comparator](https://github.com/leanprover/comparator)
+  checks that the two statements agree, that only the standard axioms are used, and replays the
+  proof through an independent implementation of the Lean kernel. Two older pairs,
+  [`MainTheorem/`](RandomSandpileAudit/MainTheorem/) and [`SingleSource/`](RandomSandpileAudit/SingleSource/),
+  restate the same theorems with extra hypotheses. The other results have no comparator pair.
+- **Continuous integration.** The **CI** workflow builds the library, checks the axiom reports and
+  builds the comparator pairs. The **Comparator audit** workflow runs the comparator on the four
+  pairs after each successful CI run on `main`, and on manual dispatch.
+- **The paper is part of the repository.** The corrected draft has SHA-256
+  `f772dd2109fd010ed0c83eaa405831121b8698bd061facaee2af457dcc4d27ce`, and the arXiv source
   `ab52e936f60ab3496685184a71f622670d355371c3d4f29356f170e42e8b269e`.
-- **Statements and inputs checked against their sources.** Each Lean statement was compared with the
-  corrected draft, and each literature input with its source, in an independent model review.
 
-## Size
-
-`RandomSandpile/` and `RandomSandpile.lean`: 383 Lean files with 70,497 lines, on top of mathlib and
-Lattice-Probability. The comparator sources (13 files, 3,124 lines) are counted separately.
+`RandomSandpile/` and `RandomSandpile.lean` contain 383 Lean files with 70,507 lines, built on
+mathlib and Lattice-Probability.
 
 ## Building
 
@@ -280,6 +234,7 @@ python3 scripts/check_axioms.py axioms-audit.log            # the axiom reports
 lake build RandomSandpileAudit                              # the comparator pairs
 ```
 
+The toolchain is Lean `v4.35.0-rc2`, with Mathlib at `065356127b1dc0016f66b7283ce0ce2c4055aa55`.
 Lattice-Probability has no prebuilt cache, so the first build compiles it as well as the library.
 It is a public repository, pinned in [`lake-manifest.json`](lake-manifest.json):
 
@@ -310,11 +265,6 @@ The four variables default to the paths under `~/tools` where the workflow build
 script builds the library and the audit modules, runs the comparator on every pair and fails if a
 pair is missing or rejected.
 
-There are two continuous-integration workflows: **CI** builds the library, checks the axiom reports
-and builds the comparator pairs; **Comparator audit** runs the comparator on the four pairs. CI runs
-on pushes to `main` that change more than documentation, the paper, `formalization.yaml` or
-`CITATION.cff`; the comparator audit runs after each successful CI run on `main` (on the commit that CI built) and on manual dispatch. Both workflows can be started
-manually from the [Actions page](https://github.com/nitromannitol/Random-Abelian-Sandpile/actions).
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for build conventions.
 
 ## Repository layout
@@ -325,28 +275,23 @@ RandomSandpile/
   Defs/                       sandpiles, toppling, odometers, the curvature quantities, the
                               effective operators, viscosity solutions, Green's functions
   Draft/                      the statements of the numbered results, one file per section
-  Inputs/                     the literature inputs, stated as propositions
+  Inputs/                     the statements of the results of other works that the proofs use
   Infra/                      general lemmas (concave envelopes, sup-convolution, touching,
                               subadditive processes)
   Steps/                      one Lean proposition per proof step of the paper
   Proofs/                     the proofs of the steps, by section
   Assembly/
-    Main.lean                 the numbered results, without literature-input hypotheses
+    Main.lean                 the numbered results
     Audit.lean                checks for each result and its axioms
 RandomSandpileAudit/
   Axioms.lean                 the axiom report of every theorem in Main.lean
   MainTheoremFinal/, SingleSourceFinal/
                               the mathlib-only comparator pairs of Theorems 1.1 and 9.2
-  MainTheorem/, SingleSource/ the same with the literature inputs as hypotheses
+  MainTheorem/, SingleSource/ the older pairs, with extra hypotheses
 paper/                        the arXiv source and the corrected draft (LaTeX and PDF), figures,
                               CORRECTIONS.md, make_corrected.py, README.md
 scripts/                      check_axioms.py, run_comparators.sh, prefetch_toolchain.py (used by CI)
-.github/workflows/            build.yml (CI) and comparator.yml (Comparator audit)
-LICENSE                       the Apache License 2.0
-CONTRIBUTING.md               build conventions and contribution notes
-CITATION.cff                  citation metadata
 formalization.yaml            source, statement, automation and review metadata
-lakefile.lean, lake-manifest.json, lean-toolchain   the build
 ```
 
 ## How this was built
