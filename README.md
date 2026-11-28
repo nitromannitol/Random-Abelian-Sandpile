@@ -10,18 +10,22 @@ A Lean 4 formalization of the paper
 > Annals of Probability 49(6) (2021), 3168–3196,
 > [doi:10.1214/21-AOP1528](https://doi.org/10.1214/21-AOP1528).
 
-All 28 numbered results of the paper are proved in Lean, with no `sorry` and only the standard
-axioms. The results that the paper quotes from other works, and the two theorems of Section 9 that
-it states without proof, are proved as well. The main theorems therefore hold in Lean with no
-assumption beyond the setting of the paper. The statements follow a corrected draft of the arXiv
-source; Theorem 9.2 is false as printed and is proved in a corrected form.
+The paper proves that the abelian sandpile, started on a large domain from a random stationary and
+ergodic configuration of chips, has a deterministic scaling limit, given by an elliptic obstacle
+problem. All 28 numbered results are proved in Lean with only the standard axioms, and so are the
+results the paper quotes from other works and the two theorems of Section 9 that it states without
+proof. Nothing is assumed beyond the setting of the paper. The statements follow a corrected draft;
+Theorem 9.2 is false as printed and is proved in a corrected form.
 
 ## The paper
 
 A *sandpile* on `ℤᵈ`, `d ≥ 2`, is a function `η : ℤᵈ → ℤ`, a number of chips at each site. A site
 with at least `2d` chips is unstable and *topples*: it gives one chip to each of its `2d` neighbours.
 Toppling unstable sites until none is left *stabilizes* the sandpile. The final configuration does
-not depend on the order of the topplings, and the *odometer* `v(x)` counts how often `x` topples.
+not depend on the order of the topplings, and the *odometer* `v(x)` counts how often `x` topples. A
+*toppling function* `u ≥ 0` is *legal* if it can be carried out by toppling only unstable sites, and
+*stabilizing* if `η + Δu ≤ 2d − 1`, where `Δ` is the graph Laplacian of `ℤᵈ`; the odometer is the
+largest legal and the smallest stabilizing toppling function.
 
 Pegden and Smart proved that sandpiles started from a single source, or from a periodic
 configuration, have scaling limits. This paper treats random initial configurations. The
@@ -32,15 +36,18 @@ almost surely bounded, `η_min ≤ η ≤ η_max`. It has *high density* if `E �
   Almost surely the rescaled odometers converge to the solution of an obstacle problem with two
   operators, and the rescaled sandpiles converge to a deterministic limit. One operator, `F̄_η`,
   depends on the law of `η`; the other, `F̄₀`, is the one of the single-source sandpile.
-- **Theorem 8.2.** The divisible sandpile started from `η` has the same scaling limit as the
-  divisible sandpile started from the constant `E η(0)`.
+- **Theorem 8.2.** In the *divisible sandpile* the mass is real-valued, and a site with mass above
+  `1` keeps `1` and sends the excess equally to its neighbours. Started from `η`, it has the same
+  scaling limit as the divisible sandpile started from the constant `E η(0)`.
 - **Theorem 9.1.** The same convergence holds with the open boundary condition, where chips that
   leave `W_n` are lost, and the limit solves a Dirichlet problem for `F̄_η`.
 - **Theorem 9.2.** Sandpiles with `n` chips at the origin on a random background converge.
 
 The *effective operator* `F̄_η` is a deterministic, degenerate elliptic operator on symmetric
-matrices. It is defined in Section 6 through the almost sure limits of the curvature quantities `μ`
-and `μ*` of Section 5, which come from the subadditive ergodic theorem.
+matrices. It is defined in Section 6 through the almost sure limits of the monotone quantities `μ`
+and `μ*` of Section 5, which come from the subadditive ergodic theorem. The operator `F̄₀` is that
+of Pegden and Smart: `F̄₀(M)` is the least `s` such that some `u : ℤᵈ → ℤ` with `Δu ≤ 2d − 1`
+satisfies `u(y) ≥ ½ yᵀ(M − sI)y` for all `y`.
 
 Precisely, let `W` be a bounded Lipschitz domain and `η` of high density.
 
@@ -69,8 +76,10 @@ fundamental solution of `−Δ` and `v̄` is the least element of
 
 in the viscosity sense with test functions touching from below. The operator `F̄ᴿ_η` is defined as
 `F̄_η`, with recurrent functions in place of the legal and stabilizing ones (correction C13). It is
-continuous and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt`. If `η` is almost surely
-recurrent on every finite set, then `F̄ᴿ_η = F̄_η`; for `η ≡ 0` the two operators differ.
+continuous and degenerate elliptic, and `F̄ᴿ_η(M + tI) = F̄ᴿ_η(M) − dt`. A sandpile is *recurrent*
+on a finite set `A` if it is obtained from the constant sandpile `2d − 1` on `A` by adding chips and
+toppling legally in `A`. If `η` is almost surely recurrent on every finite set, then `F̄ᴿ_η = F̄_η`;
+for `η ≡ 0` the two operators differ.
 
 ## The main theorems in Lean
 
@@ -119,7 +128,7 @@ Further forms of these results are proved as well:
 | Lemma 5.4 | `RandomSandpile.muBounded_final` | `μ` and `μ*` are bounded by a multiple of the volume, and vanish beyond explicit thresholds in `l`. |
 | Proposition 5.2 | `RandomSandpile.harnackQuadratic_final` | A nonnegative function with `f(0) = 0` and bounded Laplacian grows at most quadratically. |
 | Proposition 5.3 | `RandomSandpile.subadditiveErgodic_final` | The multiparameter subadditive ergodic theorem, on all bounded Lipschitz domains at once. |
-| Lemma 5.5 | `RandomSandpile.muConvergence_final` | The almost sure limits `μ(l, M)` and `μ*(l, M)` of the curvature quantities exist and are bounded. |
+| Lemma 5.5 | `RandomSandpile.muConvergence_final` | The almost sure limits `μ(l, M)` and `μ*(l, M)` of `μ` and `μ*` on `nW ∩ ℤᵈ`, divided by the volume, exist and are bounded. |
 | Lemma 6.1 | `RandomSandpile.muMonotone_final` | `μ` is nondecreasing in `l` and `μ*` nonincreasing. |
 | Lemma 6.2 | `RandomSandpile.strictConcavity_final` | If `α = μ(l, M) > 0`, some `w_n ∈ S(B_n, η, l, M)` lies `C α n²` below its supporting planes at contact points of `B_{βn}`, on `∂B_n`. |
 | Lemma 6.3 | `RandomSandpile.muLipschitz_final` | `μ` and `μ*` are Lipschitz in `l`. |
@@ -146,10 +155,11 @@ are proved in Lean.
 
 The Lean statements follow a corrected draft of the arXiv source,
 [`paper/random_piles-corrected.tex`](paper/random_piles-corrected.tex). It differs from the arXiv
-source by the corrections below, each marked in the source by a comment `% CORRECTION [Cn]`.
+source by twelve corrections, C1 to C15 (the numbers C7, C9 and C10 are not used), and a footnote
+P1 to a proof. Each is marked in the source by a comment `% CORRECTION [Cn]`.
 [`paper/CORRECTIONS.md`](paper/CORRECTIONS.md) lists them with their reasons, and
 [`paper/make_corrected.py`](paper/make_corrected.py) produces the corrected draft from the arXiv
-source. The numbers C7, C9 and C10 are not used.
+source.
 
 | Id | Result | Change | Kind |
 | --- | --- | --- | --- |
@@ -208,9 +218,10 @@ the Lean proofs do not follow the printed argument.
   `Challenge.lean` restates the theorem and every definition it uses with mathlib alone, and a
   `Solution.lean` proves it from the library. [leanprover/comparator](https://github.com/leanprover/comparator)
   checks that the two statements agree, that only the standard axioms are used, and replays the
-  proof through an independent implementation of the Lean kernel. Two older pairs,
+  proof through an independent implementation of the Lean kernel. Two further pairs,
   [`MainTheorem/`](RandomSandpileAudit/MainTheorem/) and [`SingleSource/`](RandomSandpileAudit/SingleSource/),
-  restate the same theorems with extra hypotheses. The other results have no comparator pair.
+  restate the same theorems with the results from other works that the proofs use as hypotheses.
+  The other results have no comparator pair.
 - **Continuous integration.** The **CI** workflow builds the library, checks the axiom reports and
   builds the comparator pairs. The **Comparator audit** workflow runs the comparator on the four
   pairs after each successful CI run on `main`, and on manual dispatch.
@@ -219,7 +230,7 @@ the Lean proofs do not follow the printed argument.
   `ab52e936f60ab3496685184a71f622670d355371c3d4f29356f170e42e8b269e`.
 
 `RandomSandpile/` and `RandomSandpile.lean` contain 383 Lean files with 70,507 lines, built on
-mathlib and Lattice-Probability.
+mathlib, Lattice-Probability and EllipticRegularityLean.
 
 ## Building
 
@@ -235,11 +246,14 @@ lake build RandomSandpileAudit                              # the comparator pai
 ```
 
 The toolchain is Lean `v4.35.0-rc2`, with Mathlib at `065356127b1dc0016f66b7283ce0ce2c4055aa55`.
-Lattice-Probability has no prebuilt cache, so the first build compiles it as well as the library.
-It is a public repository, pinned in [`lake-manifest.json`](lake-manifest.json):
+Lattice-Probability and EllipticRegularityLean have no prebuilt cache, so the first build compiles
+the modules of them that the library uses. They are public repositories, pinned in
+[`lake-manifest.json`](lake-manifest.json):
 
 - Lattice-Probability: `https://github.com/nitromannitol/Lattice-Probability` at
-  `6c5bebe06b65795cd9daed01d9b2d84795be8ac7`.
+  `6c5bebe06b65795cd9daed01d9b2d84795be8ac7`;
+- EllipticRegularityLean: `https://github.com/scottnarmstrong/EllipticRegularityLean` at
+  `1e29da02bcc6e3c2359a5b8e0559e76d02ec4002`.
 
 `import RandomSandpile` loads the numbered results and what they use.
 
@@ -287,7 +301,7 @@ RandomSandpileAudit/
   Axioms.lean                 the axiom report of every theorem in Main.lean
   MainTheoremFinal/, SingleSourceFinal/
                               the mathlib-only comparator pairs of Theorems 1.1 and 9.2
-  MainTheorem/, SingleSource/ the older pairs, with extra hypotheses
+  MainTheorem/, SingleSource/ the pairs with the results from other works as hypotheses
 paper/                        the arXiv source and the corrected draft (LaTeX and PDF), figures,
                               CORRECTIONS.md, make_corrected.py, README.md
 scripts/                      check_axioms.py, run_comparators.sh, prefetch_toolchain.py (used by CI)
