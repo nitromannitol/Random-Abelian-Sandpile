@@ -16,7 +16,7 @@ It is included by its author and is not covered by the Apache license of the Lea
 | [`random_piles.pdf`](random_piles.pdf) | That source, compiled. |
 | [`random_piles-corrected.tex`](random_piles-corrected.tex) | The corrected draft that the Lean statements follow: the arXiv source with local corrections, each marked by a comment `% CORRECTION [Cn]` at the end of the changed line. |
 | [`random_piles-corrected.pdf`](random_piles-corrected.pdf) | The corrected draft, compiled. |
-| [`CORRECTIONS.md`](CORRECTIONS.md) | The list of corrections, with the reason for each, and the places where the Lean proofs depart from the printed argument. The [README](../README.md#corrections-to-the-published-version) of the repository summarizes them. |
+| [`CORRECTIONS.md`](CORRECTIONS.md) | The list of corrections, with the reason for each, and the places where the Lean proofs depart from the printed argument. The [README](../README.md#corrections) of the repository summarizes them. |
 | [`make_corrected.py`](make_corrected.py) | Produces the corrected draft from the arXiv source by applying the corrections; each is an exact replacement that must occur exactly once, and the numbering of the paper is checked to be unchanged. |
 | `*.png` | The figures of the arXiv source. |
 | [`random_piles.bbl`](random_piles.bbl), [`random_piles-corrected.bbl`](random_piles-corrected.bbl) | The bibliography of the arXiv source, one identical copy for each version of the paper. |

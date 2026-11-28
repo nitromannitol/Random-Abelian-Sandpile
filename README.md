@@ -319,8 +319,9 @@ tooling and review process are disclosed in [`formalization.yaml`](formalization
 
 The paper and the Lean development are by **Ahmed Bou-Rabee**. To cite the formalization, use
 [`CITATION.cff`](CITATION.cff). It is built on [Lean 4](https://lean-lang.org),
-[Mathlib](https://github.com/leanprover-community/mathlib4) and the library
-[Lattice-Probability](https://github.com/nitromannitol/Lattice-Probability).
+[Mathlib](https://github.com/leanprover-community/mathlib4), the library
+[Lattice-Probability](https://github.com/nitromannitol/Lattice-Probability) and Scott Armstrong's
+[EllipticRegularityLean](https://github.com/scottnarmstrong/EllipticRegularityLean).
 
 ## License
 
